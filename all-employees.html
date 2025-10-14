@@ -1,0 +1,258 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>All Employees</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <style>
+    body{margin:0;font-family:'Segoe UI',sans-serif;background:#f4f4f4}
+    .sidebar{width:220px;background:#003366;color:#fff;height:100vh;position:fixed;padding-top:20px}
+    .sidebar h2{text-align:center;color:#ff4d4d;margin-bottom:20px}
+    .sidebar a{display:block;color:#fff;padding:12px 20px;text-decoration:none}
+    .sidebar a:hover{background:#0055aa}
+    .container{margin-left:220px;padding:18px}
+    .topbar{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:12px}
+    .topbar h1{color:#003366;margin:0;font-size:22px;font-weight:800}
+    .search-row{display:flex;gap:12px;align-items:center;margin-bottom:14px}
+    .search-row input{flex:1;padding:10px;border:1px solid #ccc;border-radius:6px;font-size:15px}
+    .search-row .employee-count{min-width:140px;text-align:right;color:#333;font-weight:700}
+    .selected-profile{background:#fff;padding:14px;border-radius:8px;box-shadow:0 8px 24px rgba(0,0,0,0.06);display:flex;gap:16px;align-items:center;margin-bottom:18px}
+    .selected-profile img{width:120px;height:120px;object-fit:cover;border-radius:8px}
+    .selected-profile .info h2{margin:0 0 6px;color:#003366;font-size:18px}
+    .selected-profile .info p{margin:4px 0;color:#444}
+    .employee-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px}
+    .employee-card{background:#fff;border-radius:8px;padding:14px;box-shadow:0 4px 12px rgba(0,0,0,0.06)}
+    .employee-card h3{margin:0 0 8px;color:#003366;font-size:16px}
+    .employee-card p{margin:6px 0;color:#555;font-size:14px}
+    .employee-card .meta{font-weight:700;color:#cc0000}
+    .employee-card .actions{display:flex;gap:8px;margin-top:8px}
+    .btn{padding:8px 12px;background:#003366;color:#fff;border:0;border-radius:6px;cursor:pointer}
+    .btn.alt{background:#cc0000}
+    @media(max-width:720px){
+      .selected-profile{flex-direction:column;align-items:center;text-align:center}
+      .selected-profile img{width:60%;height:auto}
+    }
+  </style>
+</head>
+<body>
+  <nav class="sidebar" aria-label="Sidebar nav">
+    <h2>Admin Panel</h2>
+    <a href="control-center.html">Dashboard</a>
+    <a href="all-employees.html" aria-current="page">All Employees</a>
+    <a href="rate-staff.html">Rate Staff</a>
+    <a href="reports.html">Reports</a>
+    <a href="settings.html">Settings</a>
+  </nav>
+
+  <div class="container">
+    <div class="topbar">
+      <h1>All Employees</h1>
+      <div><a href="login.html" style="color:#003366;font-weight:700;text-decoration:none">Log Out</a></div>
+    </div>
+
+    <div class="search-row" role="search">
+      <input id="searchInput" placeholder="Search by name, department, email or phone..." aria-label="Search employees" />
+      <div class="employee-count" id="employeeCount">0 employees</div>
+    </div>
+
+    <div id="selectedProfile" class="selected-profile" style="display:none" aria-live="polite">
+      <img id="selPhoto" src="" alt="Selected staff photo" />
+      <div class="info">
+        <h2 id="selName"></h2>
+        <p><strong>Department:</strong> <span id="selDept"></span></p>
+        <p><strong>Email:</strong> <span id="selEmail"></span></p>
+        <p><strong>Phone:</strong> <span id="selPhone"></span></p>
+        <p id="selBio" style="font-style:italic;color:#333;margin-top:6px"></p>
+        <div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap">
+          <button id="openReportBtn" class="btn">Open Report</button>
+          <button id="viewHistoryBtn" class="btn alt">View Rating</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="employeeGrid" class="employee-grid" aria-live="polite"></div>
+  </div>
+
+  <script>
+    // 92 Nigerian names
+    const NAMES = [
+      "Adetola Adebayo","Aisha Bello","Akinola Abiola","Amaka Obi","Babatunde Johnson","Bola Akin","Chiamaka Okoye",
+      "Chinedu Nwosu","David Okoro","Doris Mensah","Ebuka Nwankwo","Efe Akanno","Esther Musa","Fatima Bello",
+      "Femi Olagunju","Folake Adeoye","Funmi Oladipo","Grace Adebayo","Hauwa Suleiman","Ibrahim Musa","Ifeoma Anene",
+      "Ikechukwu Okafor","Ijeoma Ndukwe","James Adedayo","Joseph Danjuma","Joy Igwe","Kemi Bakare","Kelvin Ojo",
+      "Kenneth Udo","Khadija Umar","Kofi Mensah","Kunle Afolayan","Lara Ibrahim","Linda Uche","Mariam Abdullahi",
+      "Michael Adeniyi","Mohammed Usman","Mrs. Olatunji","Nana Yaw","Ngozi Eze","Nicholas Osei","Nkechi Amadi",
+      "Obinna Chukwu","Olajide Taiwo","Olufunke Adeyemi","Omolara Akinyemi","Paul Ekong","Peter Okoye","Phillip Bassey",
+      "Rachel Okpara","Rita Nnamdi","Samuel Eze","Sandra Akpan","Sani Bello","Sarah Okonkwo","Segun Lawal",
+      "Shehu Ibrahim","Simeon Olufemi","Siti Ali","Stanley Ibe","Stephen Nwachukwu","Susan Ogbuefi","Taiwo Balogun",
+      "Tariq Mohammed","Tola Adekunle","Uche Okafor","Umar Abdullahi","Valentina Kalu","Victor Amankwa","Victoria Obi",
+      "Wale Adewale","Yasir Khan","Yemi Ogunleye","Yinka Adegoke","Yusuf Adamu","Zainab Mohammed","Zara Hussain",
+      "Adeniyi Sola","Bisi Ogun","Chukwuemeka Eze","Dolapo Aina","Emeka Nnaji","Folasade Ogundipe","Geraldine Nweke",
+      "Hassan Abubakar","Ibrahim Balogun","Jide Taiwo","Kalu Chike","Lilian Ojo","Moses Akintola","Nura Suleiman",
+      "Olaide Komolafe","Paulina Ezugwu","Quincy Mensah","Rose Afolabi","Stanley Obasi","Tunde Raimi","Uwana Ebi",
+      "Vera Aniekeme","Woli Ade","Xolani Dlamini","Yvonne Oluchi","Zubairu Bello"
+    ];
+
+    // departments & sample ratings
+    const DEPARTMENTS = ['IT','HR','Finance','Admin','Legal','Operations','Marketing','Registry','Research'];
+    const SAMPLE_RATINGS = [null,4.8,4.6,4.4,4.2,3.9,3.6];
+
+    // curated set of Black professional portraits (randomuser + pravatar)
+    const PHOTOS = [
+      'https://randomuser.me/api/portraits/men/90.jpg',
+      'https://randomuser.me/api/portraits/women/80.jpg',
+      'https://randomuser.me/api/portraits/men/89.jpg',
+      'https://randomuser.me/api/portraits/women/79.jpg',
+      'https://randomuser.me/api/portraits/men/88.jpg',
+      'https://randomuser.me/api/portraits/women/78.jpg',
+      'https://randomuser.me/api/portraits/men/87.jpg',
+      'https://randomuser.me/api/portraits/women/77.jpg',
+      'https://randomuser.me/api/portraits/men/86.jpg',
+      'https://randomuser.me/api/portraits/women/76.jpg',
+      'https://randomuser.me/api/portraits/men/85.jpg',
+      'https://randomuser.me/api/portraits/women/75.jpg',
+      'https://i.pravatar.cc/300?img=64',
+      'https://i.pravatar.cc/300?img=65',
+      'https://i.pravatar.cc/300?img=66',
+      'https://i.pravatar.cc/300?img=67',
+      'https://i.pravatar.cc/300?img=68',
+      'https://i.pravatar.cc/300?img=69',
+      'https://i.pravatar.cc/300?img=70',
+      'https://i.pravatar.cc/300?img=71',
+      'https://i.pravatar.cc/300?img=72',
+      'https://i.pravatar.cc/300?img=73',
+      'https://i.pravatar.cc/300?img=74',
+      'https://i.pravatar.cc/300?img=75',
+      'https://i.pravatar.cc/300?img=76',
+      'https://i.pravatar.cc/300?img=77'
+    ];
+
+    // build dataset of 92 employees
+    const EMPLOYEES = NAMES.slice(0,92).map((fullName, idx) => {
+      const i = idx + 1;
+      const dept = DEPARTMENTS[i % DEPARTMENTS.length];
+      const rated = (i % 3 !== 0);
+      const rating = rated ? SAMPLE_RATINGS[i % SAMPLE_RATINGS.length] : null;
+      const photo = PHOTOS[idx % PHOTOS.length] + '?u=' + encodeURIComponent(fullName);
+      return {
+        id: 'emp-' + String(i).padStart(3,'0'),
+        fullName,
+        department: dept,
+        phone: '+234' + (8000000000 + i).toString().slice(-10),
+        rating,
+        email: `${fullName.toLowerCase().replace(/[^a-z]/g,'')}${i}@university.edu`,
+        bio: `${fullName} works in ${dept}, focusing on professional excellence and collaboration.`,
+        photo,
+        history: rating ? [
+          { date:'2023-10-01', criteria:'Clarity of instruction', score: Math.min(5, Math.round(rating)), comment: 'Very clear lectures' },
+          { date:'2023-10-01', criteria:'Knowledge of subject', score: Math.max(3, Math.round(rating-1)), comment: 'Good subject mastery' }
+        ] : []
+      };
+    });
+
+    // build search index fields (normalize once)
+    function normalize(s){ return (s||'').toString().toLowerCase().trim(); }
+    EMPLOYEES.forEach(e => {
+      e._search = [
+        normalize(e.fullName),
+        normalize(e.department),
+        normalize(e.email),
+        normalize(e.phone),
+        String(e.rating === null ? '' : e.rating)
+      ].join(' ');
+      e._deptToken = normalize(e.department);
+    });
+
+    // DOM refs
+    const grid = document.getElementById('employeeGrid');
+    const countEl = document.getElementById('employeeCount');
+    const searchInput = document.getElementById('searchInput');
+
+    let currentSelectedId = null;
+
+    // render card HTML
+    function renderCard(e){
+      return `
+        <div class="employee-card" data-id="${e.id}">
+          <h3>${e.fullName}</h3>
+          <p><strong>Department:</strong> ${e.department}</p>
+          <p><strong>Email:</strong> ${e.email}</p>
+          <p><strong>Phone:</strong> ${e.phone}</p>
+          <p class="meta">Rating: ${e.rating === null ? 'Not yet rated' : (e.rating.toFixed(1) + ' / 5')}</p>
+          <div class="actions">
+            <button class="btn" onclick="onViewRating('${e.id}')">${e.rating === null ? 'Rate Now' : 'View Rating'}</button>
+            <button class="btn" onclick="onShowProfile('${e.id}')">Profile</button>
+          </div>
+        </div>
+      `;
+    }
+
+    function renderEmployees(list){
+      grid.innerHTML = list.map(renderCard).join('');
+      countEl.textContent = `${list.length} employees`;
+    }
+
+    // show selected profile panel
+    function showSelected(emp){
+      currentSelectedId = emp.id;
+      document.getElementById('selPhoto').src = emp.photo;
+      document.getElementById('selName').textContent = emp.fullName;
+      document.getElementById('selDept').textContent = emp.department;
+      document.getElementById('selEmail').textContent = emp.email;
+      document.getElementById('selPhone').textContent = emp.phone;
+      document.getElementById('selBio').textContent = emp.bio;
+      document.getElementById('selectedProfile').style.display = 'flex';
+      document.getElementById('openReportBtn').onclick = () => { location.href = `rate-staff.html?id=${encodeURIComponent(emp.id)}`; };
+      document.getElementById('viewHistoryBtn').onclick = () => { location.href = `rate-staff.html?id=${encodeURIComponent(emp.id)}&showHistory=1`; };
+      document.querySelectorAll('.employee-card').forEach(c => c.style.outline = '');
+      const card = document.querySelector(`.employee-card[data-id="${emp.id}"]`);
+      if(card) card.style.outline = '2px solid rgba(0,51,102,0.12)';
+    }
+
+    function onShowProfile(id){
+      const emp = EMPLOYEES.find(e => e.id === id);
+      if(emp) showSelected(emp);
+      window.scrollTo({top:0,behavior:'smooth'});
+    }
+
+    function onViewRating(id){
+      location.href = `rate-staff.html?id=${encodeURIComponent(id)}&view=1`;
+    }
+
+    // Improved search: multi-term + short-token dept matching
+    function searchEmployees(query){
+      const q = normalize(query);
+      if(!q) return EMPLOYEES.slice();
+      const terms = q.split(/\s+/).filter(Boolean);
+
+      // single short token like "it" or "hr"
+      if(terms.length === 1 && terms[0].length <= 3){
+        const token = terms[0];
+        return EMPLOYEES.filter(e => e._deptToken === token || e._search.indexOf(token) !== -1);
+      }
+
+      // multi-term: require all terms present somewhere in _search
+      return EMPLOYEES.filter(e => terms.every(t => e._search.indexOf(t) !== -1));
+    }
+
+    // wire search input
+    searchInput.addEventListener('input', (ev) => {
+      const q = ev.target.value || '';
+      const results = searchEmployees(q);
+      renderEmployees(results);
+      if(currentSelectedId && !results.some(r => r.id === currentSelectedId)){
+        document.getElementById('selectedProfile').style.display = 'none';
+      }
+    });
+
+    // initial render and auto-select first
+    renderEmployees(EMPLOYEES);
+    showSelected(EMPLOYEES[0]);
+
+    // expose for cross-page use if desired
+    window._EMPLOYEE_DATA = EMPLOYEES;
+    window.onShowProfile = onShowProfile;
+    window.onViewRating = onViewRating;
+  </script>
+</body>
+</html>

@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Settings</title>
+  <style>
+    :root {
+      --bg-color: #f4f4f4;
+      --text-color: #333;
+      --card-bg: white;
+      --accent: #003366;
+      --danger: #cc0000;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: var(--bg-color);
+      color: var(--text-color);
+      transition: background 0.3s, color 0.3s;
+    }
+
+    .sidebar {
+      width: 220px;
+      background: var(--accent);
+      color: white;
+      height: 100vh;
+      position: fixed;
+      padding-top: 20px;
+    }
+
+    .sidebar h2 {
+      text-align: center;
+      color: #ff4d4d;
+      margin-bottom: 20px;
+    }
+
+    .sidebar a {
+      display: block;
+      color: white;
+      padding: 12px 20px;
+      text-decoration: none;
+    }
+
+    .sidebar a:hover {
+      background: #0055aa;
+    }
+
+    .main {
+      margin-left: 220px;
+      padding: 30px;
+    }
+
+    .top-right {
+      text-align: right;
+      margin-bottom: 20px;
+    }
+
+    .top-right a {
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .top-right a:hover {
+      text-decoration: underline;
+    }
+
+    h1 {
+      color: var(--danger);
+    }
+
+    .settings-box {
+      background: var(--card-bg);
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      max-width: 700px;
+    }
+
+    .settings-box h2 {
+      color: var(--accent);
+      margin-bottom: 20px;
+    }
+
+    .settings-box label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: bold;
+    }
+
+    .settings-box input,
+    .settings-box select {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 20px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+    }
+
+    .settings-box button {
+      padding: 12px 20px;
+      background: var(--danger);
+      color: white;
+      border: none;
+      border-radius: 4px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .settings-box button:hover {
+      background: #990000;
+    }
+
+    .confirmation {
+      margin-top: 15px;
+      font-size: 14px;
+      color: green;
+    }
+
+    body.dark {
+      --bg-color: #1e1e1e;
+      --text-color: #f4f4f4;
+      --card-bg: #2c2c2c;
+      --accent: #00aaff;
+      --danger: #ff4444;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="sidebar">
+    <h2>Admin Panel</h2>
+    <a href="control-center.html">Dashboard</a>
+    <a href="about.html">About</a>
+    <a href="events.html">Events/Activities</a>
+    <a href="all-employees.html">All Employees</a>
+    <a href="reports.html">Reports</a>
+    <a href="settings.html">Settings</a>
+  </div>
+
+  <div class="main">
+    <div class="top-right">
+      <a href="login.html">Log Out</a>
+    </div>
+
+    <h1>Settings</h1>
+
+    <div class="settings-box">
+      <h2>Admin Account</h2>
+
+      <label for="profile-pic">Profile Picture</label>
+      <input type="file" id="profile-pic" />
+
+      <label for="admin-name">Full Name</label>
+      <input type="text" id="admin-name" value="Lucky Eze" />
+
+      <label for="admin-email">Email</label>
+      <input type="email" id="admin-email" value="lucky.eze@university.edu" />
+
+      <label for="admin-password">Password</label>
+      <input type="password" id="admin-password" placeholder="Enter new password" />
+
+      <h2>System Preferences</h2>
+
+      <label for="theme">Theme</label>
+      <select id="theme" onchange="applyTheme()">
+        <option value="light">Light</option>
+        <option value="dark">Dark</option>
+      </select>
+
+      <label for="timezone">Timezone</label>
+      <select id="timezone">
+        <option value="WAT">West Africa Time (WAT)</option>
+        <option value="GMT">Greenwich Mean Time (GMT)</option>
+        <option value="EST">Eastern Standard Time (EST)</option>
+      </select>
+
+      <label for="notifications">Notifications</label>
+      <select id="notifications">
+        <option value="enabled">Enabled</option>
+        <option value="disabled">Disabled</option>
+      </select>
+
+      <label for="layout">Dashboard Layout</label>
+      <select id="layout">
+        <option value="grid">Grid</option>
+        <option value="list">List</option>
+      </select>
+
+      <label for="sound">Sound Alerts</label>
+      <select id="sound">
+        <option value="on">On</option>
+        <option value="off">Off</option>
+      </select>
+
+      <label for="rating-frequency">Rating Frequency</label>
+      <select id="rating-frequency">
+        <option value="monthly">Monthly</option>
+        <option value="quarterly">Quarterly</option>
+        <option value="annually">Annually</option>
+      </select>
+
+      <label for="feedback">Staff Feedback</label>
+      <select id="feedback">
+        <option value="enabled">Enabled</option>
+        <option value="disabled">Disabled</option>
+      </select>
+
+      <label for="language">Language</label>
+      <select id="language">
+        <option value="english">English</option>
+        <option value="french">French</option>
+        <option value="yoruba">Yoruba</option>
+      </select>
+
+      <label for="accessibility">Accessibility Mode</label>
+      <select id="accessibility">
+        <option value="standard">Standard</option>
+        <option value="high-contrast">High Contrast</option>
+      </select>
+
+      <label for="export">Export Settings</label>
+      <select id="export">
+        <option value="none">None</option>
+        <option value="pdf">Export as PDF</option>
+        <option value="csv">Export as CSV</option>
+      </select>
+
+      <button onclick="saveSettings()">Save Settings</button>
+      <div class="confirmation" id="confirmationMsg"></div>
+    </div>
+  </div>
+
+  <script>
+    function applyTheme() {
+      const theme = document.getElementById("theme").value;
+      document.body.className = theme === "dark" ? "dark" : "";
+    }
+
+    function saveSettings() {
+      document.getElementById("confirmationMsg").textContent =
+        "Settings saved successfully!";
+    }
+  </script>
+<script>
+  function applyTheme() {
+    const theme = document.getElementById("theme").value;
+    document.body.className = theme === "dark" ? "dark" : "";
+  }
+
+  function saveSettings() {
+    const settings = {
+      name: document.getElementById("admin-name").value,
+      email: document.getElementById("admin-email").value,
+      password: document.getElementById("admin-password").value,
+      theme: document.getElementById("theme").value,
+      timezone: document.getElementById("timezone").value,
+      notifications: document.getElementById("notifications").value,
+      layout: document.getElementById("layout").value,
+      sound: document.getElementById("sound").value,
+      ratingFrequency: document.getElementById("rating-frequency").value,
+      feedback: document.getElementById("feedback").value,
+      language: document.getElementById("language").value,
+      accessibility: document.getElementById("accessibility").value,
+      export: document.getElementById("export").value
+    };
+
+    let message = "✅ Settings saved:\n";
+    for (let key in settings) {
+      message += `• ${key}: ${settings[key]}\n`;
+    }
+
+    document.getElementById("confirmationMsg").textContent = "Settings saved successfully!";
+    console.log(message);
+
+    if (settings.export === "pdf" || settings.export === "csv") {
+      alert("Exporting settings as " + settings.export.toUpperCase() + " (simulated)");
+    }
+  }
+</script>
+
+</body>
+</html>

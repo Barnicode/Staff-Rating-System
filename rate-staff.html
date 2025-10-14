@@ -1,0 +1,336 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>University Staff Rating Portal — Rate Staff</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <style>
+    :root{--nav-width:220px;--brand:#003366;--accent:#cc0000;--muted:#6b7280}
+    *{box-sizing:border-box;margin:0;padding:0;font-family:'Segoe UI',sans-serif}
+    body{background:#f4f4f4;min-height:100vh}
+    .sidebar{width:var(--nav-width);background:var(--brand);color:#fff;height:100vh;position:fixed;top:0;left:0;padding-top:20px}
+    .sidebar h2{text-align:center;color:var(--accent);margin-bottom:18px;font-size:18px}
+    .sidebar a{display:block;color:#fff;padding:12px 18px;text-decoration:none;font-weight:600}
+    .header-bar{margin-left:var(--nav-width);background:#fff;padding:12px 20px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #e6e9ee;position:sticky;top:0;z-index:10}
+    .header-left{display:flex;align-items:center;gap:12px}
+    .header-left img{width:40px;height:40px;object-fit:contain}
+    .header-left span{font-size:20px;font-weight:800;color:var(--brand)}
+    .top-menu{margin-left:var(--nav-width);background:var(--brand);padding:8px 20px;display:flex;gap:20px;justify-content:center}
+    .welcome-banner{margin-left:var(--nav-width);margin-top:10px;height:96px;background-image:url('https://img.freepik.com/free-photo/students-studying-together-medium-shot_23-2148913227.jpg');background-size:cover;background-position:center;display:flex;align-items:center;justify-content:center;border-radius:6px;overflow:hidden;box-shadow:0 6px 18px rgba(0,0,0,0.06)}
+    .welcome-text{color:#fff;font-size:26px;font-weight:900;background:rgba(0,0,0,0.45);padding:10px 16px;border-radius:6px}
+    .main{margin-left:var(--nav-width);padding:20px}
+    .card{background:#fff;padding:16px;border-radius:10px;box-shadow:0 6px 18px rgba(0,0,0,0.04);margin-bottom:16px}
+    .rate-section{display:grid;grid-template-columns:320px 1fr;gap:18px;margin-top:12px}
+    .profile-box{background:#fff;padding:14px;border-radius:10px;box-shadow:0 6px 18px rgba(0,0,0,0.04);display:flex;flex-direction:column;gap:12px}
+    .profile-box img{width:100%;height:220px;object-fit:cover;border-radius:8px}
+    .profile-details h2{color:var(--brand);margin-bottom:6px;font-size:20px}
+    .bio{margin-top:10px;color:#333;font-style:italic}
+    .rating-form{background:#fff;padding:14px;border-radius:10px;box-shadow:0 6px 18px rgba(0,0,0,0.04)}
+    .compact .row{display:flex;gap:10px;align-items:center;margin:8px 0}
+    .compact label{min-width:160px;font-weight:600;color:#333}
+    textarea{width:100%;min-height:120px;padding:10px;border:1px solid #e6e9ee;border-radius:6px}
+    .small-note{font-size:13px;color:var(--muted);margin-top:8px}
+    .btn{padding:10px 14px;background:var(--accent);color:#fff;border-radius:8px;border:0;cursor:pointer;font-weight:700}
+    .btn.secondary{background:var(--brand)}
+    .history-table{width:100%;border-collapse:collapse;margin-top:8px}
+    .history-table th,.history-table td{padding:10px;border-bottom:1px solid #eef2f6;text-align:left;font-size:14px}
+    .history-table th{background:#fbfdff;color:var(--brand);font-weight:700}
+    .error{color:#b91c1c;margin-top:12px;font-weight:700}
+    @media(max-width:920px){.rate-section{grid-template-columns:1fr}.profile-box img{height:160px}}
+  </style>
+</head>
+<body>
+  <nav class="sidebar" aria-label="Sidebar navigation">
+    <h2>Admin Panel</h2>
+    <a href="control-center.html">Dashboard</a>
+    <a href="all-employees.html">All Employees</a>
+    <a href="configure-criteria.html">Configure Criteria</a>
+    <a href="manage-users.html">Manage Users</a>
+    <a href="rate-staff.html" id="rateStaffLink">Rate Staff</a>
+    <a href="reports.html">Reports</a>
+    <a href="settings.html">Settings</a>
+  </nav>
+
+  <header class="header-bar" role="banner">
+    <div class="header-left">
+      <img src="https://static.vecteezy.com/system/resources/thumbnails/006/470/455/small_2x/university-education-logo-design-template-vector.jpg" alt="University Logo" />
+      <span>University Staff Rating Portal</span>
+    </div>
+    <div class="header-right">
+      <a href="login.html" id="logoutBtn">Log Out</a>
+    </div>
+  </header>
+
+  <div class="top-menu" role="navigation" aria-label="Top menu">
+    <a href="about.html">About</a>
+    <a href="events.html">Events/Activities</a>
+    <a href="all-employees.html">View All Employees</a>
+    <a href="reports.html">View Reports</a>
+  </div>
+
+  <section class="welcome-banner" aria-hidden="false">
+    <div class="welcome-text" id="welcomeText">Rate Staff</div>
+  </section>
+
+  <main class="main" role="main">
+    <section class="card" aria-labelledby="rateHeading">
+      <h3 id="rateHeading" style="margin:0 0 10px;color:var(--accent)">Submit Rating</h3>
+
+      <div class="rate-section">
+        <div class="profile-box" id="staffProfileBox" role="region" aria-label="Staff profile">
+          <img id="staffPhoto" src="https://i.pravatar.cc/400?img=12" alt="Staff Photo" />
+          <div class="profile-details" style="padding-top:8px">
+            <h2 id="staffName">Loading...</h2>
+            <div><strong>Department:</strong> <span id="staffDept">—</span></div>
+            <div><strong>Email:</strong> <span id="staffEmail">—</span></div>
+            <div><strong>Phone:</strong> <span id="staffPhone">—</span></div>
+            <div class="bio" id="staffBio">—</div>
+            <div style="margin-top:8px">
+              <button class="btn secondary" id="viewHistoryBtn" aria-controls="historySection" aria-expanded="false">View Rating History</button>
+              <button class="btn" id="openReportBtn" style="margin-left:8px">Open Employee Report</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="rating-form" id="ratingFormArea" role="form" aria-labelledby="rateFormTitle">
+          <h4 id="rateFormTitle" style="margin-top:0">Submit Rating for <span id="rateForName">—</span></h4>
+
+          <div class="compact">
+            <div class="row">
+              <label>Clarity of instruction</label>
+              <div class="stars" role="radiogroup" aria-label="Clarity of instruction">
+                <label><input type="radio" name="c1" value="1" required>1</label>
+                <label><input type="radio" name="c1" value="2">2</label>
+                <label><input type="radio" name="c1" value="3">3</label>
+                <label><input type="radio" name="c1" value="4">4</label>
+                <label><input type="radio" name="c1" value="5">5</label>
+              </div>
+            </div>
+
+            <div class="row">
+              <label>Knowledge of subject</label>
+              <div class="stars" role="radiogroup" aria-label="Knowledge of subject">
+                <label><input type="radio" name="c2" value="1" required>1</label>
+                <label><input type="radio" name="c2" value="2">2</label>
+                <label><input type="radio" name="c2" value="3">3</label>
+                <label><input type="radio" name="c2" value="4">4</label>
+                <label><input type="radio" name="c2" value="5">5</label>
+              </div>
+            </div>
+          </div>
+
+          <div style="margin-top:12px">
+            <label for="comment">Comments (optional)</label>
+            <textarea id="comment" placeholder="Write constructive feedback..."></textarea>
+          </div>
+
+          <div style="margin-top:12px;display:flex;gap:8px;align-items:center">
+            <label><input type="checkbox" id="anon"> Submit anonymously</label>
+            <div style="flex:1"></div>
+            <button class="btn" id="submitRatingBtn">Submit Rating</button>
+          </div>
+
+          <div id="errorMsg" class="error" style="display:none">Cannot rate same teacher, try again later.</div>
+          <div id="ratingMsg" class="small-note" style="margin-top:12px;color:var(--muted)"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="card" id="historySection" style="display:none">
+      <h3>Rating History — <span id="historyFor">—</span></h3>
+      <table class="history-table" aria-describedby="historyFor">
+        <thead><tr><th>Date</th><th>Criteria</th><th>Score</th><th>Comments</th></tr></thead>
+        <tbody id="ratingsBody">
+          <tr><td colspan="4" style="text-align:center;color:var(--muted)">No ratings yet</td></tr>
+        </tbody>
+      </table>
+    </section>
+  </main>
+
+  <footer style="margin-left:var(--nav-width);padding:12px;text-align:center;color:#666">Copyright © NOUN Design by Barnabas Blessing</footer>
+
+  <script>
+    // Helper: read query string param
+    function qs(name){ return new URL(location.href).searchParams.get(name); }
+
+    // Use shared employee dataset if available from All Employees page; otherwise build demo dataset (92 employees)
+    function generateDemoEmployees(){
+      const NAMES = [
+        "Adetola Adebayo","Aisha Bello","Akinola Abiola","Amaka Obi","Babatunde Johnson","Bola Akin","Chiamaka Okoye",
+        "Chinedu Nwosu","David Okoro","Doris Mensah","Ebuka Nwankwo","Efe Akanno","Esther Musa","Fatima Bello",
+        "Femi Olagunju","Folake Adeoye","Funmi Oladipo","Grace Adebayo","Hauwa Suleiman","Ibrahim Musa","Ifeoma Anene",
+        "Ikechukwu Okafor","Ijeoma Ndukwe","James Adedayo","Joseph Danjuma","Joy Igwe","Kemi Bakare","Kelvin Ojo",
+        "Kenneth Udo","Khadija Umar","Kofi Mensah","Kunle Afolayan","Lara Ibrahim","Linda Uche","Mariam Abdullahi",
+        "Michael Adeniyi","Mohammed Usman","Mrs. Olatunji","Nana Yaw","Ngozi Eze","Nicholas Osei","Nkechi Amadi",
+        "Obinna Chukwu","Olajide Taiwo","Olufunke Adeyemi","Omolara Akinyemi","Paul Ekong","Peter Okoye","Phillip Bassey",
+        "Rachel Okpara","Rita Nnamdi","Samuel Eze","Sandra Akpan","Sani Bello","Sarah Okonkwo","Segun Lawal",
+        "Shehu Ibrahim","Simeon Olufemi","Siti Ali","Stanley Ibe","Stephen Nwachukwu","Susan Ogbuefi","Taiwo Balogun",
+        "Tariq Mohammed","Tola Adekunle","Uche Okafor","Umar Abdullahi","Valentina Kalu","Victor Amankwa","Victoria Obi",
+        "Wale Adewale","Yasir Khan","Yemi Ogunleye","Yinka Adegoke","Yusuf Adamu","Zainab Mohammed","Zara Hussain",
+        "Adeniyi Sola","Bisi Ogun","Chukwuemeka Eze","Dolapo Aina","Emeka Nnaji","Folasade Ogundipe","Geraldine Nweke",
+        "Hassan Abubakar","Ibrahim Balogun","Jide Taiwo","Kalu Chike","Lilian Ojo","Moses Akintola","Nura Suleiman",
+        "Olaide Komolafe","Paulina Ezugwu","Quincy Mensah","Rose Afolabi","Stanley Obasi","Tunde Raimi","Uwana Ebi",
+        "Vera Aniekeme","Woli Ade","Xolani Dlamini","Yvonne Oluchi","Zubairu Bello"
+      ];
+      const DEPARTMENTS = ['IT','HR','Finance','Admin','Legal','Operations','Marketing','Registry','Research'];
+      const SAMPLE_RATINGS = [null,4.8,4.6,4.4,4.2,3.9,3.6];
+      const PHOTOS = [
+        'https://randomuser.me/api/portraits/men/90.jpg',
+        'https://randomuser.me/api/portraits/women/80.jpg',
+        'https://randomuser.me/api/portraits/men/89.jpg',
+        'https://randomuser.me/api/portraits/women/79.jpg',
+        'https://randomuser.me/api/portraits/men/88.jpg',
+        'https://randomuser.me/api/portraits/women/78.jpg',
+        'https://randomuser.me/api/portraits/men/87.jpg',
+        'https://randomuser.me/api/portraits/women/77.jpg',
+        'https://randomuser.me/api/portraits/men/86.jpg',
+        'https://randomuser.me/api/portraits/women/76.jpg',
+        'https://randomuser.me/api/portraits/men/85.jpg',
+        'https://randomuser.me/api/portraits/women/75.jpg',
+        'https://i.pravatar.cc/300?img=64','https://i.pravatar.cc/300?img=65','https://i.pravatar.cc/300?img=66'
+      ];
+      return NAMES.slice(0,92).map((fullName, idx) => {
+        const i = idx + 1;
+        const dept = DEPARTMENTS[i % DEPARTMENTS.length];
+        const rated = (i % 3 !== 0);
+        const rating = rated ? SAMPLE_RATINGS[i % SAMPLE_RATINGS.length] : null;
+        const photo = PHOTOS[idx % PHOTOS.length] + '?u=' + encodeURIComponent(fullName);
+        return {
+          id: 'emp-' + String(i).padStart(3,'0'),
+          fullName, department: dept,
+          phone: '+234' + (8000000000 + i).toString().slice(-10),
+          rating, email: `${fullName.toLowerCase().replace(/[^a-z]/g,'')}${i}@university.edu`,
+          bio: `${fullName} works in ${dept}, focusing on professional excellence and collaboration.`,
+          photo,
+          history: rating ? [
+            { date:'2023-10-01', criteria:'Clarity of instruction', score: Math.min(5, Math.round(rating)), comment: 'Very clear lectures' },
+            { date:'2023-10-01', criteria:'Knowledge of subject', score: Math.max(3, Math.round(rating-1)), comment: 'Good subject mastery' }
+          ] : []
+        };
+      });
+    }
+
+    const SHARED = window._EMPLOYEE_DATA && Array.isArray(window._EMPLOYEE_DATA) ? window._EMPLOYEE_DATA : generateDemoEmployees();
+
+    // Find staff by id (or by name as fallback)
+    function findStaffById(id){
+      if(!id) return SHARED[0];
+      const byId = SHARED.find(e => e.id === id);
+      if(byId) return byId;
+      const byName = SHARED.find(e => e.fullName && e.fullName.toLowerCase() === id.toLowerCase());
+      return byName || SHARED[0];
+    }
+
+    // If page reached from All Employees with view=1 redirect to reports page
+    const staffIdParam = qs('id');
+    const viewFlag = qs('view');
+    if(staffIdParam && viewFlag === '1'){
+      // direct to reports page which can display the staff-specific report
+      location.href = `reports.html?staffId=${encodeURIComponent(staffIdParam)}`;
+    }
+
+    // load and populate profile for the selected staff
+    const staffId = staffIdParam || qs('staffId') || 'emp-001';
+    const staff = findStaffById(staffId);
+
+    // populate UI elements
+    const staffPhotoEl = document.getElementById('staffPhoto');
+    const staffNameEl = document.getElementById('staffName');
+    const staffDeptEl = document.getElementById('staffDept');
+    const staffEmailEl = document.getElementById('staffEmail');
+    const staffPhoneEl = document.getElementById('staffPhone');
+    const staffBioEl = document.getElementById('staffBio');
+    const rateForNameEl = document.getElementById('rateForName');
+    const submitBtn = document.getElementById('submitRatingBtn');
+
+    staffPhotoEl.src = staff.photo || staff.photoUrl || 'https://i.pravatar.cc/400?u=default';
+    staffNameEl.textContent = staff.fullName || 'Unknown';
+    staffDeptEl.textContent = staff.department || '—';
+    staffEmailEl.textContent = staff.email || '—';
+    staffPhoneEl.textContent = staff.phone || '—';
+    staffBioEl.textContent = staff.bio || 'No biography available.';
+    rateForNameEl.textContent = staff.fullName || '—';
+    submitBtn.dataset.staffId = staff.id;
+
+    // render history
+    function renderHistory(list){
+      const tbody = document.getElementById('ratingsBody');
+      if(!list || !list.length){
+        tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;color:var(--muted)">No ratings yet</td></tr>';
+        return;
+      }
+      tbody.innerHTML = list.map(r => `<tr><td>${r.date}</td><td>${r.criteria}</td><td>${r.score}</td><td>${r.comment||''}</td></tr>`).join('');
+      document.getElementById('historyFor').textContent = staff.fullName;
+    }
+
+    // toggle history display
+    document.getElementById('viewHistoryBtn').addEventListener('click', () => {
+      const sec = document.getElementById('historySection');
+      sec.style.display = (sec.style.display === 'block') ? 'none' : 'block';
+      if(sec.style.display === 'block'){
+        renderHistory(staff.history || []);
+        sec.scrollIntoView({behavior:'smooth', block:'start'});
+        document.getElementById('viewHistoryBtn').setAttribute('aria-expanded','true');
+      } else {
+        document.getElementById('viewHistoryBtn').setAttribute('aria-expanded','false');
+      }
+    });
+
+    // open staff report (stays on reports page)
+    document.getElementById('openReportBtn').addEventListener('click', () => {
+      location.href = `reports.html?staffId=${encodeURIComponent(staff.id)}`;
+    });
+
+    // rating submission (demo client guard + API placeholder)
+    const submittedThisSession = new Set();
+    async function submitRating(){
+      const staffIdLocal = submitBtn.dataset.staffId;
+      const c1 = document.querySelector('input[name="c1"]:checked');
+      const c2 = document.querySelector('input[name="c2"]:checked');
+      const comment = document.getElementById('comment').value.trim();
+      const anon = document.getElementById('anon').checked;
+      const errorEl = document.getElementById('errorMsg');
+      const msg = document.getElementById('ratingMsg');
+      errorEl.style.display = 'none'; msg.textContent = '';
+
+      if(!c1 || !c2){ msg.style.color = '#b91c1c'; msg.textContent = 'Please complete all rating items.'; return; }
+      if(submittedThisSession.has(staffIdLocal)){ errorEl.style.display = 'block'; return; }
+
+      const payload = {
+        staffId: staffIdLocal,
+        ratings: [{ criteriaId:1, score: Number(c1.value) }, { criteriaId:2, score: Number(c2.value) }],
+        comment,
+        isAnonymous: !!anon
+      };
+
+      try {
+        // Replace endpoint with your backend API
+        const res = await fetch('/api/ratings/submit', {
+          method: 'POST',
+          headers: {'Content-Type':'application/json'},
+          credentials: 'include',
+          body: JSON.stringify(payload)
+        });
+        if(!res.ok){
+          const text = await res.text().catch(()=>null);
+          msg.style.color = '#b91c1c';
+          msg.textContent = text || 'Submission failed. Try again.';
+          return;
+        }
+        submittedThisSession.add(staffIdLocal);
+        msg.style.color = 'green';
+        msg.textContent = 'Rating submitted. Thank you.';
+      } catch {
+        submittedThisSession.add(staffIdLocal);
+        msg.style.color = 'green';
+        msg.textContent = 'Rating submitted (offline demo).';
+      }
+    }
+
+    submitBtn.addEventListener('click', submitRating);
+
+    // If showHistory=1 in URL open it automatically
+    if(new URL(location.href).searchParams.get('showHistory') === '1'){ document.getElementById('viewHistoryBtn').click(); }
+  </script>
+</body>
+</html>
