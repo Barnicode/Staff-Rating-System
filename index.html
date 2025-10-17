@@ -35,21 +35,18 @@
 </head>
 <body>
 
-  <div class="left-panel" aria-hidden="false">
+  <div class="left-panel">
     <img src="https://static.vecteezy.com/system/resources/thumbnails/006/470/455/small_2x/university-education-logo-design-template-vector.jpg" alt="University Logo" />
     <h1>University Staff Rating Portal</h1>
     <div class="small">Secure Appraisal and Staff Rating System</div>
   </div>
 
-  <div class="right-panel" role="main">
-    <div class="login-box" aria-labelledby="welcomeTitle">
-      <h2 id="welcomeTitle">Welcome</h2>
-      <p id="subtitle">Please sign in to access the staff rating system</p>
+  <div class="right-panel">
+    <div class="login-box">
+      <h2>Welcome</h2>
+      <p>Please sign in to access the staff rating system</p>
 
-      <label for="username" class="sr-only">Username or email</label>
       <input type="text" id="username" placeholder="Username or email" autocomplete="username" />
-
-      <label for="password" class="sr-only">Password</label>
       <input type="password" id="password" placeholder="Password" autocomplete="current-password" />
 
       <div style="display:flex;gap:8px;margin-top:6px">
@@ -59,17 +56,17 @@
         <button id="loginBtn" style="width:auto;padding:8px 16px">LOGIN</button>
       </div>
 
-      <div class="error" id="errorMsg" role="alert" aria-live="polite"></div>
+      <div class="error" id="errorMsg"></div>
 
       <div class="forgot">
         <a id="showRecoveryBtn">FORGOT PASSWORD?</a>
       </div>
 
-      <div class="recovery-box" id="recoveryBox" aria-hidden="true">
+      <div class="recovery-box" id="recoveryBox">
         <p style="color:#444;margin-bottom:8px">Enter your registered email to receive a recovery link</p>
         <input type="email" id="recoveryEmail" placeholder="Email address" />
         <button id="recoverBtn" style="margin-top:6px">Recover Password</button>
-        <div class="error" id="recoveryMsg" aria-live="polite"></div>
+        <div class="error" id="recoveryMsg"></div>
       </div>
 
       <div class="small" style="margin-top:12px">If you have trouble signing in, contact IT support.</div>
@@ -77,8 +74,7 @@
   </div>
 
   <script>
-    const LOGIN_ENDPOINT = '/api/auth/login';
-    const RECOVER_ENDPOINT = '/api/auth/recover';
+    // ====== DEMO-ONLY VERSION (No backend needed) ======
 
     const loginBtn = document.getElementById('loginBtn');
     const showRecoveryBtn = document.getElementById('showRecoveryBtn');
@@ -94,10 +90,10 @@
     showRecoveryBtn.addEventListener('click', () => {
       const box = document.getElementById('recoveryBox');
       box.style.display = box.style.display === 'block' ? 'none' : 'block';
-      box.setAttribute('aria-hidden', box.style.display !== 'block');
     });
 
-    loginBtn.addEventListener('click', async () => {
+    // --- DEMO LOGIN (Static) ---
+    loginBtn.addEventListener('click', () => {
       clearError();
       const username = document.getElementById('username').value.trim();
       const password = document.getElementById('password').value;
@@ -108,70 +104,30 @@
         return;
       }
 
-      try {
-        const res = await fetch(LOGIN_ENDPOINT, {
-          method: 'POST',
-          headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify({username, password})
-        });
-
-        if (!res.ok) {
-          const text = await res.text().catch(()=>null);
-          showError(text || 'Login failed. Check credentials.');
-          return;
-        }
-
-        const body = await res.json();
-        if (body && body.token) {
-          try {
-            if (remember) localStorage.setItem('srs_token', body.token);
-            else sessionStorage.setItem('srs_token', body.token);
-          } catch(_) {}
-          // ✅ redirect safely with absolute path
-          const target = body.redirect || (body.role === 'Admin' ? '/dashboard.html' : '/dashboard.html');
-          window.location.href = target;
-        } else {
-          showError('Unexpected server response. Contact support.');
-        }
-      } catch (err) {
-        const u = username.toLowerCase();
-        if ((u === 'admin' || u === 'lucy eze') && password === '12345') {
-          sessionStorage.setItem('srs_token', 'demo-token');
-          // ✅ use absolute redirect for Vercel
-          window.location.href = '/dashboard.html';
-        } else {
-          showError('Cannot reach server. Check network or try again later.');
-        }
+      const u = username.toLowerCase();
+      if ((u === 'admin' || u === 'lucy eze') && password === '12345') {
+        if (remember) localStorage.setItem('srs_token', 'demo-token');
+        else sessionStorage.setItem('srs_token', 'demo-token');
+        window.location.href = 'dashboard.html';
+      } else {
+        showError('Invalid username or password.');
       }
     });
 
-    recoverBtn.addEventListener('click', async () => {
+    // --- Password Recovery (demo only) ---
+    recoverBtn.addEventListener('click', () => {
       const email = document.getElementById('recoveryEmail').value.trim();
       const recoveryMsg = document.getElementById('recoveryMsg');
-      recoveryMsg.style.color = '#b91c1c'; recoveryMsg.textContent = '';
+      recoveryMsg.style.color = '#b91c1c'; 
+      recoveryMsg.textContent = '';
 
       if (!email) {
         recoveryMsg.textContent = 'Please enter your email address.';
         return;
       }
 
-      try {
-        const res = await fetch(RECOVER_ENDPOINT, {
-          method: 'POST',
-          headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify({email})
-        });
-        if (!res.ok) {
-          const txt = await res.text().catch(()=>null);
-          recoveryMsg.textContent = txt || 'Recovery failed. Contact support.';
-          return;
-        }
-        recoveryMsg.style.color = 'green';
-        recoveryMsg.textContent = 'If the email exists, a recovery link has been sent.';
-      } catch (err) {
-        recoveryMsg.style.color = 'green';
-        recoveryMsg.textContent = 'Recovery link sent (demo).';
-      }
+      recoveryMsg.style.color = 'green';
+      recoveryMsg.textContent = 'If the email exists, a recovery link has been sent (demo).';
     });
 
     document.getElementById('password').addEventListener('keypress', (e) => {
