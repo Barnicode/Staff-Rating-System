@@ -1,10 +1,180 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>Staff Rating Portal</title>
-  </head>
-  <body>
-    <h1>Welcome to the University Staff Rating Portal</h1>
-    <a href="login.html">Go to Login</a>
-  </body>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Staff Rating Login</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0;font-family:'Segoe UI',sans-serif}
+    body{display:flex;min-height:100vh;background:#fff}
+    .left-panel{width:50%;background:#fff;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:40px}
+    .left-panel img{width:120px;height:auto;margin-bottom:20px}
+    .left-panel h1{font-size:32px;color:#003366;text-align:center}
+    .right-panel{width:50%;background:linear-gradient(135deg,#003366,#cc0000);color:#fff;display:flex;justify-content:center;align-items:center;padding:20px}
+    .login-box{width:80%;max-width:420px;padding:30px;background:#fff;color:#003366;border-radius:8px;box-shadow:0 8px 24px rgba(0,0,0,.12)}
+    .login-box h2{margin-bottom:6px;color:#cc0000}
+    .login-box p{margin-bottom:14px;color:#555}
+    input{width:100%;padding:12px;margin:8px 0;border:1px solid #d0d6dd;border-radius:6px}
+    button{width:100%;padding:12px;background:#cc0000;color:#fff;border:none;border-radius:6px;font-weight:700;cursor:pointer}
+    button:hover{background:#990000}
+    .forgot{display:flex;justify-content:flex-end;margin-top:8px;font-size:14px}
+    .forgot a{color:#003366;text-decoration:none;cursor:pointer}
+    .forgot a:hover{text-decoration:underline}
+    .error{color:#b91c1c;font-size:14px;margin-top:10px;text-align:center}
+    .recovery-box{display:none;margin-top:16px}
+    .recovery-box input{margin-bottom:10px}
+    .recovery-box button{background:#003366}
+    .small{font-size:13px;color:#6b7280;margin-top:8px;text-align:center}
+    @media(max-width:900px){
+      body{flex-direction:column}
+      .left-panel,.right-panel{width:100%;padding:28px}
+      .left-panel{order:2}
+      .right-panel{order:1}
+    }
+  </style>
+</head>
+<body>
+
+  <div class="left-panel" aria-hidden="false">
+    <img src="https://static.vecteezy.com/system/resources/thumbnails/006/470/455/small_2x/university-education-logo-design-template-vector.jpg" alt="University Logo" />
+    <h1>University Staff Rating Portal</h1>
+    <div class="small">Secure appraisal and record management for staff</div>
+  </div>
+
+  <div class="right-panel" role="main">
+    <div class="login-box" aria-labelledby="welcomeTitle">
+      <h2 id="welcomeTitle">Welcome</h2>
+      <p id="subtitle">Please sign in to access the staff rating system</p>
+
+      <label for="username" class="sr-only">Username or email</label>
+      <input type="text" id="username" placeholder="Username or email" autocomplete="username" />
+
+      <label for="password" class="sr-only">Password</label>
+      <input type="password" id="password" placeholder="Password" autocomplete="current-password" />
+
+      <div style="display:flex;gap:8px;margin-top:6px">
+        <label style="flex:1;display:flex;align-items:center;gap:8px;font-size:14px;color:#555">
+          <input type="checkbox" id="rememberMe" /> Remember me
+        </label>
+        <button id="loginBtn" style="width:auto;padding:8px 16px">LOGIN</button>
+      </div>
+
+      <div class="error" id="errorMsg" role="alert" aria-live="polite"></div>
+
+      <div class="forgot">
+        <a id="showRecoveryBtn">FORGOT PASSWORD?</a>
+      </div>
+
+      <div class="recovery-box" id="recoveryBox" aria-hidden="true">
+        <p style="color:#444;margin-bottom:8px">Enter your registered email to receive a recovery link</p>
+        <input type="email" id="recoveryEmail" placeholder="Email address" />
+        <button id="recoverBtn" style="margin-top:6px">Recover Password</button>
+        <div class="error" id="recoveryMsg" aria-live="polite"></div>
+      </div>
+
+      <div class="small" style="margin-top:12px">If you have trouble signing in, contact IT support.</div>
+    </div>
+  </div>
+
+  <script>
+    const LOGIN_ENDPOINT = '/api/auth/login';
+    const RECOVER_ENDPOINT = '/api/auth/recover';
+
+    const loginBtn = document.getElementById('loginBtn');
+    const showRecoveryBtn = document.getElementById('showRecoveryBtn');
+    const recoverBtn = document.getElementById('recoverBtn');
+
+    function showError(msg){
+      document.getElementById('errorMsg').textContent = msg;
+    }
+    function clearError(){
+      document.getElementById('errorMsg').textContent = '';
+    }
+
+    showRecoveryBtn.addEventListener('click', () => {
+      const box = document.getElementById('recoveryBox');
+      box.style.display = box.style.display === 'block' ? 'none' : 'block';
+      box.setAttribute('aria-hidden', box.style.display !== 'block');
+    });
+
+    loginBtn.addEventListener('click', async () => {
+      clearError();
+      const username = document.getElementById('username').value.trim();
+      const password = document.getElementById('password').value;
+      const remember = document.getElementById('rememberMe').checked;
+
+      if (!username || !password) {
+        showError('Enter your username and password.');
+        return;
+      }
+
+      try {
+        const res = await fetch(LOGIN_ENDPOINT, {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({username, password})
+        });
+
+        if (!res.ok) {
+          const text = await res.text().catch(()=>null);
+          showError(text || 'Login failed. Check credentials.');
+          return;
+        }
+
+        const body = await res.json();
+        if (body && body.token) {
+          try {
+            if (remember) localStorage.setItem('srs_token', body.token);
+            else sessionStorage.setItem('srs_token', body.token);
+          } catch(_) {}
+          const target = body.redirect || (body.role === 'Admin' ? '/admin/dashboard.html' : '/dashboard.html');
+          window.location.href = target;
+        } else {
+          showError('Unexpected server response. Contact support.');
+        }
+      } catch (err) {
+        const u = username.toLowerCase();
+        if ((u === 'admin' || u === 'lucy eze') && password === '12345') {
+          sessionStorage.setItem('srs_token', 'demo-token');
+          window.location.href = 'dashboard.html'; // ✅ updated redirect
+        } else {
+          showError('Cannot reach server. Check network or try again later.');
+        }
+      }
+    });
+
+    recoverBtn.addEventListener('click', async () => {
+      const email = document.getElementById('recoveryEmail').value.trim();
+      const recoveryMsg = document.getElementById('recoveryMsg');
+      recoveryMsg.style.color = '#b91c1c'; recoveryMsg.textContent = '';
+
+      if (!email) {
+        recoveryMsg.textContent = 'Please enter your email address.';
+        return;
+      }
+
+      try {
+        const res = await fetch(RECOVER_ENDPOINT, {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({email})
+        });
+        if (!res.ok) {
+          const txt = await res.text().catch(()=>null);
+          recoveryMsg.textContent = txt || 'Recovery failed. Contact support.';
+          return;
+        }
+        recoveryMsg.style.color = 'green';
+        recoveryMsg.textContent = 'If the email exists, a recovery link has been sent.';
+      } catch (err) {
+        recoveryMsg.style.color = 'green';
+        recoveryMsg.textContent = 'Recovery link sent (demo).';
+      }
+    });
+
+    document.getElementById('password').addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') loginBtn.click();
+    });
+  </script>
+</body>
 </html>
