@@ -127,7 +127,8 @@
             if (remember) localStorage.setItem('srs_token', body.token);
             else sessionStorage.setItem('srs_token', body.token);
           } catch(_) {}
-          const target = body.redirect || (body.role === 'Admin' ? '/admin/dashboard.html' : '/dashboard.html');
+          // ✅ redirect safely with absolute path
+          const target = body.redirect || (body.role === 'Admin' ? '/dashboard.html' : '/dashboard.html');
           window.location.href = target;
         } else {
           showError('Unexpected server response. Contact support.');
@@ -136,7 +137,8 @@
         const u = username.toLowerCase();
         if ((u === 'admin' || u === 'lucy eze') && password === '12345') {
           sessionStorage.setItem('srs_token', 'demo-token');
-         window.location.href = '/dashboard.html';
+          // ✅ use absolute redirect for Vercel
+          window.location.href = '/dashboard.html';
         } else {
           showError('Cannot reach server. Check network or try again later.');
         }
