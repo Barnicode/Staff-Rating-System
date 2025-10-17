@@ -77,40 +77,37 @@
   </div>
 
   <script>
-    // Configuration: replace endpoints as needed
-    const LOGIN_ENDPOINT = '/api/auth/login';        // POST { username, password } -> { token, role, redirect }
-    const RECOVER_ENDPOINT = '/api/auth/recover';    // POST { email } -> { ok }
+    const LOGIN_ENDPOINT = '/api/auth/login';
+    const RECOVER_ENDPOINT = '/api/auth/recover';
 
     const loginBtn = document.getElementById('loginBtn');
     const showRecoveryBtn = document.getElementById('showRecoveryBtn');
     const recoverBtn = document.getElementById('recoverBtn');
 
-    // Accessibility helpers
     function showError(msg){
-      const el = document.getElementById('errorMsg');
-      el.textContent = msg;
+      document.getElementById('errorMsg').textContent = msg;
     }
     function clearError(){
       document.getElementById('errorMsg').textContent = '';
     }
 
-    // Show recovery box
     showRecoveryBtn.addEventListener('click', () => {
       const box = document.getElementById('recoveryBox');
       box.style.display = box.style.display === 'block' ? 'none' : 'block';
       box.setAttribute('aria-hidden', box.style.display !== 'block');
     });
 
-    // Login handler
     loginBtn.addEventListener('click', async () => {
       clearError();
       const username = document.getElementById('username').value.trim();
       const password = document.getElementById('password').value;
       const remember = document.getElementById('rememberMe').checked;
 
-      if (!username || !password) { showError('Enter your username and password.'); return; }
+      if (!username || !password) {
+        showError('Enter your username and password.');
+        return;
+      }
 
-      // Try API login; fallback to local demo credentials if endpoint is unreachable (safe for development only)
       try {
         const res = await fetch(LOGIN_ENDPOINT, {
           method: 'POST',
@@ -119,46 +116,42 @@
         });
 
         if (!res.ok) {
-          // surface server message if available
           const text = await res.text().catch(()=>null);
           showError(text || 'Login failed. Check credentials.');
           return;
         }
 
         const body = await res.json();
-        // expected body: { token, role, redirect }
         if (body && body.token) {
-          // store token securely; demo uses localStorage (replace with secure cookie in production)
           try {
             if (remember) localStorage.setItem('srs_token', body.token);
             else sessionStorage.setItem('srs_token', body.token);
           } catch(_) {}
-          // redirect based on server suggestion or role
           const target = body.redirect || (body.role === 'Admin' ? '/admin/dashboard.html' : '/dashboard.html');
           window.location.href = target;
         } else {
           showError('Unexpected server response. Contact support.');
         }
       } catch (err) {
-        // fallback demo credentials for offline development only
         const u = username.toLowerCase();
         if ((u === 'admin' || u === 'lucy eze') && password === '12345') {
-          // demo redirect
           sessionStorage.setItem('srs_token', 'demo-token');
-          window.location.href = 'control-center.html';
+          window.location.href = 'dashboard.html'; // ✅ updated redirect
         } else {
           showError('Cannot reach server. Check network or try again later.');
         }
       }
     });
 
-    // Recovery handler
     recoverBtn.addEventListener('click', async () => {
       const email = document.getElementById('recoveryEmail').value.trim();
       const recoveryMsg = document.getElementById('recoveryMsg');
       recoveryMsg.style.color = '#b91c1c'; recoveryMsg.textContent = '';
 
-      if (!email) { recoveryMsg.textContent = 'Please enter your email address.'; return; }
+      if (!email) {
+        recoveryMsg.textContent = 'Please enter your email address.';
+        return;
+      }
 
       try {
         const res = await fetch(RECOVER_ENDPOINT, {
@@ -174,16 +167,14 @@
         recoveryMsg.style.color = 'green';
         recoveryMsg.textContent = 'If the email exists, a recovery link has been sent.';
       } catch (err) {
-        // local demo behaviour
         recoveryMsg.style.color = 'green';
         recoveryMsg.textContent = 'Recovery link sent (demo).';
       }
     });
 
-    // allow Enter key submission
-    document.getElementById('password').addEventListener('keypress', (e) => { if (e.key === 'Enter') loginBtn.click(); });
+    document.getElementById('password').addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') loginBtn.click();
+    });
   </script>
 </body>
 </html>
-
-
