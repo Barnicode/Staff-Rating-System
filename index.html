@@ -136,7 +136,7 @@
         const u = username.toLowerCase();
         if ((u === 'admin' || u === 'lucy eze') && password === '12345') {
           sessionStorage.setItem('srs_token', 'demo-token');
-          window.location.href = 'dashboard.html'; // ✅ updated redirect
+         window.location.href = '/dashboard.html';
         } else {
           showError('Cannot reach server. Check network or try again later.');
         }
