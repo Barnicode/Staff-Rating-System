@@ -64,7 +64,8 @@
       <span>University Staff Rating Portal</span>
     </div>
     <div class="header-right">
-      <a id="logoutBtn">Log Out</a>
+      <!-- no href so we handle via JS; still accessible for non-JS users -->
+      <a id="logoutBtn" role="button" aria-label="Log out">Log Out</a>
     </div>
   </header>
 
@@ -128,6 +129,7 @@
   <footer role="contentinfo">Copyright © NOUN Design by Barnabas Blessing</footer>
 
   <script>
+    // ---------- Config ----------
     const API = {
       summary: '/api/admin/summary',
       activities: '/api/admin/activities',
@@ -191,26 +193,46 @@
       }
     }
 
-    document.getElementById('openReportsBtn').addEventListener('click', () => { 
-      window.location.href = 'reports.html'; 
-    });
-    document.getElementById('editProfileBtn').addEventListener('click', () => { 
-      window.location.href = 'edit-profile.html'; 
-    });
+    // Wait for DOM to be ready — avoids "didn't attach" problems
+    document.addEventListener('DOMContentLoaded', function(){
+      // navigation buttons
+      const openReportsBtn = document.getElementById('openReportsBtn');
+      const editProfileBtn = document.getElementById('editProfileBtn');
+      const logoutBtn = document.getElementById('logoutBtn');
 
-    // ✅ Updated Logout — redirects to signin.html
-    document.getElementById('logoutBtn').addEventListener('click', (e) => {
-      e.preventDefault();
-      // clear any stored login/session data
-      sessionStorage.clear();
-      localStorage.clear();
-      // redirect to sign-in page
-      window.location.href = 'signin.html';
-    });
+      if(openReportsBtn) openReportsBtn.addEventListener('click', () => { window.location.href = 'reports.html'; });
+      if(editProfileBtn) editProfileBtn.addEventListener('click', () => { window.location.href = 'edit-profile.html'; });
 
-    fetchSummary();
-    fetchActivities();
-    fetchProfile();
+      // ---------- LOGOUT ----------
+      if(logoutBtn){
+        logoutBtn.addEventListener('click', function(e){
+          e.preventDefault();
+          try {
+            // clear stored tokens or session state
+            localStorage.removeItem('srs_token');
+            sessionStorage.removeItem('srs_token');
+            localStorage.clear();
+            sessionStorage.clear();
+            console.log('Cleared storage on logout.');
+          } catch(err){
+            console.warn('Error clearing storage:', err);
+          }
+
+          // set a flag to show a message on the login page
+          try { sessionStorage.setItem('logout_notice', 'You have been logged out successfully.'); } catch(_) {}
+
+          // redirect to your sign-in page (index.html)
+          window.location.href = 'index.html';
+        });
+      } else {
+        console.warn('logoutBtn not found in DOM.');
+      }
+
+      // initialize data
+      fetchSummary();
+      fetchActivities();
+      fetchProfile();
+    });
   </script>
 </body>
 </html>
