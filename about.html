@@ -16,11 +16,48 @@
     }
     *{box-sizing:border-box;margin:0;padding:0;font-family:'Segoe UI',system-ui,Arial,sans-serif}
     body{background:var(--bg);min-height:100vh;color:#222}
-    .sidebar{width:var(--nav-width);background:var(--brand);color:#fff;height:100vh;position:fixed;top:0;left:0;padding-top:20px}
+
+    /* Sidebar */
+    .sidebar{
+      width:var(--nav-width);
+      background:var(--brand);
+      color:#fff;
+      height:100vh;
+      position:fixed;
+      top:0;
+      left:0;
+      padding-top:20px;
+      transition:transform .3s ease;
+    }
     .sidebar h2{text-align:center;color:#ff4d4d;margin-bottom:18px}
     .sidebar a{display:block;color:#fff;padding:12px 18px;text-decoration:none}
     .sidebar a:hover{background:#0055aa}
-    header{margin-left:var(--nav-width);padding:20px 24px;background:var(--card);border-bottom:1px solid #e6e9ee;display:flex;align-items:center;gap:12px}
+
+    /* Toggle button for mobile */
+    .menu-toggle{
+      display:none;
+      position:fixed;
+      top:14px;
+      left:14px;
+      background:var(--brand);
+      color:#fff;
+      border:none;
+      font-size:18px;
+      padding:8px 12px;
+      border-radius:6px;
+      z-index:999;
+      cursor:pointer;
+    }
+
+    header{
+      margin-left:var(--nav-width);
+      padding:20px 24px;
+      background:var(--card);
+      border-bottom:1px solid #e6e9ee;
+      display:flex;
+      align-items:center;
+      gap:12px;
+    }
     header img{width:44px;height:44px;object-fit:contain}
     header h1{font-size:20px;color:var(--brand);font-weight:800}
     main{margin-left:var(--nav-width);padding:22px}
@@ -36,12 +73,33 @@
     .member-info strong{display:block;color:var(--brand)}
     .contact-list{display:flex;flex-direction:column;gap:8px;margin-top:6px}
     .link{color:var(--brand);text-decoration:none;font-weight:700}
-    footer{margin-left:var(--nav-width);padding:14px 22px;color:var(--muted);font-size:13px}
-    @media(max-width:900px){.grid{grid-template-columns:1fr;}}
+    footer{margin-left:var(--nav-width);padding:14px 22px;color:var(--muted);font-size:13px;text-align:center}
+
+    /* ---------- Responsive Layout ---------- */
+    @media(max-width:900px){
+      .grid{grid-template-columns:1fr;}
+    }
+    @media(max-width:768px){
+      .sidebar{
+        transform:translateX(-100%);
+      }
+      .sidebar.open{
+        transform:translateX(0);
+      }
+      .menu-toggle{display:block;}
+      header, main, footer{
+        margin-left:0;
+      }
+      header{
+        justify-content:center;
+        text-align:center;
+      }
+    }
   </style>
 </head>
 <body>
-  <nav class="sidebar" aria-label="Sidebar navigation">
+  <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+  <nav class="sidebar" aria-label="Sidebar navigation" id="sidebar">
     <h2>Admin Panel</h2>
     <a href="control-center.html">Dashboard</a>
     <a href="all-employees.html">All Employees</a>
@@ -60,23 +118,23 @@
     <div class="grid">
       <section class="card" aria-labelledby="aboutTitle">
         <h2 id="aboutTitle">About the Portal</h2>
-        <p>The University Staff Rating Portal is an internal platform designed to gather constructive, anonymous and authenticated feedback on teaching and professional staff. The portal aggregates ratings across configurable criteria, produces department and individual reports, and helps leadership identify strengths and areas for improvement.</p>
+        <p>The University Staff Rating Portal is an internal platform designed to gather constructive, anonymous, and authenticated feedback on teaching and professional staff. It aggregates ratings across configurable criteria, produces department and individual reports, and helps leadership identify strengths and areas for improvement.</p>
 
         <h2>Mission</h2>
-        <p>To provide a transparent, fair and actionable feedback system that supports professional development, teaching quality and operational excellence across the institution.</p>
+        <p>To provide a transparent, fair, and actionable feedback system that supports professional development, teaching quality, and operational excellence.</p>
 
         <h2>Vision</h2>
-        <p>To embed continuous improvement into the academic culture by offering timely insights and trusted reporting that help people grow and decisions be data-informed.</p>
+        <p>To embed continuous improvement into academic culture through timely insights and trusted reporting that promote growth and informed decision-making.</p>
 
-        <h2>How it works</h2>
-        <p>Students and staff with permission submit ratings on defined criteria. Administrators configure criteria and manage users. Reports aggregate scores by individual, department and period and can be exported for further analysis.</p>
+        <h2>How it Works</h2>
+        <p>Students and staff submit ratings based on defined criteria. Administrators configure the criteria and manage users. Reports summarize scores by department or individual for analysis.</p>
 
-        <h2>Design principles</h2>
+        <h2>Design Principles</h2>
         <ul style="margin:8px 0 12px 18px;color:#333">
-          <li>Respectful feedback: focus on constructive comments and evidence-based ratings</li>
-          <li>Privacy and consent: anonymize responses where required and protect personal data</li>
-          <li>Actionable reporting: concise summaries and drill-down details for decisions</li>
-          <li>Accessibility: keyboard-first controls and clear visual hierarchy</li>
+          <li>Respectful feedback and evidence-based ratings</li>
+          <li>Privacy protection and consent-driven participation</li>
+          <li>Actionable reporting with clear insights</li>
+          <li>Accessibility and mobile responsiveness</li>
         </ul>
 
         <h2>Version</h2>
@@ -119,11 +177,11 @@
         <div class="contact-list">
           <div class="meta">For admin help: <a class="link" href="mailto:support@university.edu">support@university.edu</a></div>
           <div class="meta">Report an issue: <a class="link" href="mailto:bugs@university.edu">bugs@university.edu</a></div>
-          <div class="meta">Privacy and data handling: <a class="link" href="https://privacy.microsoft.com/en-us/privacystatement" target="_blank" rel="noopener">Privacy statement</a></div>
+          <div class="meta">Privacy statement: <a class="link" href="https://privacy.microsoft.com/en-us/privacystatement" target="_blank" rel="noopener">View</a></div>
         </div>
 
         <h2 style="margin-top:14px">Open Source & Contributions</h2>
-        <p class="meta">This portal is designed for internal deployment. If you maintain a fork or integration, include release notes and upgrade instructions with each change.</p>
+        <p class="meta">This portal is for institutional use. Developers maintaining a fork should include release notes and upgrade instructions.</p>
       </aside>
     </div>
   </main>
@@ -131,5 +189,11 @@
   <footer>
     Copyright © University Staff Rating Portal. Built for institutional feedback and improvement.
   </footer>
+
+  <script>
+    function toggleMenu(){
+      document.getElementById('sidebar').classList.toggle('open');
+    }
+  </script>
 </body>
 </html>
