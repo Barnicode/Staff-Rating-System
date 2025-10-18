@@ -285,12 +285,227 @@
     </div>
   </header>
 
-  <!-- Main dashboard -->
-  <main class="main" role="main" id="mainContent"></main>
+ <main class="main" role="main">
+    <div class="grid">
+      <div class="card">
+        <h3>Total Employees</h3>
+        <p class="big" id="totalCount">—</p>
+        <p class="muted mini">Total staff in University of Edu</p>
+      </div>
 
+      <div class="card">
+        <h3>Average Rating</h3>
+        <p class="big" id="averageRating">—</p>
+        <p class="muted mini">Average across saved ratings</p>
+      </div>
+
+      <div class="card">
+        <h3>Top Performer</h3>
+        <div id="topCard" style="display:flex;gap:12px;align-items:center;margin-top:8px">
+          <img id="topPhoto" src="https://i.pravatar.cc/80?img=12" alt="top" style="width:64px;height:64px;border-radius:8px;object-fit:cover"/>
+          <div>
+            <div id="topName" style="font-weight:800;color:var(--brand)">—</div>
+            <div id="topScore" class="muted mini">—</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row" style="gap:18px;align-items:flex-start">
+      <div class="card" style="flex:1">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+          <h3 style="margin:0">Recent Ratings</h3>
+          <div class="small muted" id="recentCount">—</div>
+        </div>
+        <div id="recentList" class="recent-list">
+          <div class="muted">No ratings yet</div>
+        </div>
+      </div>
+
+      <div class="card" style="width:360px">
+        <h3 style="margin-bottom:10px">Quick Actions</h3>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <button class="btn" id="btnAll">Open All Employees</button>
+          <button class="btn secondary" id="btnReports">Open Reports</button>
+          <button class="btn" id="btnRateRandom">Rate Random Staff (demo)</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:18px">
+      <h3 style="margin-bottom:12px">Top 10 Staff (by avg rating)</h3>
+      <div style="overflow:auto">
+        <table aria-live="polite">
+          <thead><tr><th>#</th><th>Name</th><th>Department</th><th>Avg Rating</th><th>Action</th></tr></thead>
+          <tbody id="topTable">
+            <tr><td colspan="5" class="muted" style="text-align:center">No data</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main> 
   <script>
-    // Your existing JS logic will be reattached here
-    // (same as your working code before)
+    // Utility: safe getter for employees and ratings from localStorage
+    function loadEmployees(){
+      try {
+        const raw = localStorage.getItem('EMPLOYEES_DATA');
+        if(raw) return JSON.parse(raw);
+      } catch(e){}
+      return []; // empty fallback
+    }
+    function loadRatings(){
+      try {
+        const raw = localStorage.getItem('RATINGS');
+        if(raw) return JSON.parse(raw);
+      } catch(e){}
+      return []; // []
+    }
+
+    // compute average rating per staff from RATINGS (if RATINGS exist) else fallback to per-employee rating field
+    function computeAggregates(employees, ratings){
+      // Build map staffId -> array of scores
+      const scoreMap = new Map();
+      ratings.forEach(r => {
+        const sid = typeof r.staffId === 'number' ? r.staffId : (r.staffId || r.id || r.staffId);
+        const avg = r.avg ?? ((Number(r.c1||0) + Number(r.c2||0))/2);
+        if(!sid) return;
+        if(!scoreMap.has(sid)) scoreMap.set(sid, []);
+        scoreMap.get(sid).push(Number(avg));
+      });
+      // incorporate employee.rating field if no ratings exist for staff
+      employees.forEach(emp => {
+        if(!scoreMap.has(emp.id) && emp.rating != null){
+          scoreMap.set(emp.id, [Number(emp.rating)]);
+        }
+      });
+      // compute avg map
+      const avgMap = new Map();
+      scoreMap.forEach((arr, id) => {
+        const s = arr.reduce((a,b)=>a+b,0);
+        avgMap.set(Number(id), s / arr.length);
+      });
+      return { scoreMap, avgMap };
+    }
+
+    // render dashboard
+    function renderDashboard(){
+      const employees = loadEmployees();
+      const ratings = loadRatings();
+      const total = employees.length || 0;
+      document.getElementById('totalCount').textContent = total;
+      // compute aggregates
+      const { avgMap } = computeAggregates(employees, ratings);
+      // overall average
+      const avgAll = Array.from(avgMap.values()).length ? Array.from(avgMap.values()).reduce((a,b)=>a+b,0) / Array.from(avgMap.values()).length : null;
+      document.getElementById('averageRating').textContent = avgAll !== null ? avgAll.toFixed(2) : '—';
+      // top performer
+      let topName = '—', topScore = '—', topPhoto = 'https://i.pravatar.cc/80?img=12', topId = null;
+      if(avgMap.size){
+        const sorted = Array.from(avgMap.entries()).sort((a,b)=>b[1]-a[1]);
+        const [topIdNum, scoreVal] = sorted[0];
+        const emp = employees.find(e => Number(e.id) === Number(topIdNum));
+        if(emp){ topName = emp.fullName; topPhoto = emp.photo || topPhoto; topScore = scoreVal.toFixed(2); topId = emp.id; }
+      }
+      document.getElementById('topName').textContent = topName;
+      document.getElementById('topScore').textContent = topScore !== '—' ? `${topScore} / 5` : '—';
+      document.getElementById('topPhoto').src = topPhoto;
+
+      // recent ratings (most recent first)
+      const recentList = document.getElementById('recentList');
+      recentList.innerHTML = '';
+      const sortedRatings = ratings.slice().sort((a,b)=> new Date(b.date || b.createdAt || Date.now()) - new Date(a.date || a.createdAt || Date.now()));
+      if(sortedRatings.length === 0){
+        recentList.innerHTML = '<div class="muted">No ratings yet</div>';
+      } else {
+        const slice = sortedRatings.slice(0,6);
+        slice.forEach(r => {
+          const emp = employees.find(e => Number(e.id) === Number(r.staffId));
+          const tr = document.createElement('div');
+          tr.className = 'recent-item';
+          const img = document.createElement('img'); img.src = (emp && emp.photo) ? emp.photo : 'https://i.pravatar.cc/80?img=12';
+          const info = document.createElement('div'); info.style.flex = '1';
+          info.innerHTML = `<div style="font-weight:700">${emp ? emp.fullName : 'Unknown'}</div>
+            <div class="mini muted">${r.comment ? r.comment : ''}</div>
+            <div class="mini" style="margin-top:6px">${(r.avg || ((r.c1 + r.c2)/2)).toFixed ? ((r.avg || ((r.c1 + r.c2)/2)).toFixed(1) + ' / 5') : ''} <span class="muted" style="margin-left:8px">${new Date(r.date||r.createdAt||Date.now()).toLocaleDateString()}</span></div>`;
+          tr.appendChild(img); tr.appendChild(info);
+          recentList.appendChild(tr);
+        });
+      }
+      document.getElementById('recentCount').textContent = sortedRatings.length + ' ratings';
+
+      // top 10 table
+      const topTable = document.getElementById('topTable');
+      topTable.innerHTML = '';
+      const employeesWithAvg = employees.map(emp => {
+        return { emp, avg: avgMap.get(Number(emp.id)) ?? null };
+      }).filter(e => e.avg !== null).sort((a,b)=>b.avg - a.avg);
+      if(employeesWithAvg.length === 0){
+        topTable.innerHTML = '<tr><td colspan="5" class="muted" style="text-align:center">No ratings yet</td></tr>';
+      } else {
+        employeesWithAvg.slice(0,10).forEach((row, idx) => {
+          const r = document.createElement('tr');
+          r.innerHTML = `<td>${idx+1}</td><td>${row.emp.fullName}</td><td>${row.emp.department}</td><td>${row.avg.toFixed(2)}</td>
+            <td><button class="btn" data-id="${row.emp.id}" onclick="openRatePage(${row.emp.id})">Rate / View</button></td>`;
+          topTable.appendChild(r);
+        });
+      }
+    }
+
+    // search helper
+    document.getElementById('dashSearch').addEventListener('input', function(e){
+      const q = e.target.value.trim().toLowerCase();
+      if(!q){ renderDashboard(); return; }
+      const employees = loadEmployees();
+      const filtered = employees.filter(emp => (emp.fullName||'').toLowerCase().includes(q) || (emp.department||'').toLowerCase().includes(q));
+      // if single match, go to rate page
+      if(filtered.length === 1){
+        window.location.href = `rate-staff.html?id=${filtered[0].id}`;
+      } else {
+        // show small preview in recentList
+        const recentList = document.getElementById('recentList');
+        recentList.innerHTML = '';
+        if(filtered.length === 0){
+          recentList.innerHTML = '<div class="muted">No results</div>';
+        } else {
+          filtered.slice(0,6).forEach(emp => {
+            const tr = document.createElement('div'); tr.className='recent-item';
+            tr.innerHTML = `<img src="${emp.photo||'https://i.pravatar.cc/80?img=12'}" alt="">
+              <div style="flex:1"><div style="font-weight:700">${emp.fullName}</div><div class="mini muted">${emp.department}</div></div>`;
+            recentList.appendChild(tr);
+          });
+        }
+      }
+    });
+
+    // quick actions
+    document.getElementById('btnAll').addEventListener('click', ()=> window.location.href = 'all-employees.html');
+    document.getElementById('btnReports').addEventListener('click', ()=> window.location.href = 'reports.html');
+    document.getElementById('goEmployees').addEventListener('click', ()=> window.location.href = 'all-employees.html');
+
+    // rate a random staff (demo helper)
+    document.getElementById('btnRateRandom').addEventListener('click', ()=>{
+      const employees = loadEmployees();
+      if(!employees.length) return alert('No employees loaded.');
+      const rand = employees[Math.floor(Math.random()*employees.length)];
+      window.location.href = `rate-staff.html?id=${rand.id}`;
+    });
+
+    // open rate page (global helper used by table buttons)
+    function openRatePage(id){
+      window.location.href = `rate-staff.html?id=${id}`;
+    }
+    window.openRatePage = openRatePage;
+
+    // init render
+    renderDashboard();
+
+    // re-render when RATINGS change in localStorage (from other page)
+    window.addEventListener('storage', (e) => {
+      if(e.key === 'RATINGS' || e.key === 'EMPLOYEES_DATA') renderDashboard();
+    });
+
+    // expose for debugging
+    window._DASH = { renderDashboard, loadEmployees, loadRatings };
   </script>
 </body>
 </html>
