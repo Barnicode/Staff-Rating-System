@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <title>All Employees</title>
+  <title>All Employees — University Staff Rating Portal</title>
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <style>
     body {
@@ -222,6 +222,7 @@
       <img id="selPhoto" src="" alt="Selected staff photo" />
       <div class="info">
         <h2 id="selName"></h2>
+        <p><strong>University:</strong> <span id="selUni"></span></p>
         <p><strong>Department:</strong> <span id="selDept"></span></p>
         <p><strong>Email:</strong> <span id="selEmail"></span></p>
         <p><strong>Phone:</strong> <span id="selPhone"></span></p>
@@ -242,28 +243,178 @@
       document.getElementById('sidebar').classList.toggle('active');
     });
 
-    /* --- Employee Script --- */
-    const NAMES = [...Array(92)].map((_, i) => `Employee ${i+1}`);
-    const DEPARTMENTS = ['IT','HR','Finance','Admin','Legal','Operations','Marketing','Registry','Research'];
-    const EMPLOYEES = NAMES.map((n, i) => ({
-      id: i+1,
-      fullName: n,
-      department: DEPARTMENTS[i % DEPARTMENTS.length],
-      email: `employee${i+1}@university.edu`,
-      phone: `+23480${String(10000000 + i).slice(-8)}`,
-      rating: (Math.random()*2 + 3).toFixed(1),
-      photo: `https://i.pravatar.cc/150?img=${i % 70}`,
-      bio: `${n} works in ${DEPARTMENTS[i % DEPARTMENTS.length]} Department.`
-    }));
+    /* --- Employee Data: 92 Professors / Senior Academics --- */
+    const PROFESSORS = [
+      { name: "Prof. Adeola Ogunleye", uni: "University of Lagos", dept: "Computer Science", title: "Professor" },
+      { name: "Prof. Chukwuemeka Eze", uni: "University of Benin", dept: "Mechanical Engineering", title: "Professor" },
+      { name: "Dr. Maryam Danjuma", uni: "Ahmadu Bello University", dept: "Education", title: "Senior Lecturer" },
+      { name: "Prof. Olufunke Adebayo", uni: "University of Ibadan", dept: "Economics", title: "Professor" },
+      { name: "Dr. Ibrahim Musa", uni: "Usmanu Danfodiyo Univ.", dept: "Computer Science", title: "Senior Lecturer" },
+      { name: "Prof. Kemi Bakare", uni: "Obafemi Awolowo Univ.", dept: "Public Health", title: "Professor" },
+      { name: "Dr. Emeka Nwankwo", uni: "University of Abuja", dept: "Accounting", title: "Associate Professor" },
+      { name: "Prof. Amina Suleiman", uni: "University of Ilorin", dept: "Nursing Science", title: "Professor" },
+      { name: "Dr. Ifeoma Ndukwe", uni: "Nnamdi Azikiwe Univ.", dept: "Food Science", title: "Senior Lecturer" },
+      { name: "Prof. Olumide Taiwo", uni: "University of Lagos", dept: "Architecture", title: "Professor" },
+      { name: "Dr. Funmilayo Adeyemi", uni: "Lagos State Univ.", dept: "Biochemistry", title: "Senior Lecturer" },
+      { name: "Prof. Victor Amankwa", uni: "University of Ghana (collab)", dept: "Statistics", title: "Professor" },
+      { name: "Dr. Tolulope Afolabi", uni: "Federal Univ. of Technology, Akure", dept: "Electrical Engineering", title: "Associate Professor" },
+      { name: "Prof. Blessing Nweke", uni: "University of Benin", dept: "Pharmacy", title: "Professor" },
+      { name: "Dr. Hassan Abubakar", uni: "Bayero University Kano", dept: "Chemistry", title: "Senior Lecturer" },
+      { name: "Prof. Lillian Ojo", uni: "University of Ibadan", dept: "English", title: "Professor" },
+      { name: "Dr. Anthony Okonkwo", uni: "UNIZIK", dept: "Sociology", title: "Senior Lecturer" },
+      { name: "Prof. Zainab Mohammed", uni: "Ahmadu Bello University", dept: "Law", title: "Professor" },
+      { name: "Dr. Kalu Chike", uni: "University of Nigeria Nsukka", dept: "History", title: "Associate Professor" },
+      { name: "Prof. Rose Afolabi", uni: "Covenant University", dept: "Business Administration", title: "Professor" },
+      { name: "Dr. Samuel Eze", uni: "University of Benin", dept: "Mechanical Engineering", title: "Senior Lecturer" },
+      { name: "Prof. Grace Adebayo", uni: "University of Lagos", dept: "Physics", title: "Professor" },
+      { name: "Dr. Musa Abdullahi", uni: "Ahmadu Bello University", dept: "Geology", title: "Senior Lecturer" },
+      { name: "Prof. Nkechi Amadi", uni: "University of Port Harcourt", dept: "Nursing", title: "Professor" },
+      { name: "Dr. Jide Taiwo", uni: "Obafemi Awolowo Univ.", dept: "Mathematics", title: "Senior Lecturer" },
+      { name: "Prof. Olajide Taiwo", uni: "University of Lagos", dept: "Civil Engineering", title: "Professor" },
+      { name: "Dr. Linda Uche", uni: "University of Ibadan", dept: "Microbiology", title: "Associate Professor" },
+      { name: "Prof. Chiamaka Okoye", uni: "Nnamdi Azikiwe Univ.", dept: "Education", title: "Professor" },
+      { name: "Dr. Bala Umar", uni: "Bayero University Kano", dept: "Computer Science", title: "Senior Lecturer" },
+      { name: "Prof. Yemi Ogunleye", uni: "University of Ilorin", dept: "Agriculture", title: "Professor" },
+      { name: "Dr. Nkechi Nnamdi", uni: "University of Nigeria Nsukka", dept: "Political Science", title: "Senior Lecturer" },
+      { name: "Prof. Felix Okoro", uni: "University of Port Harcourt", dept: "Chem. Engineering", title: "Professor" },
+      { name: "Dr. Zara Hussain", uni: "University of Lagos", dept: "Sociology", title: "Associate Professor" },
+      { name: "Prof. Emeka Nnaji", uni: "University of Benin", dept: "Computer Science", title: "Professor" },
+      { name: "Dr. Folake Ogundipe", uni: "University of Ibadan", dept: "Linguistics", title: "Senior Lecturer" },
+      { name: "Prof. Kemi Adeoye", uni: "Ahmadu Bello University", dept: "Philosophy", title: "Professor" },
+      { name: "Dr. Hassan Suleiman", uni: "University of Ilorin", dept: "Statistics", title: "Senior Lecturer" },
+      { name: "Prof. Uche Okafor", uni: "University of Abuja", dept: "Medicine", title: "Professor" },
+      { name: "Dr. Aisha Bello", uni: "University of Lagos", dept: "Mass Communication", title: "Associate Professor" },
+      { name: "Prof. Peter Okoye", uni: "Covenant University", dept: "Information Systems", title: "Professor" },
+      { name: "Dr. Rita Nnamdi", uni: "UNILAG", dept: "Psychology", title: "Senior Lecturer" },
+      { name: "Prof. Solomon Ibe", uni: "University of Ibadan", dept: "History", title: "Professor" },
+      { name: "Dr. Miriam Abdullahi", uni: "Bayero University Kano", dept: "Public Health", title: "Senior Lecturer" },
+      { name: "Prof. Johnson Babatunde", uni: "Obafemi Awolowo Univ.", dept: "Economics", title: "Professor" },
+      { name: "Dr. Chukwuemeka Nweke", uni: "University of Nigeria Nsukka", dept: "Architecture", title: "Senior Lecturer" },
+      { name: "Prof. Teresa Okpara", uni: "University of Benin", dept: "Education", title: "Professor" },
+      { name: "Dr. Andrew Ekong", uni: "University of Lagos", dept: "Pharmacy", title: "Associate Professor" },
+      { name: "Prof. Nkechi Obi", uni: "University of Port Harcourt", dept: "Chemistry", title: "Professor" },
+      { name: "Dr. Yusuf Adamu", uni: "Ahmadu Bello University", dept: "Mechanical Engineering", title: "Senior Lecturer" },
+      { name: "Prof. Grace Nwosu", uni: "University of Ibadan", dept: "Sociology", title: "Professor" },
+      { name: "Dr. Peter Bassey", uni: "UNIBEN", dept: "Geography", title: "Associate Professor" },
+      { name: "Prof. Aderemi Ojo", uni: "University of Ilorin", dept: "Business Administration", title: "Professor" },
+      { name: "Dr. Olubunmi Adekanbi", uni: "Lagos State Univ.", dept: "Public Admin", title: "Senior Lecturer" },
+      { name: "Prof. Chima Okafor", uni: "Nnamdi Azikiwe Univ.", dept: "Mathematics", title: "Professor" },
+      { name: "Dr. Abiola Adeyemi", uni: "University of Lagos", dept: "Information Tech", title: "Senior Lecturer" },
+      { name: "Prof. Hajara Sule", uni: "Federal Univ. Lokoja", dept: "Nursing", title: "Professor" },
+      { name: "Dr. Moses Akintola", uni: "Obafemi Awolowo Univ.", dept: "Civil Engineering", title: "Associate Professor" },
+      { name: "Prof. Mercy Ijeoma", uni: "University of Nigeria Nsukka", dept: "Food Science", title: "Professor" },
+      { name: "Dr. Ibrahim Balogun", uni: "University of Ilorin", dept: "Physics", title: "Senior Lecturer" },
+      { name: "Prof. Olusegun Lawal", uni: "University of Ibadan", dept: "Law", title: "Professor" },
+      { name: "Dr. Amina Yusuf", uni: "Ahmadu Bello University", dept: "Dentistry", title: "Senior Lecturer" },
+      { name: "Prof. Benedict Nwankwo", uni: "University of Benin", dept: "Computer Engineering", title: "Professor" },
+      { name: "Dr. Eunice Ojo", uni: "Covenant University", dept: "Economics", title: "Senior Lecturer" },
+      { name: "Prof. Samuel Obasi", uni: "University of Port Harcourt", dept: "Marine Science", title: "Professor" },
+      { name: "Dr. Halima Abdullahi", uni: "Bayero University Kano", dept: "Education", title: "Associate Professor" },
+      { name: "Prof. Oluwaseun Adegoke", uni: "University of Lagos", dept: "Computer Science", title: "Professor" },
+      { name: "Dr. Nkiruka Eze", uni: "UNIZIK", dept: "Political Science", title: "Senior Lecturer" },
+      { name: "Prof. Benedict Kalu", uni: "University of Ibadan", dept: "Statistics", title: "Professor" },
+      { name: "Dr. Sadiq Mohammed", uni: "ABU Zaria", dept: "Chemical Engineering", title: "Associate Professor" },
+      { name: "Prof. Blessing Okoro", uni: "University of Benin", dept: "Theatre Arts", title: "Professor" },
+      { name: "Dr. Chinedu Okonkwo", uni: "University of Nigeria Nsukka", dept: "Philosophy", title: "Senior Lecturer" },
+      { name: "Prof. Olufemi Akin", uni: "Obafemi Awolowo Univ.", dept: "Biology", title: "Professor" },
+      { name: "Dr. Rahina Yusuf", uni: "University of Ilorin", dept: "Psychology", title: "Senior Lecturer" },
+      { name: "Prof. Emmanuel Adeniyi", uni: "Covenant University", dept: "Management", title: "Professor" },
+      { name: "Dr. Victoria Obi", uni: "University of Lagos", dept: "Humanities", title: "Associate Professor" },
+      { name: "Prof. Tobechukwu Nwoke", uni: "UNIBEN", dept: "Environmental Science", title: "Professor" },
+      { name: "Dr. Aisha Haruna", uni: "University of Maiduguri", dept: "Public Health", title: "Senior Lecturer" },
+      { name: "Prof. Michael Adeniyi", uni: "University of Ibadan", dept: "Mathematics", title: "Professor" },
+      { name: "Dr. Olufunmilayo Adewale", uni: "University of Lagos", dept: "Education", title: "Senior Lecturer" },
+      { name: "Prof. Nkem Okafor", uni: "Nnamdi Azikiwe Univ.", dept: "Agriculture", title: "Professor" },
+      { name: "Dr. Jamila Sani", uni: "ABU Zaria", dept: "Nursing", title: "Senior Lecturer" },
+      { name: "Prof. Peter Ekong", uni: "University of Port Harcourt", dept: "Geology", title: "Professor" },
+      { name: "Dr. Folashade Ogundipe", uni: "University of Ibadan", dept: "Computer Science", title: "Associate Professor" },
+      { name: "Prof. Umar Abdullahi", uni: "Ahmadu Bello University", dept: "Economics", title: "Professor" },
+      { name: "Dr. Roseline Amadi", uni: "UNILAG", dept: "Sociology", title: "Senior Lecturer" },
+      { name: "Prof. Chukwuemeka Obi", uni: "University of Nigeria Nsukka", dept: "Electrical Engineering", title: "Professor" }
+    ];
 
+    // curated portrait URLs (randomuser.me: adult portraits across many indices)
+    const PHOTOS = [
+      'https://randomuser.me/api/portraits/men/53.jpg',
+      'https://randomuser.me/api/portraits/women/55.jpg',
+      'https://randomuser.me/api/portraits/men/56.jpg',
+      'https://randomuser.me/api/portraits/women/57.jpg',
+      'https://randomuser.me/api/portraits/men/58.jpg',
+      'https://randomuser.me/api/portraits/women/59.jpg',
+      'https://randomuser.me/api/portraits/men/60.jpg',
+      'https://randomuser.me/api/portraits/women/61.jpg',
+      'https://randomuser.me/api/portraits/men/62.jpg',
+      'https://randomuser.me/api/portraits/women/63.jpg',
+      'https://randomuser.me/api/portraits/men/64.jpg',
+      'https://randomuser.me/api/portraits/women/65.jpg',
+      'https://randomuser.me/api/portraits/men/66.jpg',
+      'https://randomuser.me/api/portraits/women/67.jpg',
+      'https://randomuser.me/api/portraits/men/68.jpg',
+      'https://randomuser.me/api/portraits/women/69.jpg',
+      'https://randomuser.me/api/portraits/men/70.jpg',
+      'https://randomuser.me/api/portraits/women/71.jpg',
+      'https://randomuser.me/api/portraits/men/72.jpg',
+      'https://randomuser.me/api/portraits/women/73.jpg',
+      'https://randomuser.me/api/portraits/men/74.jpg',
+      'https://randomuser.me/api/portraits/women/75.jpg',
+      'https://randomuser.me/api/portraits/men/76.jpg',
+      'https://randomuser.me/api/portraits/women/77.jpg',
+      'https://randomuser.me/api/portraits/men/78.jpg',
+      'https://randomuser.me/api/portraits/women/79.jpg',
+      'https://randomuser.me/api/portraits/men/80.jpg',
+      'https://randomuser.me/api/portraits/women/81.jpg',
+      'https://randomuser.me/api/portraits/men/82.jpg',
+      'https://randomuser.me/api/portraits/women/83.jpg',
+      'https://randomuser.me/api/portraits/men/84.jpg',
+      'https://randomuser.me/api/portraits/women/85.jpg',
+      'https://randomuser.me/api/portraits/men/86.jpg',
+      'https://randomuser.me/api/portraits/women/87.jpg',
+      'https://randomuser.me/api/portraits/men/88.jpg',
+      'https://randomuser.me/api/portraits/women/89.jpg',
+      'https://randomuser.me/api/portraits/men/90.jpg',
+      'https://randomuser.me/api/portraits/women/91.jpg',
+      'https://randomuser.me/api/portraits/men/92.jpg',
+      'https://randomuser.me/api/portraits/women/93.jpg'
+    ];
+
+    // departments used for variety
+    const DEPARTMENTS = ['Computer Science','Mechanical Engineering','Education','Economics','Public Health','Accounting','Nursing','Biochemistry','Physics','Chemistry','Mathematics','Architecture','Law','Sociology','Pharmacy','Business Administration','Environmental Science','Food Science','Geology','Public Administration'];
+
+    // Build the 92-record dataset
+    const EMPLOYEES = PROFESSORS.slice(0,92).map((p, idx) => {
+      const id = idx + 1;
+      const photo = PHOTOS[idx % PHOTOS.length] + '?u=' + encodeURIComponent(p.name);
+      const dept = p.dept || DEPARTMENTS[idx % DEPARTMENTS.length];
+      const uni = p.uni || 'University';
+      const title = p.title || (idx % 5 === 0 ? 'Professor' : 'Senior Lecturer');
+      const email = `${p.name.toLowerCase().replace(/[^a-z]/g,'')}.${id}@${uni.toLowerCase().replace(/\s+/g,'')}.edu`;
+      const phone = '+234' + (8000000000 + id).toString().slice(-10);
+      const rating = (Math.random() * 1.5 + 3.2).toFixed(1);
+
+      return {
+        id,
+        fullName: p.name,
+        university: uni,
+        department: dept,
+        position: title,
+        email,
+        phone,
+        rating,
+        photo,
+        bio: `${p.name} is ${title} in the ${dept} department at ${uni}. Their work focuses on teaching and research with strong contributions to the field.`
+      };
+    });
+
+    // DOM refs
     const grid = document.getElementById('employeeGrid');
     const countEl = document.getElementById('employeeCount');
     const searchInput = document.getElementById('searchInput');
 
     function render(list) {
       grid.innerHTML = list.map(e => `
-        <div class="employee-card">
+        <div class="employee-card" data-id="${e.id}">
           <h3>${e.fullName}</h3>
+          <p><strong>${e.position} — ${e.university}</strong></p>
           <p><strong>Department:</strong> ${e.department}</p>
           <p><strong>Email:</strong> ${e.email}</p>
           <p><strong>Phone:</strong> ${e.phone}</p>
@@ -281,7 +432,8 @@
       const emp = EMPLOYEES.find(e => e.id === id);
       if (!emp) return;
       document.getElementById('selPhoto').src = emp.photo;
-      document.getElementById('selName').textContent = emp.fullName;
+      document.getElementById('selName').textContent = `${emp.fullName} — ${emp.position}`;
+      document.getElementById('selUni').textContent = emp.university;
       document.getElementById('selDept').textContent = emp.department;
       document.getElementById('selEmail').textContent = emp.email;
       document.getElementById('selPhone').textContent = emp.phone;
@@ -291,17 +443,24 @@
     }
 
     searchInput.addEventListener('input', e => {
-      const q = e.target.value.toLowerCase();
-      const filtered = EMPLOYEES.filter(e =>
-        e.fullName.toLowerCase().includes(q) ||
-        e.department.toLowerCase().includes(q) ||
-        e.email.toLowerCase().includes(q)
+      const q = e.target.value.toLowerCase().trim();
+      if (!q) { render(EMPLOYEES); return; }
+      const filtered = EMPLOYEES.filter(emp =>
+        emp.fullName.toLowerCase().includes(q) ||
+        emp.university.toLowerCase().includes(q) ||
+        emp.department.toLowerCase().includes(q) ||
+        emp.email.toLowerCase().includes(q) ||
+        emp.phone.toLowerCase().includes(q)
       );
       render(filtered);
     });
 
+    // initial render and show first profile
     render(EMPLOYEES);
-    showProfile(EMPLOYEES[0].id);
+    if (EMPLOYEES.length) showProfile(EMPLOYEES[0].id);
+
+    // expose for debugging if needed
+    window.EMPLOYEES = EMPLOYEES;
   </script>
 </body>
 </html>
