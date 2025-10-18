@@ -1,9 +1,8 @@
-```html
 <!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <title>University Staff Rating Portal — Reports</title>
+  <title>University of Edu — Staff Rating Reports</title>
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <style>
     :root{--nav-width:220px;--brand:#003366;--accent:#cc0000;--muted:#6b7280}
@@ -48,7 +47,7 @@
   <header class="header-bar" role="banner">
     <div style="display:flex;align-items:center;gap:12px">
       <img src="https://static.vecteezy.com/system/resources/thumbnails/006/470/455/small_2x/university-education-logo-design-template-vector.jpg" alt="Logo" />
-      <div style="font-weight:800;color:var(--brand);font-size:18px">University Staff Rating Portal — Reports</div>
+      <div style="font-weight:800;color:var(--brand);font-size:18px">University of Edu — Staff Rating Reports</div>
     </div>
     <div><a href="login.html" style="color:var(--brand);font-weight:700;text-decoration:none">Log Out</a></div>
   </header>
@@ -101,51 +100,19 @@
   </main>
 
   <script>
-    // Demo-ready reports page that uses shared employee dataset if available.
-    // Replace endpoints with your backend when ready.
-    const API = {
-      departmentReport: '/api/reports/department'
-    };
-
-    function demoEmployees(){
-      const NAMES = [
-        "Adetola Adebayo","Aisha Bello","Akinola Abiola","Amaka Obi","Babatunde Johnson","Bola Akin","Chiamaka Okoye",
-        "Chinedu Nwosu","David Okoro","Doris Mensah","Ebuka Nwankwo","Efe Akanno","Esther Musa","Fatima Bello",
-        "Femi Olagunju","Folake Adeoye","Funmi Oladipo","Grace Adebayo","Hauwa Suleiman","Ibrahim Musa","Ifeoma Anene",
-        "Ikechukwu Okafor","Ijeoma Ndukwe","James Adedayo","Joseph Danjuma","Joy Igwe","Kemi Bakare","Kelvin Ojo",
-        "Kenneth Udo","Khadija Umar","Kofi Mensah","Kunle Afolayan","Lara Ibrahim","Linda Uche","Mariam Abdullahi",
-        "Michael Adeniyi","Mohammed Usman","Mrs. Olatunji","Nana Yaw","Ngozi Eze","Nicholas Osei","Nkechi Amadi",
-        "Obinna Chukwu","Olajide Taiwo","Olufunke Adeyemi","Omolara Akinyemi","Paul Ekong","Peter Okoye","Phillip Bassey",
-        "Rachel Okpara","Rita Nnamdi","Samuel Eze","Sandra Akpan","Sani Bello","Sarah Okonkwo","Segun Lawal",
-        "Shehu Ibrahim","Simeon Olufemi","Siti Ali","Stanley Ibe","Stephen Nwachukwu","Susan Ogbuefi","Taiwo Balogun",
-        "Tariq Mohammed","Tola Adekunle","Uche Okafor","Umar Abdullahi","Valentina Kalu","Victor Amankwa","Victoria Obi",
-        "Wale Adewale","Yasir Khan","Yemi Ogunleye","Yinka Adegoke","Yusuf Adamu","Zainab Mohammed","Zara Hussain",
-        "Adeniyi Sola","Bisi Ogun","Chukwuemeka Eze","Dolapo Aina","Emeka Nnaji","Folasade Ogundipe","Geraldine Nweke",
-        "Hassan Abubakar","Ibrahim Balogun","Jide Taiwo","Kalu Chike","Lilian Ojo","Moses Akintola","Nura Suleiman",
-        "Olaide Komolafe","Paulina Ezugwu","Quincy Mensah","Rose Afolabi","Stanley Obasi","Tunde Raimi","Uwana Ebi",
-        "Vera Aniekeme","Woli Ade","Xolani Dlamini","Yvonne Oluchi","Zubairu Bello"
-      ];
-      const DEPARTMENTS = ['IT','HR','Finance','Admin','Legal','Operations','Marketing','Registry','Research'];
-      const SAMPLE_RATINGS = [null,4.8,4.6,4.4,4.2,3.9,3.6];
-      return NAMES.slice(0,92).map((fullName, idx) => {
-        const i = idx + 1;
-        const dept = DEPARTMENTS[i % DEPARTMENTS.length];
-        const rated = (i % 3 !== 0);
-        const rating = rated ? SAMPLE_RATINGS[i % SAMPLE_RATINGS.length] : null;
-        return {
-          id: 'emp-' + String(i).padStart(3,'0'),
-          fullName, department: dept,
-          rating, email: `${fullName.toLowerCase().replace(/[^a-z]/g,'')}${i}@university.edu`,
-          comments: rating ? `${rating >=4.5 ? 'Excellent' : rating >=4.0 ? 'Very good' : 'Needs improvement'}` : '',
-          history: rating ? [
-            { date:'2023-10-01', criteria:'Clarity of instruction', score: Math.min(5, Math.round(rating)), comment:'Very clear lectures' },
-            { date:'2023-10-01', criteria:'Knowledge of subject', score: Math.max(3, Math.round(rating-1)), comment:'Good subject mastery' }
-          ] : []
-        };
-      });
-    }
-
-    const EMPLOYEES = Array.isArray(window._EMPLOYEE_DATA) ? window._EMPLOYEE_DATA : demoEmployees();
+    // ✅ Shared Employee Data — syncs automatically with All Employees page
+    const EMPLOYEES = Array.isArray(window._EMPLOYEE_DATA)
+      ? window._EMPLOYEE_DATA
+      : (() => {
+          console.warn('Using fallback demo data for University of Edu');
+          return [
+            { id: 'emp-001', fullName: 'Adetola Adebayo', department: 'IT', rating: 4.8, comments: 'Excellent', email: 'adetolaadebayo@university.edu' },
+            { id: 'emp-002', fullName: 'Amaka Obi', department: 'HR', rating: 4.4, comments: 'Very good', email: 'amakaobi@university.edu' },
+            { id: 'emp-003', fullName: 'Ibrahim Musa', department: 'Finance', rating: 3.9, comments: 'Good', email: 'ibrahimmusa@university.edu' },
+            { id: 'emp-004', fullName: 'Grace Adebayo', department: 'Admin', rating: 4.2, comments: 'Very good', email: 'graceadebayo@university.edu' },
+            { id: 'emp-005', fullName: 'Samuel Eze', department: 'Research', rating: 4.7, comments: 'Excellent', email: 'samueleze@university.edu' }
+          ];
+        })();
 
     function populateDepartments(){
       const set = new Set(EMPLOYEES.map(e => e.department).filter(Boolean));
@@ -157,15 +124,14 @@
       let pool = EMPLOYEES.slice();
       if(staffId){
         pool = pool.filter(e => e.id === staffId || (e.fullName && e.fullName.toLowerCase() === staffId.toLowerCase()));
-      } else {
-        if(dept) pool = pool.filter(e => e.department === dept);
+      } else if(dept){
+        pool = pool.filter(e => e.department === dept);
       }
       const rows = pool.filter(e => e.rating !== null).map(e => ({
         name: e.fullName,
         department: e.department,
         rating: Number((e.rating || 0).toFixed(1)),
-        comments: e.comments || '',
-        history: e.history || []
+        comments: e.comments || ''
       }));
       const avgRating = rows.length ? rows.reduce((s,r)=>s + r.rating,0) / rows.length : null;
       const topPerformer = rows.length ? rows.slice().sort((a,b)=>b.rating - a.rating)[0].name : null;
@@ -206,36 +172,15 @@
       document.getElementById('mostRatedDept').textContent = mostDept || '—';
     }
 
-    async function generateReport(){
+    function generateReport(){
       const dept = document.getElementById('deptSelect').value || null;
       const period = document.getElementById('periodInput').value || null;
-      const staffId = new URL(location.href).searchParams.get('staffId') || null;
-      document.getElementById('reportStatus').textContent = 'Generating...';
-
-      try {
-        if (!staffId && API.departmentReport.startsWith('/api')) {
-          const params = new URLSearchParams();
-          if(dept) params.set('dept', dept);
-          if(period) params.set('period', period);
-          const res = await fetch(`${API.departmentReport}?${params.toString()}`, { credentials: 'include' });
-          if (res.ok) {
-            const rpt = await res.json();
-            setSummary(rpt.summary?.avgRating, rpt.summary?.topPerformer, rpt.summary?.mostRatedDept);
-            renderTable(rpt.rows || []);
-            renderDistribution(rpt.distribution || {});
-            document.getElementById('jsonPreview').textContent = JSON.stringify(rpt, null, 2);
-            document.getElementById('reportStatus').textContent = 'Report generated (server)';
-            return;
-          }
-        }
-      } catch (e) {}
-
-      const rpt = computeReport({ dept, period, staffId });
+      const rpt = computeReport({ dept, period });
       setSummary(rpt.summary?.avgRating, rpt.summary?.topPerformer, rpt.summary?.mostRatedDept);
       renderTable(rpt.rows || []);
       renderDistribution(rpt.distribution || {});
       document.getElementById('jsonPreview').textContent = JSON.stringify(rpt, null, 2);
-      document.getElementById('reportStatus').textContent = staffId ? `Report for ${staffId}` : 'Report generated (client)';
+      document.getElementById('reportStatus').textContent = 'Report generated';
     }
 
     function exportCsv(){
@@ -256,31 +201,11 @@
       URL.revokeObjectURL(url);
     }
 
-    function attemptStaffSpecificRenderOnLoad(){
-      const params = new URL(location.href).searchParams;
-      const staffId = params.get('staffId');
-      if(staffId){
-        const staff = EMPLOYEES.find(e => e.id === staffId || (e.fullName && e.fullName.toLowerCase() === staffId.toLowerCase()));
-        if(staff && staff.department){
-          document.getElementById('deptSelect').value = staff.department;
-        }
-        generateReport();
-      } else {
-        generateReport();
-      }
-    }
-
-    // Wire UI
+    // Init
     document.getElementById('generateBtn').addEventListener('click', generateReport);
     document.getElementById('exportCsvBtn').addEventListener('click', exportCsv);
-
-    // init
     populateDepartments();
-    attemptStaffSpecificRenderOnLoad();
-
-    // expose utilities for debugging
-    window._REPORTS = { EMPLOYEES, computeReport, generateReport };
+    generateReport();
   </script>
 </body>
 </html>
-```
