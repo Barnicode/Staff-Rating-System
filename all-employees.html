@@ -348,10 +348,12 @@
   });
 
   render(EMPLOYEES);
+  localStorage.setItem("EMPLOYEES_DATA", JSON.stringify(EMPLOYEES));
   if (EMPLOYEES.length) showProfile(EMPLOYEES[0].id);
 
   window.EMPLOYEES = EMPLOYEES;
 </script>
 </body>
 </html>
+
 
