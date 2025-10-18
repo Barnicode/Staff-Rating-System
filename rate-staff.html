@@ -151,43 +151,89 @@
   </footer>
 
   <script>
-    // Helper
-    function qs(name){ return new URL(location.href).searchParams.get(name); }
+  // --- Sidebar toggle for mobile ---
+  document.getElementById('menuToggle').addEventListener('click', () => {
+    document.getElementById('sidebar').classList.toggle('active');
+  });
 
-    // Generate demo employees (92 staff, all under university.edu)
-    function generateDemoEmployees(){
-      const NAMES = Array.from({length:92},(_,i)=>`Staff Member ${i+1}`);
-      const DEPTS = ['IT','HR','Finance','Admin','Legal','Operations','Marketing','Research'];
-      return NAMES.map((fullName, i)=>({
-        id:`emp-${String(i+1).padStart(3,'0')}`,
-        fullName,
-        department:DEPTS[i%DEPTS.length],
-        phone:'+2348'+(100000000+i),
-        email:`staff${i+1}@university.edu`,
-        photo:`https://i.pravatar.cc/300?img=${(i%70)+1}`,
-        bio:`${fullName} is a dedicated member of the University of Edu staff, committed to excellence.`,
-        rating: null,
-        history: []
-      }));
+  // --- Get staff ID from URL ---
+  const params = new URLSearchParams(window.location.search);
+  const staffId = parseInt(params.get("id"));
+
+  // --- Pull employee data (same dataset as all-employees.html) ---
+  const EMPLOYEES = JSON.parse(localStorage.getItem("EMPLOYEES_DATA")) || [];
+
+  // If dataset not in localStorage (first load), generate a default one
+  if (EMPLOYEES.length === 0) {
+    const PROFESSORS = [
+      { name: "Prof. Adeola Ogunleye", dept: "Computer Science", title: "Professor" },
+      { name: "Prof. Chukwuemeka Eze", dept: "Mechanical Engineering", title: "Professor" },
+      { name: "Dr. Maryam Danjuma", dept: "Education", title: "Senior Lecturer" },
+      { name: "Prof. Olufunke Adebayo", dept: "Economics", title: "Professor" },
+      { name: "Dr. Ibrahim Musa", dept: "Computer Science", title: "Senior Lecturer" },
+      { name: "Prof. Kemi Bakare", dept: "Public Health", title: "Professor" },
+      { name: "Dr. Emeka Nwankwo", dept: "Accounting", title: "Associate Professor" },
+    ];
+    const PHOTOS = [
+      'https://randomuser.me/api/portraits/men/53.jpg',
+      'https://randomuser.me/api/portraits/women/55.jpg',
+      'https://randomuser.me/api/portraits/men/56.jpg',
+      'https://randomuser.me/api/portraits/women/57.jpg'
+    ];
+    const DEPARTMENTS = [
+      'Computer Science','Mechanical Engineering','Education','Economics','Public Health','Accounting'
+    ];
+
+    for (let i = 0; i < 92; i++) {
+      const base = PROFESSORS[i % PROFESSORS.length];
+      const name = base.name;
+      const photo = PHOTOS[i % PHOTOS.length];
+      EMPLOYEES.push({
+        id: i + 1,
+        fullName: name,
+        university: "University of Edu",
+        department: DEPARTMENTS[i % DEPARTMENTS.length],
+        position: base.title,
+        email: `${name.toLowerCase().replace(/[^a-z]/g, '')}.${i + 1}@university.edu`,
+        phone: "+234" + (8000000000 + i + 1).toString().slice(-10),
+        photo: photo,
+        bio: `${name} is a ${base.title} in the ${base.dept || "Computer Science"} Department at University of Edu.`
+      });
     }
+    localStorage.setItem("EMPLOYEES_DATA", JSON.stringify(EMPLOYEES));
+  }
 
-    const STAFF = generateDemoEmployees();
-    const staff = STAFF.find(e=>e.id===qs('id')) || STAFF[0];
+  // --- Find current staff ---
+  const staff = EMPLOYEES.find(e => e.id === staffId) || EMPLOYEES[0];
 
-    // Populate profile
-    document.getElementById('staffPhoto').src = staff.photo;
-    document.getElementById('staffName').textContent = staff.fullName;
-    document.getElementById('staffDept').textContent = staff.department;
-    document.getElementById('staffEmail').textContent = staff.email;
-    document.getElementById('staffPhone').textContent = staff.phone;
-    document.getElementById('staffBio').textContent = staff.bio;
-    document.getElementById('rateForName').textContent = staff.fullName;
+  // --- Fill staff details ---
+  document.querySelector(".staff-photo").src = staff.photo;
+  document.querySelector(".staff-name").textContent = staff.fullName;
+  document.querySelector(".staff-dept").textContent = staff.department;
+  document.querySelector(".staff-email").textContent = staff.email;
+  document.querySelector(".staff-phone").textContent = staff.phone;
+  document.querySelector(".staff-bio").textContent = staff.bio;
 
-    // Submit rating (demo only)
-    document.getElementById('submitRatingBtn').addEventListener('click',()=>{
-      document.getElementById('ratingMsg').style.color='green';
-      document.getElementById('ratingMsg').textContent='Rating submitted successfully (University of Edu demo).';
-    });
-  </script>
+  // --- Button Actions ---
+  document.getElementById("viewHistoryBtn").addEventListener("click", () => {
+    alert(`Showing rating history for ${staff.fullName}...`);
+  });
+
+  document.getElementById("openReportBtn").addEventListener("click", () => {
+    window.location.href = `reports.html?id=${staff.id}`;
+  });
+
+  document.getElementById("logoutBtn").addEventListener("click", () => {
+    window.location.href = "index.html";
+  });
+
+  // --- Handle Rating Form ---
+  document.getElementById("ratingForm").addEventListener("submit", e => {
+    e.preventDefault();
+    alert(`✅ Rating submitted for ${staff.fullName}!`);
+    e.target.reset();
+  });
+</script>
 </body>
 </html>
+
