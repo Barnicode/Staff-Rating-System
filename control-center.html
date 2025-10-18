@@ -2,312 +2,230 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <title>University of Edu — Dashboard</title>
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Dashboard — University of Edu Staff Rating Portal</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
-    :root{
-      --nav-width:220px;
-      --brand:#003366;
-      --accent:#cc0000;
-      --muted:#6b7280;
-      --card-bg:#ffffff;
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: #f4f4f9;
+      color: #333;
     }
-    *{box-sizing:border-box;margin:0;padding:0;font-family:'Segoe UI',sans-serif}
-    body{background:#f4f4f4;min-height:100vh;color:#111}
-    .sidebar{
-      width:var(--nav-width);
-      background:var(--brand);
-      color:#fff;
-      height:100vh;
-      position:fixed;
-      left:0;top:0;padding-top:20px;
-      display:flex;flex-direction:column;gap:6px;
+    .sidebar {
+      width: 220px;
+      background: #003366;
+      color: #fff;
+      height: 100vh;
+      position: fixed;
+      top: 0;
+      left: 0;
+      padding-top: 20px;
     }
-    .sidebar h2{ text-align:center;color:var(--accent);margin-bottom:8px;font-size:18px}
-    .nav-link{padding:12px 18px;color:#fff;text-decoration:none;font-weight:700;display:flex;align-items:center;gap:10px}
-    .nav-link:hover{background:#0055aa}
-    .header{
-      margin-left:var(--nav-width);
-      background:#fff;padding:14px 20px;
-      display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #e6e9ee;position:sticky;top:0;z-index:20;
+    .sidebar h2 {
+      text-align: center;
+      color: #ff4d4d;
+      margin-bottom: 25px;
+      font-size: 18px;
     }
-    .brand{display:flex;align-items:center;gap:12px}
-    .brand img{width:44px;height:44px;object-fit:contain;border-radius:6px}
-    .brand .title{font-weight:800;color:var(--brand);font-size:18px}
-    .main{margin-left:var(--nav-width);padding:22px}
-    .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-bottom:20px}
-    .card{background:var(--card-bg);padding:18px;border-radius:12px;box-shadow:0 10px 30px rgba(11,18,32,0.04)}
-    .card h3{color:var(--brand);margin-bottom:10px;font-size:16px}
-    .card p.big{font-size:28px;font-weight:800;color:var(--accent);margin:0}
-    .row{display:flex;gap:18px;align-items:center}
-    .recent-list{display:flex;flex-direction:column;gap:10px}
-    .recent-item{display:flex;gap:12px;align-items:center;background:#fbfdff;padding:10px;border-radius:8px;border:1px solid #eef2f6}
-    .recent-item img{width:48px;height:48px;border-radius:8px;object-fit:cover}
-    .muted{color:var(--muted);font-size:13px}
-    .small{font-size:13px;color:#444}
-    .btn{padding:10px 12px;background:var(--brand);color:#fff;border-radius:8px;border:0;cursor:pointer;font-weight:700}
-    .btn.secondary{background:var(--accent)}
-    .search-row{display:flex;gap:12px;align-items:center}
-    .search-row input{padding:10px;border-radius:8px;border:1px solid #e6e9ee;min-width:260px}
-    table{width:100%;border-collapse:collapse}
-    th,td{padding:10px;border-bottom:1px solid #eef2f6;text-align:left}
-    th{background:#fbfdff;color:var(--brand);font-weight:800}
-    .mini{font-size:13px;color:#666}
-    @media(max-width:980px){
-      .grid{grid-template-columns:1fr; }
-      .brand .title{font-size:16px}
-      .search-row input{min-width:140px}
+    .sidebar a {
+      display: block;
+      color: #fff;
+      padding: 12px 20px;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .sidebar a:hover, .sidebar a.active {
+      background: #0055aa;
+    }
+
+    .container {
+      margin-left: 220px;
+      padding: 20px;
+    }
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 18px;
+    }
+    .topbar h1 {
+      font-size: 22px;
+      color: #003366;
+    }
+    .topbar a {
+      text-decoration: none;
+      color: #003366;
+      font-weight: 700;
+    }
+
+    /* Welcome admin section */
+    .welcome-admin {
+      background: #fff;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+      margin-bottom: 24px;
+    }
+    .welcome-admin img {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid #003366;
+    }
+    .welcome-admin h2 {
+      margin: 0;
+      color: #003366;
+      font-size: 20px;
+    }
+    .welcome-admin p {
+      margin: 4px 0 0;
+      color: #555;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+    }
+    .card {
+      background: #fff;
+      padding: 18px;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+      text-align: center;
+    }
+    .card h3 {
+      color: #003366;
+      margin-bottom: 10px;
+    }
+    .card p {
+      font-size: 22px;
+      font-weight: bold;
+      color: #cc0000;
+    }
+
+    .recent {
+      margin-top: 24px;
+    }
+    .recent table {
+      width: 100%;
+      border-collapse: collapse;
+      background: #fff;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+    }
+    .recent th, .recent td {
+      text-align: left;
+      padding: 12px;
+      border-bottom: 1px solid #eee;
+    }
+    .recent th {
+      background: #003366;
+      color: #fff;
+    }
+    .recent tr:hover {
+      background: #f5faff;
+    }
+
+    @media(max-width: 900px) {
+      .container { margin-left: 0; }
+      .sidebar { left: -220px; transition: all 0.3s; position: fixed; }
+      .sidebar.active { left: 0; }
     }
   </style>
 </head>
 <body>
-  <nav class="sidebar" aria-label="Sidebar">
+  <nav class="sidebar" id="sidebar">
     <h2>Admin Panel</h2>
-    <a class="nav-link" href="control-center.html">Dashboard</a>
-    <a class="nav-link" href="all-employees.html">All Employees</a>
-    <a class="nav-link" href="rate-staff.html">Rate Staff</a>
-    <a class="nav-link" href="reports.html">Reports</a>
-    <a class="nav-link" href="settings.html">Settings</a>
+    <a href="control-center.html" class="active">Dashboard</a>
+    <a href="all-employees.html">All Employees</a>
+    <a href="rate-staff.html">Rate Staff</a>
+    <a href="reports.html">Reports</a>
+    <a href="settings.html">Settings</a>
   </nav>
 
-  <header class="header" role="banner">
-    <div class="brand">
-      <img src="https://static.vecteezy.com/system/resources/thumbnails/006/470/455/small_2x/university-education-logo-design-template-vector.jpg" alt="logo" />
-      <div>
-        <div class="title">University of Edu</div>
-        <div class="muted" style="font-weight:600">Staff Rating Portal — Admin</div>
-      </div>
+  <div class="container">
+    <div class="topbar">
+      <h1>Dashboard</h1>
+      <a href="index.html">Log Out</a>
     </div>
-    <div style="display:flex;align-items:center;gap:12px">
-      <div class="search-row">
-        <input id="dashSearch" placeholder="Search staff, department..." />
-      </div>
-      <button class="btn" id="goEmployees">All Employees</button>
-    </div>
-  </header>
 
-  <main class="main" role="main">
-    <div class="grid">
+    <!-- Welcome Section -->
+    <div class="welcome-admin">
+      <img src="https://randomuser.me/api/portraits/men/45.jpg" alt="Admin Photo">
+      <div>
+        <h2>Welcome back, Admin Blessing 👋</h2>
+        <p>Have a great day managing the University of Edu Staff Portal!</p>
+      </div>
+    </div>
+
+    <!-- Stats Section -->
+    <div class="stats">
       <div class="card">
         <h3>Total Employees</h3>
-        <p class="big" id="totalCount">—</p>
-        <p class="muted mini">Total staff in University of Edu</p>
+        <p id="empCount">0</p>
       </div>
-
       <div class="card">
         <h3>Average Rating</h3>
-        <p class="big" id="averageRating">—</p>
-        <p class="muted mini">Average across saved ratings</p>
+        <p id="avgRating">-</p>
       </div>
-
       <div class="card">
-        <h3>Top Performer</h3>
-        <div id="topCard" style="display:flex;gap:12px;align-items:center;margin-top:8px">
-          <img id="topPhoto" src="https://i.pravatar.cc/80?img=12" alt="top" style="width:64px;height:64px;border-radius:8px;object-fit:cover"/>
-          <div>
-            <div id="topName" style="font-weight:800;color:var(--brand)">—</div>
-            <div id="topScore" class="muted mini">—</div>
-          </div>
-        </div>
+        <h3>Reports Filed</h3>
+        <p id="reportCount">0</p>
+      </div>
+      <div class="card">
+        <h3>Active Users</h3>
+        <p>Admin</p>
       </div>
     </div>
 
-    <div class="row" style="gap:18px;align-items:flex-start">
-      <div class="card" style="flex:1">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
-          <h3 style="margin:0">Recent Ratings</h3>
-          <div class="small muted" id="recentCount">—</div>
-        </div>
-        <div id="recentList" class="recent-list">
-          <div class="muted">No ratings yet</div>
-        </div>
-      </div>
-
-      <div class="card" style="width:360px">
-        <h3 style="margin-bottom:10px">Quick Actions</h3>
-        <div style="display:flex;flex-direction:column;gap:8px">
-          <button class="btn" id="btnAll">Open All Employees</button>
-          <button class="btn secondary" id="btnReports">Open Reports</button>
-          <button class="btn" id="btnRateRandom">Rate Random Staff (demo)</button>
-        </div>
-      </div>
+    <!-- Recent Ratings Table -->
+    <div class="recent">
+      <h2 style="color:#003366;">Recent Staff Ratings</h2>
+      <table id="recentRatings">
+        <thead>
+          <tr>
+            <th>Staff</th>
+            <th>Department</th>
+            <th>Rating</th>
+            <th>Date</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
     </div>
-
-    <div class="card" style="margin-top:18px">
-      <h3 style="margin-bottom:12px">Top 10 Staff (by avg rating)</h3>
-      <div style="overflow:auto">
-        <table aria-live="polite">
-          <thead><tr><th>#</th><th>Name</th><th>Department</th><th>Avg Rating</th><th>Action</th></tr></thead>
-          <tbody id="topTable">
-            <tr><td colspan="5" class="muted" style="text-align:center">No data</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </main>
+  </div>
 
   <script>
-    // Utility: safe getter for employees and ratings from localStorage
-    function loadEmployees(){
-      try {
-        const raw = localStorage.getItem('EMPLOYEES_DATA');
-        if(raw) return JSON.parse(raw);
-      } catch(e){}
-      return []; // empty fallback
-    }
-    function loadRatings(){
-      try {
-        const raw = localStorage.getItem('RATINGS');
-        if(raw) return JSON.parse(raw);
-      } catch(e){}
-      return []; // []
-    }
+    // Load employee data from localStorage
+    const employees = JSON.parse(localStorage.getItem('EMPLOYEES_DATA') || '[]');
+    const ratings = JSON.parse(localStorage.getItem('RATINGS_DATA') || '[]');
 
-    // compute average rating per staff from RATINGS (if RATINGS exist) else fallback to per-employee rating field
-    function computeAggregates(employees, ratings){
-      // Build map staffId -> array of scores
-      const scoreMap = new Map();
-      ratings.forEach(r => {
-        const sid = typeof r.staffId === 'number' ? r.staffId : (r.staffId || r.id || r.staffId);
-        const avg = r.avg ?? ((Number(r.c1||0) + Number(r.c2||0))/2);
-        if(!sid) return;
-        if(!scoreMap.has(sid)) scoreMap.set(sid, []);
-        scoreMap.get(sid).push(Number(avg));
-      });
-      // incorporate employee.rating field if no ratings exist for staff
-      employees.forEach(emp => {
-        if(!scoreMap.has(emp.id) && emp.rating != null){
-          scoreMap.set(emp.id, [Number(emp.rating)]);
-        }
-      });
-      // compute avg map
-      const avgMap = new Map();
-      scoreMap.forEach((arr, id) => {
-        const s = arr.reduce((a,b)=>a+b,0);
-        avgMap.set(Number(id), s / arr.length);
-      });
-      return { scoreMap, avgMap };
-    }
+    // Fill stats
+    document.getElementById('empCount').textContent = employees.length;
+    const avg = ratings.length
+      ? (ratings.reduce((a, b) => a + b.score, 0) / ratings.length).toFixed(1)
+      : '-';
+    document.getElementById('avgRating').textContent = avg;
 
-    // render dashboard
-    function renderDashboard(){
-      const employees = loadEmployees();
-      const ratings = loadRatings();
-      const total = employees.length || 0;
-      document.getElementById('totalCount').textContent = total;
-      // compute aggregates
-      const { avgMap } = computeAggregates(employees, ratings);
-      // overall average
-      const avgAll = Array.from(avgMap.values()).length ? Array.from(avgMap.values()).reduce((a,b)=>a+b,0) / Array.from(avgMap.values()).length : null;
-      document.getElementById('averageRating').textContent = avgAll !== null ? avgAll.toFixed(2) : '—';
-      // top performer
-      let topName = '—', topScore = '—', topPhoto = 'https://i.pravatar.cc/80?img=12', topId = null;
-      if(avgMap.size){
-        const sorted = Array.from(avgMap.entries()).sort((a,b)=>b[1]-a[1]);
-        const [topIdNum, scoreVal] = sorted[0];
-        const emp = employees.find(e => Number(e.id) === Number(topIdNum));
-        if(emp){ topName = emp.fullName; topPhoto = emp.photo || topPhoto; topScore = scoreVal.toFixed(2); topId = emp.id; }
-      }
-      document.getElementById('topName').textContent = topName;
-      document.getElementById('topScore').textContent = topScore !== '—' ? `${topScore} / 5` : '—';
-      document.getElementById('topPhoto').src = topPhoto;
+    // Simulated report count
+    document.getElementById('reportCount').textContent = Math.floor(ratings.length / 2);
 
-      // recent ratings (most recent first)
-      const recentList = document.getElementById('recentList');
-      recentList.innerHTML = '';
-      const sortedRatings = ratings.slice().sort((a,b)=> new Date(b.date || b.createdAt || Date.now()) - new Date(a.date || a.createdAt || Date.now()));
-      if(sortedRatings.length === 0){
-        recentList.innerHTML = '<div class="muted">No ratings yet</div>';
-      } else {
-        const slice = sortedRatings.slice(0,6);
-        slice.forEach(r => {
-          const emp = employees.find(e => Number(e.id) === Number(r.staffId));
-          const tr = document.createElement('div');
-          tr.className = 'recent-item';
-          const img = document.createElement('img'); img.src = (emp && emp.photo) ? emp.photo : 'https://i.pravatar.cc/80?img=12';
-          const info = document.createElement('div'); info.style.flex = '1';
-          info.innerHTML = `<div style="font-weight:700">${emp ? emp.fullName : 'Unknown'}</div>
-            <div class="mini muted">${r.comment ? r.comment : ''}</div>
-            <div class="mini" style="margin-top:6px">${(r.avg || ((r.c1 + r.c2)/2)).toFixed ? ((r.avg || ((r.c1 + r.c2)/2)).toFixed(1) + ' / 5') : ''} <span class="muted" style="margin-left:8px">${new Date(r.date||r.createdAt||Date.now()).toLocaleDateString()}</span></div>`;
-          tr.appendChild(img); tr.appendChild(info);
-          recentList.appendChild(tr);
-        });
-      }
-      document.getElementById('recentCount').textContent = sortedRatings.length + ' ratings';
-
-      // top 10 table
-      const topTable = document.getElementById('topTable');
-      topTable.innerHTML = '';
-      const employeesWithAvg = employees.map(emp => {
-        return { emp, avg: avgMap.get(Number(emp.id)) ?? null };
-      }).filter(e => e.avg !== null).sort((a,b)=>b.avg - a.avg);
-      if(employeesWithAvg.length === 0){
-        topTable.innerHTML = '<tr><td colspan="5" class="muted" style="text-align:center">No ratings yet</td></tr>';
-      } else {
-        employeesWithAvg.slice(0,10).forEach((row, idx) => {
-          const r = document.createElement('tr');
-          r.innerHTML = `<td>${idx+1}</td><td>${row.emp.fullName}</td><td>${row.emp.department}</td><td>${row.avg.toFixed(2)}</td>
-            <td><button class="btn" data-id="${row.emp.id}" onclick="openRatePage(${row.emp.id})">Rate / View</button></td>`;
-          topTable.appendChild(r);
-        });
-      }
-    }
-
-    // search helper
-    document.getElementById('dashSearch').addEventListener('input', function(e){
-      const q = e.target.value.trim().toLowerCase();
-      if(!q){ renderDashboard(); return; }
-      const employees = loadEmployees();
-      const filtered = employees.filter(emp => (emp.fullName||'').toLowerCase().includes(q) || (emp.department||'').toLowerCase().includes(q));
-      // if single match, go to rate page
-      if(filtered.length === 1){
-        window.location.href = `rate-staff.html?id=${filtered[0].id}`;
-      } else {
-        // show small preview in recentList
-        const recentList = document.getElementById('recentList');
-        recentList.innerHTML = '';
-        if(filtered.length === 0){
-          recentList.innerHTML = '<div class="muted">No results</div>';
-        } else {
-          filtered.slice(0,6).forEach(emp => {
-            const tr = document.createElement('div'); tr.className='recent-item';
-            tr.innerHTML = `<img src="${emp.photo||'https://i.pravatar.cc/80?img=12'}" alt="">
-              <div style="flex:1"><div style="font-weight:700">${emp.fullName}</div><div class="mini muted">${emp.department}</div></div>`;
-            recentList.appendChild(tr);
-          });
-        }
-      }
-    });
-
-    // quick actions
-    document.getElementById('btnAll').addEventListener('click', ()=> window.location.href = 'all-employees.html');
-    document.getElementById('btnReports').addEventListener('click', ()=> window.location.href = 'reports.html');
-    document.getElementById('goEmployees').addEventListener('click', ()=> window.location.href = 'all-employees.html');
-
-    // rate a random staff (demo helper)
-    document.getElementById('btnRateRandom').addEventListener('click', ()=>{
-      const employees = loadEmployees();
-      if(!employees.length) return alert('No employees loaded.');
-      const rand = employees[Math.floor(Math.random()*employees.length)];
-      window.location.href = `rate-staff.html?id=${rand.id}`;
-    });
-
-    // open rate page (global helper used by table buttons)
-    function openRatePage(id){
-      window.location.href = `rate-staff.html?id=${id}`;
-    }
-    window.openRatePage = openRatePage;
-
-    // init render
-    renderDashboard();
-
-    // re-render when RATINGS change in localStorage (from other page)
-    window.addEventListener('storage', (e) => {
-      if(e.key === 'RATINGS' || e.key === 'EMPLOYEES_DATA') renderDashboard();
-    });
-
-    // expose for debugging
-    window._DASH = { renderDashboard, loadEmployees, loadRatings };
+    // Render recent ratings
+    const tbody = document.querySelector('#recentRatings tbody');
+    tbody.innerHTML = ratings.slice(-6).reverse().map(r => `
+      <tr>
+        <td>${r.staffName}</td>
+        <td>${r.department}</td>
+        <td>${r.score.toFixed(1)}</td>
+        <td>${new Date(r.date).toLocaleDateString()}</td>
+      </tr>
+    `).join('') || '<tr><td colspan="4">No ratings yet</td></tr>';
   </script>
 </body>
 </html>
