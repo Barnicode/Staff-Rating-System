@@ -85,7 +85,7 @@
             <div><strong>Phone:</strong> <span id="staffPhone">—</span></div>
             <div class="bio" id="staffBio">—</div>
             <div style="margin-top:8px">
-              <button class="btn secondary" id="viewHistoryBtn">View Rating History</button>
+              <button class="btn secondary" id="viewHistoryBtn" aria-controls="historySection" aria-expanded="false">View Rating History</button>
               <button class="btn" id="openReportBtn" style="margin-left:8px">Open Employee Report</button>
             </div>
           </div>
@@ -129,8 +129,8 @@
             <button class="btn" id="submitRatingBtn">Submit Rating</button>
           </div>
 
-          <div id="errorMsg" class="error" style="display:none">Cannot rate same staff twice.</div>
-          <div id="ratingMsg" class="small-note"></div>
+          <div id="errorMsg" class="error" style="display:none">Cannot rate same staff twice in this session.</div>
+          <div id="ratingMsg" class="small-note" style="margin-top:12px;color:var(--muted)"></div>
         </div>
       </div>
     </section>
@@ -151,20 +151,24 @@
   </footer>
 
   <script>
-  // --- Sidebar toggle for mobile ---
-  document.getElementById('menuToggle').addEventListener('click', () => {
-    document.getElementById('sidebar').classList.toggle('active');
-  });
+  // Safe DOM helper
+  const $ = (id) => document.getElementById(id);
 
-  // --- Get staff ID from URL ---
+  // sidebar toggle (only attach if element exists)
+  const menuToggle = document.getElementById('menuToggle');
+  if (menuToggle) {
+    menuToggle.addEventListener('click', () => {
+      document.getElementById('sidebar').classList.toggle('active');
+    });
+  }
+
+  // Read staff id from query param (id expected to be numeric 1..92)
   const params = new URLSearchParams(window.location.search);
-  const staffId = parseInt(params.get("id"));
+  const rawId = params.get('id');
+  const staffIdParam = rawId ? parseInt(rawId, 10) : NaN;
 
-  // --- Pull employee data (same dataset as all-employees.html) ---
-  const EMPLOYEES = JSON.parse(localStorage.getItem("EMPLOYEES_DATA")) || [];
-
-  // If dataset not in localStorage (first load), generate a default one
-  if (EMPLOYEES.length === 0) {
+  // Load EMPLOYEES from localStorage if present, otherwise generate demo list
+  function generateDemoEmployees() {
     const PROFESSORS = [
       { name: "Prof. Adeola Ogunleye", dept: "Computer Science", title: "Professor" },
       { name: "Prof. Chukwuemeka Eze", dept: "Mechanical Engineering", title: "Professor" },
@@ -172,68 +176,206 @@
       { name: "Prof. Olufunke Adebayo", dept: "Economics", title: "Professor" },
       { name: "Dr. Ibrahim Musa", dept: "Computer Science", title: "Senior Lecturer" },
       { name: "Prof. Kemi Bakare", dept: "Public Health", title: "Professor" },
-      { name: "Dr. Emeka Nwankwo", dept: "Accounting", title: "Associate Professor" },
+      { name: "Dr. Emeka Nwankwo", dept: "Accounting", title: "Associate Professor" }
     ];
     const PHOTOS = [
       'https://randomuser.me/api/portraits/men/53.jpg',
       'https://randomuser.me/api/portraits/women/55.jpg',
       'https://randomuser.me/api/portraits/men/56.jpg',
-      'https://randomuser.me/api/portraits/women/57.jpg'
+      'https://randomuser.me/api/portraits/women/57.jpg',
+      'https://randomuser.me/api/portraits/men/58.jpg',
+      'https://randomuser.me/api/portraits/women/59.jpg'
     ];
     const DEPARTMENTS = [
-      'Computer Science','Mechanical Engineering','Education','Economics','Public Health','Accounting'
+      'IT','HR','Finance','Admin','Legal','Operations','Marketing','Registry','Research'
     ];
 
-    for (let i = 0; i < 92; i++) {
-      const base = PROFESSORS[i % PROFESSORS.length];
-      const name = base.name;
-      const photo = PHOTOS[i % PHOTOS.length];
-      EMPLOYEES.push({
-        id: i + 1,
+    return Array.from({ length: 92 }).map((_, idx) => {
+      const base = PROFESSORS[idx % PROFESSORS.length];
+      const id = idx + 1;
+      const name = `${base.name.split(' ')[0]} ${String.fromCharCode(65 + (idx % 26))}${String.fromCharCode(65 + ((idx + 7) % 26))} ${base.name.split(' ')[1] || 'Staff'}`;
+      const dept = DEPARTMENTS[idx % DEPARTMENTS.length];
+      const photo = PHOTOS[idx % PHOTOS.length] + '?u=' + encodeURIComponent(name);
+      return {
+        id,
         fullName: name,
         university: "University of Edu",
-        department: DEPARTMENTS[i % DEPARTMENTS.length],
+        department: dept,
         position: base.title,
-        email: `${name.toLowerCase().replace(/[^a-z]/g, '')}.${i + 1}@university.edu`,
-        phone: "+234" + (8000000000 + i + 1).toString().slice(-10),
-        photo: photo,
-        bio: `${name} is a ${base.title} in the ${base.dept || "Computer Science"} Department at University of Edu.`
-      });
-    }
-    localStorage.setItem("EMPLOYEES_DATA", JSON.stringify(EMPLOYEES));
+        email: `${name.toLowerCase().replace(/[^a-z]/g,'')}.${id}@university.edu`,
+        phone: '+234' + (8000000000 + id).toString().slice(-10),
+        photo,
+        bio: `${name} is a ${base.title} in the ${dept} Department at University of Edu.`,
+        history: []
+      };
+    });
   }
 
-  // --- Find current staff ---
-  const staff = EMPLOYEES.find(e => e.id === staffId) || EMPLOYEES[0];
+  let EMPLOYEES = [];
+  try {
+    const stored = localStorage.getItem('EMPLOYEES_DATA');
+    EMPLOYEES = stored ? JSON.parse(stored) : [];
+  } catch (e) {
+    EMPLOYEES = [];
+  }
 
-  // --- Fill staff details ---
-  document.querySelector(".staff-photo").src = staff.photo;
-  document.querySelector(".staff-name").textContent = staff.fullName;
-  document.querySelector(".staff-dept").textContent = staff.department;
-  document.querySelector(".staff-email").textContent = staff.email;
-  document.querySelector(".staff-phone").textContent = staff.phone;
-  document.querySelector(".staff-bio").textContent = staff.bio;
+  if (!Array.isArray(EMPLOYEES) || EMPLOYEES.length === 0) {
+    EMPLOYEES = generateDemoEmployees();
+    // persist demo data so other pages can read it
+    try { localStorage.setItem('EMPLOYEES_DATA', JSON.stringify(EMPLOYEES)); } catch (e) { /* ignore */ }
+  }
 
-  // --- Button Actions ---
-  document.getElementById("viewHistoryBtn").addEventListener("click", () => {
-    alert(`Showing rating history for ${staff.fullName}...`);
-  });
+  // find staff by id from query param, else use first
+  const staff = (!Number.isNaN(staffIdParam) && EMPLOYEES.find(e => e.id === staffIdParam)) ? EMPLOYEES.find(e => e.id === staffIdParam) : EMPLOYEES[0];
 
-  document.getElementById("openReportBtn").addEventListener("click", () => {
-    window.location.href = `reports.html?id=${staff.id}`;
-  });
+  // Populate UI (use the IDs that exist in the markup)
+  if (staff) {
+    const staffPhotoEl = $('staffPhoto');
+    const staffNameEl = $('staffName');
+    const staffDeptEl = $('staffDept');
+    const staffEmailEl = $('staffEmail');
+    const staffPhoneEl = $('staffPhone');
+    const staffBioEl = $('staffBio');
+    const rateForNameEl = $('rateForName');
 
-  document.getElementById("logoutBtn").addEventListener("click", () => {
-    window.location.href = "index.html";
-  });
+    if (staffPhotoEl) staffPhotoEl.src = staff.photo || 'https://i.pravatar.cc/400?u=default';
+    if (staffNameEl) staffNameEl.textContent = staff.fullName || 'Unknown';
+    if (staffDeptEl) staffDeptEl.textContent = staff.department || '—';
+    if (staffEmailEl) staffEmailEl.textContent = staff.email || '—';
+    if (staffPhoneEl) staffPhoneEl.textContent = staff.phone || '—';
+    if (staffBioEl) staffBioEl.textContent = staff.bio || 'No biography available.';
+    if (rateForNameEl) rateForNameEl.textContent = staff.fullName || '—';
+  }
 
-  // --- Handle Rating Form ---
-  document.getElementById("ratingForm").addEventListener("submit", e => {
-    e.preventDefault();
-    alert(`✅ Rating submitted for ${staff.fullName}!`);
-    e.target.reset();
-  });
-</script>
+  // Rating history rendering
+  function renderHistory(historyList) {
+    const tbody = $('ratingsBody');
+    const historyFor = $('historyFor');
+    if (!tbody) return;
+    if (!Array.isArray(historyList) || historyList.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;color:var(--muted)">No ratings yet</td></tr>';
+    } else {
+      tbody.innerHTML = historyList.map(h => `<tr><td>${h.date}</td><td>${h.criteria}</td><td>${h.score}</td><td>${h.comment || ''}</td></tr>`).join('');
+    }
+    if (historyFor) historyFor.textContent = staff.fullName || '—';
+  }
+
+  // Toggle history panel
+  const viewHistoryBtn = $('viewHistoryBtn');
+  const historySection = $('historySection');
+  if (viewHistoryBtn && historySection) {
+    viewHistoryBtn.addEventListener('click', () => {
+      const isVisible = historySection.style.display === 'block';
+      historySection.style.display = isVisible ? 'none' : 'block';
+      viewHistoryBtn.setAttribute('aria-expanded', !isVisible ? 'true' : 'false');
+      if (!isVisible) {
+        renderHistory(staff.history || []);
+        historySection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  }
+
+  // Open report
+  const openReportBtn = $('openReportBtn');
+  if (openReportBtn) {
+    openReportBtn.addEventListener('click', () => {
+      window.location.href = `reports.html?id=${encodeURIComponent(staff.id)}`;
+    });
+  }
+
+  // Logout
+  const logoutBtn = $('logoutBtn');
+  if (logoutBtn) {
+    logoutBtn.addEventListener('click', (e) => {
+      // optional: clear sessionStorage/local tokens here
+      window.location.href = 'index.html';
+    });
+  }
+
+  // Rating submission
+  const submitBtn = $('submitRatingBtn');
+  const errorEl = $('errorMsg');
+  const msgEl = $('ratingMsg');
+  const submittedThisSession = new Set();
+
+  function getSelectedRadioValue(name) {
+    const el = document.querySelector(`input[name="${name}"]:checked`);
+    return el ? el.value : null;
+  }
+
+  if (submitBtn) {
+    submitBtn.addEventListener('click', async () => {
+      if (errorEl) errorEl.style.display = 'none';
+      if (msgEl) { msgEl.style.color = 'var(--muted)'; msgEl.textContent = ''; }
+
+      const c1 = getSelectedRadioValue('c1');
+      const c2 = getSelectedRadioValue('c2');
+      const comment = ($('comment') && $('comment').value.trim()) || '';
+      const anon = $('anon') && $('anon').checked;
+
+      if (!c1 || !c2) {
+        if (msgEl) { msgEl.style.color = '#b91c1c'; msgEl.textContent = 'Please complete all rating items.'; }
+        return;
+      }
+
+      if (submittedThisSession.has(staff.id)) {
+        if (errorEl) errorEl.style.display = 'block';
+        return;
+      }
+
+      // Build rating entry
+      const entry = {
+        date: new Date().toISOString().split('T')[0],
+        criteria: 'Clarity & Knowledge',
+        score: ((Number(c1) + Number(c2)) / 2).toFixed(1),
+        comment: comment,
+        anon: !!anon,
+        breakdown: [
+          { criteria: 'Clarity of instruction', score: Number(c1) },
+          { criteria: 'Knowledge of subject', score: Number(c2) }
+        ]
+      };
+
+      // Push into staff.history and persist
+      staff.history = staff.history || [];
+      staff.history.unshift({
+        date: entry.date,
+        criteria: 'Clarity of instruction',
+        score: Number(c1),
+        comment
+      });
+      staff.history.unshift({
+        date: entry.date,
+        criteria: 'Knowledge of subject',
+        score: Number(c2),
+        comment
+      });
+
+      // Save back to EMPLOYEES array & localStorage
+      const idx = EMPLOYEES.findIndex(e => e.id === staff.id);
+      if (idx !== -1) {
+        EMPLOYEES[idx] = staff;
+        try { localStorage.setItem('EMPLOYEES_DATA', JSON.stringify(EMPLOYEES)); } catch (e) { /* ignore */ }
+      }
+
+      submittedThisSession.add(staff.id);
+      if (msgEl) { msgEl.style.color = 'green'; msgEl.textContent = 'Rating submitted. Thank you.'; }
+
+      // Update history UI if open
+      if (historySection && historySection.style.display === 'block') renderHistory(staff.history || []);
+
+      // Reset inputs
+      const checkedInputs = document.querySelectorAll('input[type="radio"]:checked');
+      checkedInputs.forEach(i => i.checked = false);
+      if ($('comment')) $('comment').value = '';
+      if ($('anon')) $('anon').checked = false;
+    });
+  }
+
+  // If URL contains showHistory=1 open it automatically
+  if (new URL(location.href).searchParams.get('showHistory') === '1' && viewHistoryBtn) {
+    setTimeout(() => viewHistoryBtn.click(), 250);
+  }
+  </script>
 </body>
 </html>
-
