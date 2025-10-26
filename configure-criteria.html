@@ -186,6 +186,13 @@
     document.getElementById('saveBtn').addEventListener('click',()=>persistCriteria());
     document.getElementById('resetBtn').addEventListener('click',()=>{if(confirm('Reset to defaults?')){criteria=defaultCriteria.slice();persistCriteria();renderList();}});
     renderList();
+        // ==============================
+    // Login Protection + Logout Fix
+    // ==============================
+
+    // Redirect if not logged in
+  {
+        window.location.href='index.html'; // fixed: correct login page
       }
     });
 
@@ -200,4 +207,5 @@
   </script>
 </body>
 </html>
+
 
