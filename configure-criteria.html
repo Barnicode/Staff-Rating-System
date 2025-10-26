@@ -95,9 +95,11 @@
     <button class="menu-btn" id="menuToggle">☰</button>
     <div style="display:flex;gap:12px;align-items:center">
       <img src="https://static.vecteezy.com/system/resources/thumbnails/006/470/455/small_2x/university-education-logo-design-template-vector.jpg" alt="Logo" style="width:36px;height:36px;object-fit:contain" />
-      <div style="font-weight:800;color:var(--brand)">University Staff Rating Portal</div>
+      <div style="font-weight:800;color:var(--brand)">University of Edu Staff Rating Portal</div>
     </div>
-    <div><a href="login.html" style="color:var(--brand);font-weight:700;text-decoration:none">Log Out</a></div>
+    <div>
+      <a href="#" id="logoutBtn" style="color:var(--brand);font-weight:700;text-decoration:none">Log Out</a>
+    </div>
   </header>
 
   <main class="main" role="main">
@@ -134,7 +136,7 @@
   </main>
 
   <script>
-    // Sidebar toggle for mobile
+    // Sidebar toggle
     const sidebar = document.getElementById('sidebar');
     const toggle = document.getElementById('menuToggle');
     toggle.addEventListener('click',()=>sidebar.classList.toggle('show'));
@@ -184,6 +186,15 @@
     document.getElementById('saveBtn').addEventListener('click',()=>persistCriteria());
     document.getElementById('resetBtn').addEventListener('click',()=>{if(confirm('Reset to defaults?')){criteria=defaultCriteria.slice();persistCriteria();renderList();}});
     renderList();
+
+    // Logout functionality
+    document.getElementById('logoutBtn').addEventListener('click',(e)=>{
+      e.preventDefault();
+      if(confirm("Are you sure you want to log out?")){
+        localStorage.removeItem("loggedInUser");
+        window.location.href="login.html";
+      }
+    });
   </script>
 </body>
 </html>
