@@ -3,86 +3,41 @@
 <head>
   <meta charset="utf-8" />
   <title>Configure Criteria — Admin</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <style>
-    :root{
-      --nav-width:220px;
-      --brand:#003366;
-      --accent:#cc0000;
-      --muted:#6b7280;
-      --bg:#f4f4f4;
-    }
-    *{box-sizing:border-box;margin:0;padding:0;font-family:'Segoe UI',sans-serif;}
-    body{background:var(--bg);min-height:100vh;}
-    .sidebar{
-      width:var(--nav-width);
-      background:var(--brand);
-      color:#fff;
-      height:100vh;
-      position:fixed;
-      top:0;left:0;
-      padding-top:20px;
-      transition:transform 0.3s ease;
-    }
-    .sidebar h2{text-align:center;color:#ff4d4d;margin-bottom:18px;}
-    .sidebar a{display:block;color:#fff;padding:12px 18px;text-decoration:none;}
-    .sidebar a:hover{background:#0055aa;}
-    .sidebar.hidden{transform:translateX(-100%);}
-    .header{
-      margin-left:var(--nav-width);
-      padding:14px 20px;
-      background:#fff;
-      border-bottom:1px solid #e6e9ee;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-    }
-    .menu-btn{display:none;font-size:24px;background:none;border:none;color:var(--brand);cursor:pointer;}
-    .main{margin-left:var(--nav-width);padding:22px;}
-    .card{background:#fff;padding:16px;border-radius:8px;box-shadow:0 6px 18px rgba(0,0,0,0.04);margin-bottom:16px;}
-    h1{color:var(--accent);margin:0 0 12px;}
-    .form-row{display:flex;gap:12px;align-items:center;margin-bottom:12px;flex-wrap:wrap;}
-    input[type="text"], input[type="number"], select{
-      padding:8px;
-      border:1px solid #e6e9ee;
-      border-radius:6px;
-      flex:1;
-      min-width:180px;
-    }
-    .btn{
-      padding:8px 12px;
-      background:var(--brand);
-      color:#fff;
-      border-radius:6px;
-      border:0;
-      cursor:pointer;
-      font-weight:700;
-    }
-    .btn.ghost{background:transparent;color:var(--brand);border:1px solid #e6e9ee;}
-    .criteria-list{list-style:none;padding:0;margin:0;}
-    .criteria-item{display:flex;gap:12px;align-items:center;padding:10px;border-bottom:1px solid #f1f5f9;flex-wrap:wrap;}
-    .criteria-handle{cursor:grab;padding:6px;color:var(--muted);}
-    .criteria-title{flex:1;}
-    .small{font-size:13px;color:var(--muted);}
-    .controls{display:flex;gap:8px;flex-wrap:wrap;}
-    .pill{background:#f1f5f9;padding:6px 8px;border-radius:999px;font-size:13px;}
-    .toggle{width:36px;height:20px;border-radius:16px;background:#e6e9ee;position:relative;cursor:pointer;}
-    .toggle .dot{position:absolute;width:16px;height:16px;border-radius:50%;top:2px;left:2px;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.12);transition:all .18s;}
-    .toggle.on{background:var(--accent);}
-    .toggle.on .dot{left:18px;}
-    .muted{color:var(--muted);}
-    @media(max-width:900px){
-      .header{margin-left:0;}
-      .menu-btn{display:block;}
-      .main{margin-left:0;padding:16px;}
-      .sidebar{transform:translateX(-100%);}
-      .sidebar.show{transform:translateX(0);}
-      body{overflow-x:hidden;}
-    }
+    :root{--nav-width:220px;--brand:#003366;--accent:#cc0000;--muted:#6b7280}
+    *{box-sizing:border-box;margin:0;padding:0;font-family:'Segoe UI',sans-serif}
+    body{background:#f4f4f4;min-height:100vh}
+    .sidebar{width:var(--nav-width);background:var(--brand);color:#fff;height:100vh;position:fixed;top:0;left:0;padding-top:20px}
+    .sidebar h2{text-align:center;color:#ff4d4d;margin-bottom:18px}
+    .sidebar a{display:block;color:#fff;padding:12px 18px;text-decoration:none}
+    .sidebar a:hover{background:#002244;}
+    .header{margin-left:var(--nav-width);padding:14px 20px;background:#fff;border-bottom:1px solid #e6e9ee;display:flex;align-items:center;justify-content:space-between}
+    .main{margin-left:var(--nav-width);padding:22px}
+    .card{background:#fff;padding:16px;border-radius:8px;box-shadow:0 6px 18px rgba(0,0,0,0.04);margin-bottom:16px}
+    h1{color:var(--accent);margin:0 0 12px}
+    .form-row{display:flex;gap:12px;align-items:center;margin-bottom:12px;flex-wrap:wrap}
+    input[type="text"], input[type="number"], select, textarea{padding:8px;border:1px solid #e6e9ee;border-radius:6px;width:100%}
+    .btn{padding:8px 12px;background:var(--brand);color:#fff;border-radius:6px;border:0;cursor:pointer;font-weight:700}
+    .btn.ghost{background:transparent;color:var(--brand);border:1px solid #e6e9ee}
+    .criteria-list{list-style:none;padding:0;margin:0}
+    .criteria-item{display:flex;gap:12px;align-items:center;padding:10px;border-bottom:1px solid #f1f5f9}
+    .criteria-handle{cursor:grab;padding:6px;color:var(--muted)}
+    .criteria-title{flex:1}
+    .small{font-size:13px;color:var(--muted)}
+    .controls{display:flex;gap:8px}
+    .pill{background:#f1f5f9;padding:6px 8px;border-radius:999px;font-size:13px}
+    .toggle{width:36px;height:20px;border-radius:16px;background:#e6e9ee;position:relative;cursor:pointer}
+    .toggle .dot{position:absolute;width:16px;height:16px;border-radius:50%;top:2px;left:2px;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.12);transition:all .18s}
+    .toggle.on{background:var(--accent)}
+    .toggle.on .dot{left:18px}
+    .muted{color:var(--muted)}
+    .flex{display:flex;gap:8px;align-items:center}
+    @media(max-width:720px){.form-row{flex-direction:column;align-items:stretch}}
   </style>
 </head>
 <body>
-  <nav class="sidebar" id="sidebar">
+  <nav class="sidebar" aria-label="Sidebar">
     <h2>Admin Panel</h2>
     <a href="control-center.html">Dashboard</a>
     <a href="all-employees.html">All Employees</a>
@@ -92,14 +47,11 @@
   </nav>
 
   <header class="header">
-    <button class="menu-btn" id="menuToggle">☰</button>
     <div style="display:flex;gap:12px;align-items:center">
-      <img src="https://static.vecteezy.com/system/resources/thumbnails/006/470/455/small_2x/university-education-logo-design-template-vector.jpg" alt="Logo" style="width:36px;height:36px;object-fit:contain" />
-      <div style="font-weight:800;color:var(--brand)">University of Edu Staff Rating Portal</div>
+      <img src="https://static.vecteezy.com/system/resources/thumbnails/006/470/455/small_2x/university-education-logo-design-template-vector.jpg" alt="" style="width:36px;height:36px;object-fit:contain" />
+      <div style="font-weight:800;color:var(--brand)">University Staff Rating Portal</div>
     </div>
-    <div>
-      <a href="#" id="logoutBtn" style="color:var(--brand);font-weight:700;text-decoration:none">Log Out</a>
-    </div>
+    <div><a href="index.html" style="color:var(--brand);font-weight:700;text-decoration:none">Log Out</a></div>
   </header>
 
   <main class="main" role="main">
@@ -107,28 +59,28 @@
       <h1>Configure Criteria</h1>
       <p class="muted">Create, reorder and tune the criteria used when rating staff. Changes persist locally and can be sent to your backend.</p>
 
-      <div class="card" style="margin-top:14px">
+      <div style="margin-top:14px" class="card">
         <h3 style="margin:0 0 12px">Add New Criterion</h3>
         <div class="form-row">
           <input id="newTitle" type="text" placeholder="Criterion title (e.g., Clarity of instruction)" />
-          <input id="newWeight" type="number" min="1" max="100" placeholder="Weight (1-100)" />
-          <select id="newType">
+          <input id="newWeight" type="number" min="1" max="100" placeholder="Weight (1-100)" style="width:160px" />
+          <select id="newType" style="width:160px">
             <option value="rating">Rating (1-5)</option>
             <option value="boolean">Yes/No</option>
             <option value="text">Text</option>
           </select>
           <button id="addCriterionBtn" class="btn">Add</button>
         </div>
-        <div class="small muted">Weights help compute aggregated scores.</div>
+        <div class="small muted">Weights help compute aggregated scores. Sum of weights can exceed 100; normalize on backend if needed.</div>
       </div>
 
-      <div class="card" style="margin-top:14px">
+      <div style="margin-top:14px" class="card">
         <h3 style="margin:0 0 12px">Active Criteria (drag to reorder)</h3>
         <ul id="criteriaList" class="criteria-list" aria-live="polite"></ul>
 
-        <div style="margin-top:12px;display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+        <div style="margin-top:12px;display:flex;gap:8px;align-items:center">
           <button id="saveBtn" class="btn">Save</button>
-          <button id="resetBtn" class="btn ghost">Reset</button>
+          <button id="resetBtn" class="btn ghost">Reset to defaults</button>
           <div style="margin-left:auto" class="small muted" id="lastSaved">Not saved</div>
         </div>
       </div>
@@ -136,76 +88,146 @@
   </main>
 
   <script>
-    // Sidebar toggle
-    const sidebar = document.getElementById('sidebar');
-    const toggle = document.getElementById('menuToggle');
-    toggle.addEventListener('click',()=>sidebar.classList.toggle('show'));
-
-    // Criteria logic
-    const STORAGE_KEY='criteria:v1';
-    const defaultCriteria=[
-      {id:'c1',title:'Clarity of instruction',type:'rating',weight:30,enabled:true},
-      {id:'c2',title:'Knowledge of subject',type:'rating',weight:30,enabled:true},
-      {id:'c3',title:'Punctuality',type:'rating',weight:20,enabled:true},
-      {id:'c4',title:'Communication',type:'rating',weight:20,enabled:true}
+    const STORAGE_KEY = 'criteria:v1';
+    const defaultCriteria = [
+      { id: 'c1', title: 'Clarity of instruction', type: 'rating', weight: 30, enabled: true },
+      { id: 'c2', title: 'Knowledge of subject', type: 'rating', weight: 30, enabled: true },
+      { id: 'c3', title: 'Punctuality', type: 'rating', weight: 20, enabled: true },
+      { id: 'c4', title: 'Communication', type: 'rating', weight: 20, enabled: true }
     ];
-    let criteria=loadCriteria();
-    function loadCriteria(){try{const r=localStorage.getItem(STORAGE_KEY);return r?JSON.parse(r):defaultCriteria.slice();}catch{return defaultCriteria.slice();}}
-    function persistCriteria(){localStorage.setItem(STORAGE_KEY,JSON.stringify(criteria));document.getElementById('lastSaved').textContent='Saved at '+new Date().toLocaleTimeString();}
-    const listEl=document.getElementById('criteriaList');
+
+    let criteria = loadCriteria();
+
+    function loadCriteria(){
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if(!raw) return defaultCriteria.slice();
+        return JSON.parse(raw);
+      } catch { return defaultCriteria.slice(); }
+    }
+
+    function persistCriteria(){
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(criteria));
+      document.getElementById('lastSaved').textContent = 'Saved at ' + new Date().toLocaleTimeString();
+    }
+
+    const listEl = document.getElementById('criteriaList');
     function renderList(){
-      if(!criteria.length){listEl.innerHTML='<li class="criteria-item muted" style="padding:12px;text-align:center">No criteria defined</li>';return;}
-      listEl.innerHTML=criteria.map(c=>`
+      if(!criteria.length){
+        listEl.innerHTML = '<li class="criteria-item muted" style="padding:12px;text-align:center">No criteria defined</li>';
+        return;
+      }
+      listEl.innerHTML = criteria.map((c) => `
         <li class="criteria-item" data-id="${c.id}" draggable="true">
           <div class="criteria-handle" title="Drag to reorder">☰</div>
-          <div class="criteria-title"><div style="font-weight:700">${c.title}</div><div class="small muted">${c.type} · weight ${c.weight}</div></div>
+          <div class="criteria-title">
+            <div style="font-weight:700">${c.title}</div>
+            <div class="small muted">${c.type} · weight ${c.weight}</div>
+          </div>
           <div class="controls">
-            <div class="pill">${c.enabled?'Enabled':'Disabled'}</div>
-            <div class="toggle ${c.enabled?'on':''}" data-id="${c.id}" role="switch" aria-checked="${c.enabled}"><div class="dot"></div></div>
+            <div class="pill" title="Enabled">${c.enabled ? 'Enabled' : 'Disabled'}</div>
+            <div class="toggle ${c.enabled ? 'on' : ''}" data-id="${c.id}" role="switch" aria-checked="${c.enabled}">
+              <div class="dot"></div>
+            </div>
             <button class="btn ghost" data-action="edit" data-id="${c.id}">Edit</button>
             <button class="btn ghost" data-action="delete" data-id="${c.id}">Delete</button>
           </div>
-        </li>`).join('');
-      attachHandlers();
+        </li>
+      `).join('');
+      attachDragHandlers();
+      attachItemActions();
     }
-    document.getElementById('addCriterionBtn').addEventListener('click',()=>{
-      const title=document.getElementById('newTitle').value.trim();
-      const weight=Number(document.getElementById('newWeight').value)||10;
-      const type=document.getElementById('newType').value;
-      if(!title){alert('Enter a title');return;}
-      criteria.push({id:'c'+Date.now(),title,type,weight,enabled:true});
-      document.getElementById('newTitle').value='';
-      document.getElementById('newWeight').value='';
+
+    document.getElementById('addCriterionBtn').addEventListener('click', () => {
+      const title = document.getElementById('newTitle').value.trim();
+      const weight = Number(document.getElementById('newWeight').value) || 10;
+      const type = document.getElementById('newType').value;
+      if(!title){ alert('Enter a title'); return; }
+      const id = 'c' + Date.now().toString(36);
+      criteria.push({ id, title, type, weight, enabled: true });
+      document.getElementById('newTitle').value = '';
+      document.getElementById('newWeight').value = '';
       renderList();
     });
-    function attachHandlers(){
-      document.querySelectorAll('[data-action="delete"]').forEach(b=>b.onclick=()=>{const id=b.dataset.id;if(confirm('Delete this criterion?')){criteria=criteria.filter(c=>c.id!==id);renderList();}});
-      document.querySelectorAll('[data-action="edit"]').forEach(b=>b.onclick=()=>{const id=b.dataset.id;const item=criteria.find(c=>c.id===id);if(!item)return;const nt=prompt('Edit title',item.title);if(nt===null)return;const nw=prompt('Edit weight',item.weight);if(nw===null)return;item.title=nt.trim()||item.title;item.weight=Number(nw)||item.weight;renderList();});
-      document.querySelectorAll('.toggle').forEach(t=>t.onclick=()=>{const id=t.dataset.id;const item=criteria.find(c=>c.id===id);item.enabled=!item.enabled;renderList();});
+
+    function attachItemActions(){
+      document.querySelectorAll('[data-action="delete"]').forEach(btn => {
+        btn.onclick = () => {
+          const id = btn.dataset.id;
+          if(!confirm('Delete this criterion?')) return;
+          criteria = criteria.filter(c => c.id !== id);
+          renderList();
+        };
+      });
+      document.querySelectorAll('[data-action="edit"]').forEach(btn => {
+        btn.onclick = () => {
+          const id = btn.dataset.id;
+          const item = criteria.find(c => c.id === id);
+          if(!item) return;
+          const newTitle = prompt('Edit title', item.title);
+          if(newTitle === null) return;
+          const newWeight = prompt('Edit weight (number)', item.weight);
+          if(newWeight === null) return;
+          item.title = String(newTitle).trim() || item.title;
+          item.weight = Number(newWeight) || item.weight;
+          renderList();
+        };
+      });
+      document.querySelectorAll('.toggle').forEach(t => {
+        t.onclick = () => {
+          const id = t.dataset.id;
+          const item = criteria.find(c => c.id === id);
+          if(!item) return;
+          item.enabled = !item.enabled;
+          renderList();
+        };
+      });
     }
-    document.getElementById('saveBtn').addEventListener('click',()=>persistCriteria());
-    document.getElementById('resetBtn').addEventListener('click',()=>{if(confirm('Reset to defaults?')){criteria=defaultCriteria.slice();persistCriteria();renderList();}});
+
+    function attachDragHandlers(){
+      let dragEl = null;
+      document.querySelectorAll('#criteriaList li').forEach(li => {
+        li.addEventListener('dragstart', (e) => {
+          dragEl = li;
+          e.dataTransfer.effectAllowed = 'move';
+          li.style.opacity = '0.5';
+        });
+        li.addEventListener('dragend', () => {
+          dragEl = null;
+          document.querySelectorAll('#criteriaList li').forEach(x => x.style.opacity = '');
+        });
+        li.addEventListener('dragover', (e) => {
+          e.preventDefault();
+          e.dataTransfer.dropEffect = 'move';
+        });
+        li.addEventListener('drop', (e) => {
+          e.preventDefault();
+          if(!dragEl || dragEl === li) return;
+          const fromId = dragEl.dataset.id;
+          const toId = li.dataset.id;
+          const fromIdx = criteria.findIndex(c => c.id === fromId);
+          const toIdx = criteria.findIndex(c => c.id === toId);
+          if(fromIdx < 0 || toIdx < 0) return;
+          const [moved] = criteria.splice(fromIdx,1);
+          criteria.splice(toIdx,0,moved);
+          renderList();
+        });
+      });
+    }
+
+    document.getElementById('saveBtn').addEventListener('click', () => {
+      persistCriteria();
+      alert("Criteria saved successfully!");
+    });
+
+    document.getElementById('resetBtn').addEventListener('click', () => {
+      if(!confirm('Reset to default criteria?')) return;
+      criteria = defaultCriteria.slice();
+      persistCriteria();
+      renderList();
+    });
+
     renderList();
-        // ==============================
-    // Login Protection + Logout Fix
-    // ==============================
-
-    // Redirect if not logged in
-  {
-        window.location.href='index.html'; // fixed: correct login page
-      }
-    });
-
-    // Logout functionality
-    document.getElementById('logoutBtn').addEventListener('click',(e)=>{
-      e.preventDefault();
-      if(confirm("Are you sure you want to log out?")){
-        localStorage.removeItem("loggedInUser");
-        window.location.href="index.html"; // fixed
-      }
-    });
   </script>
 </body>
 </html>
-
-
