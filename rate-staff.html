@@ -73,10 +73,70 @@
   </section>
 
   <main class="main">
-    <!-- Main content (same as before) -->
     <section class="card">
       <h3 style="margin:0 0 10px;color:var(--accent)">Submit Rating</h3>
-      <!-- (Rating form and staff display code remains the same as before) -->
+      <div class="rate-section">
+        <div class="profile-box" id="staffProfileBox">
+          <img id="staffPhoto" src="https://i.pravatar.cc/400?img=12" alt="Staff Photo" />
+          <div class="profile-details">
+            <h2 id="staffName">Loading...</h2>
+            <div><strong>Department:</strong> <span id="staffDept">—</span></div>
+            <div><strong>Email:</strong> <span id="staffEmail">—</span></div>
+            <div><strong>Phone:</strong> <span id="staffPhone">—</span></div>
+            <div class="bio" id="staffBio">—</div>
+            <div style="margin-top:8px">
+              <button class="btn secondary" id="viewHistoryBtn" aria-controls="historySection" aria-expanded="false">View Rating History</button>
+              <button class="btn" id="openReportBtn" style="margin-left:8px">Open Employee Report</button>
+            </div>
+          </div>
+        </div>
+        <div class="rating-form" id="ratingFormArea">
+          <h4>Submit Rating for <span id="rateForName">—</span></h4>
+          <div class="compact">
+            <div class="row">
+              <label>Clarity of instruction</label>
+              <div class="stars">
+                <label><input type="radio" name="c1" value="1" required>1</label>
+                <label><input type="radio" name="c1" value="2">2</label>
+                <label><input type="radio" name="c1" value="3">3</label>
+                <label><input type="radio" name="c1" value="4">4</label>
+                <label><input type="radio" name="c1" value="5">5</label>
+              </div>
+            </div>
+            <div class="row">
+              <label>Knowledge of subject</label>
+              <div class="stars">
+                <label><input type="radio" name="c2" value="1" required>1</label>
+                <label><input type="radio" name="c2" value="2">2</label>
+                <label><input type="radio" name="c2" value="3">3</label>
+                <label><input type="radio" name="c2" value="4">4</label>
+                <label><input type="radio" name="c2" value="5">5</label>
+              </div>
+            </div>
+          </div>
+          <div style="margin-top:12px">
+            <label for="comment">Comments (optional)</label>
+            <textarea id="comment" placeholder="Write constructive feedback..."></textarea>
+          </div>
+          <div style="margin-top:12px;display:flex;gap:8px;align-items:center">
+            <label><input type="checkbox" id="anon"> Submit anonymously</label>
+            <div style="flex:1"></div>
+            <button class="btn" id="submitRatingBtn">Submit Rating</button>
+          </div>
+          <div id="errorMsg" class="error" style="display:none">Cannot rate same staff twice in this session.</div>
+          <div id="ratingMsg" class="small-note" style="margin-top:12px;color:var(--muted)"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="card" id="historySection" style="display:none">
+      <h3>Rating History — <span id="historyFor">—</span></h3>
+      <table class="history-table">
+        <thead><tr><th>Date</th><th>Criteria</th><th>Score</th><th>Comments</th></tr></thead>
+        <tbody id="ratingsBody">
+          <tr><td colspan="4" style="text-align:center;color:var(--muted)">No ratings yet</td></tr>
+        </tbody>
+      </table>
     </section>
   </main>
 
@@ -85,21 +145,123 @@
   </footer>
 
   <script>
-  // --- Helper ---
   const $ = (id) => document.getElementById(id);
 
-  // --- Logout ---
-  const logoutBtn = $('logoutBtn');
-  if (logoutBtn) {
-    logoutBtn.addEventListener('click', (e) => {
-      e.preventDefault();
-      alert('You have been logged out successfully.');
-      window.location.href = 'index.html';
+  // --- Demo data setup ---
+  function generateDemoEmployees() {
+    const PROFESSORS = [
+      { name: "Prof. Adeola Ogunleye", dept: "Computer Science", title: "Professor" },
+      { name: "Prof. Chukwuemeka Eze", dept: "Mechanical Engineering", title: "Professor" },
+      { name: "Dr. Maryam Danjuma", dept: "Education", title: "Senior Lecturer" },
+      { name: "Prof. Olufunke Adebayo", dept: "Economics", title: "Professor" },
+      { name: "Dr. Ibrahim Musa", dept: "Computer Science", title: "Senior Lecturer" },
+      { name: "Prof. Kemi Bakare", dept: "Public Health", title: "Professor" },
+      { name: "Dr. Emeka Nwankwo", dept: "Accounting", title: "Associate Professor" }
+    ];
+    const PHOTOS = [
+      'https://randomuser.me/api/portraits/men/53.jpg',
+      'https://randomuser.me/api/portraits/women/55.jpg',
+      'https://randomuser.me/api/portraits/men/56.jpg',
+      'https://randomuser.me/api/portraits/women/57.jpg',
+      'https://randomuser.me/api/portraits/men/58.jpg',
+      'https://randomuser.me/api/portraits/women/59.jpg'
+    ];
+    const DEPARTMENTS = ['IT','HR','Finance','Admin','Legal','Operations','Marketing','Registry','Research'];
+    return Array.from({ length: 92 }).map((_, idx) => {
+      const base = PROFESSORS[idx % PROFESSORS.length];
+      const id = idx + 1;
+      const name = `${base.name.split(' ')[0]} ${String.fromCharCode(65 + (idx % 26))}${String.fromCharCode(65 + ((idx + 7) % 26))} ${base.name.split(' ')[1] || 'Staff'}`;
+      const dept = DEPARTMENTS[idx % DEPARTMENTS.length];
+      const photo = PHOTOS[idx % PHOTOS.length] + '?u=' + encodeURIComponent(name);
+      return {
+        id,
+        fullName: name,
+        university: "University of Edu",
+        department: dept,
+        position: base.title,
+        email: `${name.toLowerCase().replace(/[^a-z]/g,'')}.${id}@university.edu`,
+        phone: '+234' + (8000000000 + id).toString().slice(-10),
+        photo,
+        bio: `${name} is a ${base.title} in the ${dept} Department at University of Edu.`,
+        history: []
+      };
     });
   }
 
-  // --- Load employee info & rating system (same logic as before) ---
-  // (Keep your employee generation, rating submission, and display functions unchanged)
+  let EMPLOYEES = JSON.parse(localStorage.getItem('EMPLOYEES_DATA') || '[]');
+  if (!EMPLOYEES.length) {
+    EMPLOYEES = generateDemoEmployees();
+    localStorage.setItem('EMPLOYEES_DATA', JSON.stringify(EMPLOYEES));
+  }
+
+  const params = new URLSearchParams(window.location.search);
+  const staffId = parseInt(params.get('id') || '1', 10);
+  const staff = EMPLOYEES.find(e => e.id === staffId) || EMPLOYEES[0];
+
+  // Populate staff info
+  $('staffPhoto').src = staff.photo;
+  $('staffName').textContent = staff.fullName;
+  $('staffDept').textContent = staff.department;
+  $('staffEmail').textContent = staff.email;
+  $('staffPhone').textContent = staff.phone;
+  $('staffBio').textContent = staff.bio;
+  $('rateForName').textContent = staff.fullName;
+
+  // --- Rating logic ---
+  const submittedThisSession = new Set();
+  const submitBtn = $('submitRatingBtn');
+  const msgEl = $('ratingMsg');
+  const errorEl = $('errorMsg');
+
+  function getSelectedRadioValue(name) {
+    const el = document.querySelector(`input[name="${name}"]:checked`);
+    return el ? el.value : null;
+  }
+
+  submitBtn.addEventListener('click', () => {
+    const c1 = getSelectedRadioValue('c1');
+    const c2 = getSelectedRadioValue('c2');
+    const comment = $('comment').value.trim();
+    if (!c1 || !c2) {
+      msgEl.style.color = '#b91c1c';
+      msgEl.textContent = 'Please complete all rating items.';
+      return;
+    }
+    if (submittedThisSession.has(staff.id)) {
+      errorEl.style.display = 'block';
+      return;
+    }
+    const entry = {
+      date: new Date().toISOString().split('T')[0],
+      criteria: 'Clarity & Knowledge',
+      score: ((Number(c1) + Number(c2)) / 2).toFixed(1),
+      comment
+    };
+    staff.history.unshift(entry);
+    localStorage.setItem('EMPLOYEES_DATA', JSON.stringify(EMPLOYEES));
+    submittedThisSession.add(staff.id);
+    msgEl.style.color = 'green';
+    msgEl.textContent = 'Rating submitted successfully!';
+    errorEl.style.display = 'none';
+  });
+
+  $('viewHistoryBtn').addEventListener('click', () => {
+    const section = $('historySection');
+    section.style.display = section.style.display === 'none' ? 'block' : 'none';
+    const tbody = $('ratingsBody');
+    tbody.innerHTML = staff.history.map(h =>
+      `<tr><td>${h.date}</td><td>${h.criteria}</td><td>${h.score}</td><td>${h.comment || ''}</td></tr>`
+    ).join('') || `<tr><td colspan="4" style="text-align:center;color:var(--muted)">No ratings yet</td></tr>`;
+  });
+
+  $('openReportBtn').addEventListener('click', () => {
+    window.location.href = `reports.html?id=${staff.id}`;
+  });
+
+  $('logoutBtn').addEventListener('click', (e) => {
+    e.preventDefault();
+    window.location.href = 'index.html';
+  });
   </script>
 </body>
 </html>
