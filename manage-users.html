@@ -11,6 +11,7 @@
     .sidebar{width:var(--nav-width);background:var(--brand);color:#fff;height:100vh;position:fixed;top:0;left:0;padding-top:20px}
     .sidebar h2{text-align:center;color:#ff4d4d;margin-bottom:18px}
     .sidebar a{display:block;color:#fff;padding:12px 18px;text-decoration:none}
+    .sidebar a:hover{background:rgba(255,255,255,0.1)}
     .header{margin-left:var(--nav-width);padding:14px 20px;background:#fff;border-bottom:1px solid #e6e9ee;display:flex;align-items:center;justify-content:space-between}
     .main{margin-left:var(--nav-width);padding:22px}
     .card{background:#fff;padding:16px;border-radius:8px;box-shadow:0 6px 18px rgba(0,0,0,0.04);margin-bottom:16px}
@@ -44,7 +45,7 @@
       <img src="https://static.vecteezy.com/system/resources/thumbnails/006/470/455/small_2x/university-education-logo-design-template-vector.jpg" alt="" style="width:36px;height:36px;object-fit:contain" />
       <div style="font-weight:800;color:var(--brand)">University Staff Rating Portal</div>
     </div>
-    <div><a href="login.html" style="color:var(--brand);font-weight:700;text-decoration:none">Log Out</a></div>
+    <div><a href="#" id="logoutBtn" style="color:var(--brand);font-weight:700;text-decoration:none">Log Out</a></div>
   </header>
 
   <main class="main" role="main">
@@ -82,7 +83,7 @@
     </div>
   </main>
 
-  <!-- modal form (simple) -->
+  <!-- modal form -->
   <div id="modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.4);align-items:center;justify-content:center;padding:20px">
     <div style="background:#fff;padding:20px;border-radius:8px;max-width:560px;width:100%;box-shadow:0 8px 30px rgba(0,0,0,0.2)">
       <h3 id="modalTitle">Add User</h3>
@@ -100,7 +101,24 @@
   </div>
 
   <script>
-    // Manage Users demo with localStorage
+    // ✅ Login session protection
+    window.addEventListener('DOMContentLoaded', () => {
+      const loggedInUser = localStorage.getItem('loggedInUser');
+      if (!loggedInUser) {
+        window.location.href = 'index.html'; // redirect to index.html if not logged in
+      }
+    });
+
+    // ✅ Logout
+    document.getElementById('logoutBtn').addEventListener('click', (e) => {
+      e.preventDefault();
+      if (confirm('Are you sure you want to log out?')) {
+        localStorage.removeItem('loggedInUser');
+        window.location.href = 'index.html';
+      }
+    });
+
+    // ✅ Manage Users demo with localStorage
     const USER_KEY = 'users:v1';
     let users = loadUsers();
 
@@ -143,7 +161,6 @@
       });
       const total = filtered.length;
       summary.textContent = `${total} users`;
-      // simple client-side pagination
       const start = (page-1)*perPage;
       const pageData = filtered.slice(start, start+perPage);
       if(!pageData.length){
@@ -174,7 +191,6 @@
       });
     }
 
-    // add user
     document.getElementById('addUserBtn').addEventListener('click', () => openAdd());
     function openAdd(){
       editingId = null;
@@ -204,7 +220,6 @@
       modal.style.display = 'none';
     });
 
-    // search/filter/export
     searchInput.addEventListener('input', () => renderUsers());
     filterRole.addEventListener('change', () => renderUsers());
 
@@ -215,10 +230,8 @@
       const a = document.createElement('a'); a.href = url; a.download = `users_${new Date().toISOString().slice(0,10)}.csv`; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
     });
 
-    // init and expose
     renderUsers();
     window._USERS = { users };
-    // Save on unload (so demo changes won't be lost)
     window.addEventListener('beforeunload', saveUsers);
   </script>
 </body>
