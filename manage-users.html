@@ -45,7 +45,6 @@
       <img src="https://static.vecteezy.com/system/resources/thumbnails/006/470/455/small_2x/university-education-logo-design-template-vector.jpg" alt="" style="width:36px;height:36px;object-fit:contain" />
       <div style="font-weight:800;color:var(--brand)">University Staff Rating Portal</div>
     </div>
-    <div><a href="#" id="logoutBtn" style="color:var(--brand);font-weight:700;text-decoration:none">Log Out</a></div>
   </header>
 
   <main class="main" role="main">
@@ -101,24 +100,7 @@
   </div>
 
   <script>
-    // ✅ Login session protection
-    window.addEventListener('DOMContentLoaded', () => {
-      const loggedInUser = localStorage.getItem('loggedInUser');
-      if (!loggedInUser) {
-        window.location.href = 'index.html'; // redirect to index.html if not logged in
-      }
-    });
-
-    // ✅ Logout
-    document.getElementById('logoutBtn').addEventListener('click', (e) => {
-      e.preventDefault();
-      if (confirm('Are you sure you want to log out?')) {
-        localStorage.removeItem('loggedInUser');
-        window.location.href = 'index.html';
-      }
-    });
-
-    // ✅ Manage Users demo with localStorage
+    // ✅ Manage Users demo with localStorage only
     const USER_KEY = 'users:v1';
     let users = loadUsers();
 
@@ -138,7 +120,6 @@
       ];
     }
 
-    // DOM refs
     const usersBody = document.getElementById('usersBody');
     const summary = document.getElementById('summary');
     const searchInput = document.getElementById('searchInput');
@@ -231,8 +212,6 @@
     });
 
     renderUsers();
-    window._USERS = { users };
-    window.addEventListener('beforeunload', saveUsers);
   </script>
 </body>
 </html>
