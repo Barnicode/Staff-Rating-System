@@ -2,13 +2,13 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <title>University Staff Rating Portal — Admin</title>
+  <title>NOUN Staff Rating Portal — Admin Dashboard</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
     :root {
       --nav-width: 220px;
-      --brand: #003366;
-      --accent: #cc0000;
+      --brand: #006400; /* Dark Green */
+      --accent: #00923F; /* Bright Green */
       --muted: #6b7280;
     }
 
@@ -20,7 +20,7 @@
     }
 
     body {
-      background: #f4f4f4;
+      background: #f5fff5;
       min-height: 100vh;
     }
 
@@ -39,7 +39,7 @@
 
     .sidebar h2 {
       text-align: center;
-      color: var(--accent);
+      color: #fff;
       margin-bottom: 18px;
       font-size: 18px;
     }
@@ -53,7 +53,7 @@
     }
 
     .sidebar a:hover {
-      background: #0055aa;
+      background: #00923F;
     }
 
     .sidebar.hide {
@@ -80,8 +80,8 @@
     }
 
     .header-left img {
-      width: 40px;
-      height: 40px;
+      width: 45px;
+      height: 45px;
       object-fit: contain;
     }
 
@@ -108,7 +108,7 @@
 
     .top-menu {
       margin-left: var(--nav-width);
-      background: var(--brand);
+      background: var(--accent);
       padding: 10px 20px;
       display: flex;
       gap: 20px;
@@ -123,7 +123,7 @@
     }
 
     .top-menu a:hover {
-      color: #ffcc00;
+      color: #d4ffdc;
     }
 
     .welcome-banner {
@@ -153,9 +153,9 @@
     }
 
     h1 {
-      color: var(--accent);
+      color: var(--brand);
       margin-bottom: 16px;
-      font-size: 20px;
+      font-size: 22px;
     }
 
     .stats-grid {
@@ -208,8 +208,7 @@
       display: block;
     }
 
-    th,
-    td {
+    th, td {
       padding: 10px;
       border-bottom: 1px solid #eef2f6;
       text-align: left;
@@ -217,7 +216,7 @@
     }
 
     th {
-      background: #fbfdff;
+      background: #f1fff1;
       color: var(--brand);
       font-weight: 700;
     }
@@ -267,32 +266,20 @@
         transform: translateX(0);
       }
 
-      .header-bar {
+      .header-bar,
+      .top-menu,
+      .welcome-banner,
+      .main,
+      footer {
         margin-left: 0;
-      }
-
-      .top-menu {
-        margin-left: 0;
-        justify-content: flex-start;
-        overflow-x: auto;
       }
 
       .welcome-banner {
-        margin-left: 0;
         height: 140px;
-      }
-
-      .main {
-        margin-left: 0;
-        padding: 16px;
       }
 
       .grid-two {
         grid-template-columns: 1fr;
-      }
-
-      footer {
-        margin-left: 0;
       }
     }
   </style>
@@ -300,8 +287,8 @@
 
 <body>
   <nav class="sidebar" id="sidebar">
-    <h2>Admin Panel</h2>
-    <a href="control-center.html">Dashboard</a>
+    <h2>NOUN Admin Panel</h2>
+    <a href="dashboard.html">Dashboard</a>
     <a href="all-employees.html">All Employees</a>
     <a href="configure-criteria.html">Configure Criteria</a>
     <a href="manage-users.html">Manage Users</a>
@@ -313,8 +300,8 @@
   <header class="header-bar">
     <div class="header-left">
       <span class="menu-toggle" id="menuToggle">☰</span>
-      <img src="https://static.vecteezy.com/system/resources/thumbnails/006/470/455/small_2x/university-education-logo-design-template-vector.jpg" alt="University Logo" />
-      <span>University Staff Rating Portal</span>
+      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS70hZaIeG0mE5pfH5QyByD_7fxbz7CvOwLQg&s" alt="NOUN Logo" />
+      <span>NOUN Staff Rating Portal</span>
     </div>
     <div class="header-right">
       <a id="logoutBtn">Log Out</a>
@@ -329,11 +316,11 @@
   </div>
 
   <section class="welcome-banner">
-    <div class="welcome-text" id="welcomeText">Welcome, Admin</div>
+    <div class="welcome-text" id="welcomeText">Welcome, Admin Barnabas Blessing</div>
   </section>
 
   <main class="main">
-    <h1>Dashboard Overview</h1>
+    <h1>Dashboard Overview — NOUN Benin Study Center</h1>
 
     <section class="stats-grid">
       <div class="stat-card">
@@ -346,7 +333,7 @@
       </div>
       <div class="stat-card">
         <h2>Top Department</h2>
-        <p id="topDept">IT</p>
+        <p id="topDept">Computer Science</p>
       </div>
     </section>
 
@@ -356,8 +343,8 @@
         <table>
           <thead><tr><th>Time</th><th>User</th><th>Action</th></tr></thead>
           <tbody id="activityBody">
-            <tr><td>2025-10-13 09:12</td><td>Lucy Eze</td><td>Created rating criteria</td></tr>
-            <tr><td>2025-10-12 15:42</td><td>James Ad</td><td>Imported staff list</td></tr>
+            <tr><td>2025-10-17 09:12</td><td>Lucy Eze</td><td>Created new staff evaluation form</td></tr>
+            <tr><td>2025-10-16 14:42</td><td>James Ade</td><td>Updated rating criteria</td></tr>
           </tbody>
         </table>
       </section>
@@ -365,11 +352,11 @@
       <aside class="card">
         <h3>Admin Profile</h3>
         <div style="margin-top:10px">
-          <div><strong>Name:</strong> <div class="value-box">Lucky Eze</div></div>
+          <div><strong>Name:</strong> <div class="value-box">Barnabas Blessing</div></div>
           <div><strong>Username:</strong> <div class="value-box">Admin</div></div>
-          <div><strong>Email:</strong> <div class="value-box">lucyeze1234@edu.ng</div></div>
-          <div><strong>Phone:</strong> <div class="value-box">+234925634846</div></div>
-          <div><strong>Position:</strong> <div class="value-box">Level 3 Staff</div></div>
+          <div><strong>Email:</strong> <div class="value-box">admin@nounbenin.edu.ng</div></div>
+          <div><strong>Phone:</strong> <div class="value-box">+234 812 456 7823</div></div>
+          <div><strong>Position:</strong> <div class="value-box">System Administrator</div></div>
           <div style="margin-top:14px;display:flex;gap:8px;flex-wrap:wrap">
             <button class="btn" onclick="window.location='edit-profile.html'">Update</button>
             <button class="btn secondary" onclick="window.location='reports.html'">Open Reports</button>
@@ -379,7 +366,7 @@
     </div>
   </main>
 
-  <footer>Copyright © NOUN Design by Barnabas Blessing</footer>
+  <footer>© 2025 National Open University of Nigeria, Benin City Study Center | Designed by Barnabas Blessing</footer>
 
   <script>
     // Toggle Sidebar on mobile
@@ -404,7 +391,7 @@
       window.location.href = 'index.html';
     });
 
-    // ✅ Set total employees dynamically
+    // ✅ Dynamic staff count
     document.getElementById('totalStaff').textContent = 92;
   </script>
 </body>
