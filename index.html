@@ -2,29 +2,104 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <title>Staff Rating Login</title>
+  <title>NOUN Staff Rating Login</title>
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <style>
     *{box-sizing:border-box;margin:0;padding:0;font-family:'Segoe UI',sans-serif}
     body{display:flex;min-height:100vh;background:#fff}
-    .left-panel{width:50%;background:#fff;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:40px}
-    .left-panel img{width:120px;height:auto;margin-bottom:20px}
-    .left-panel h1{font-size:32px;color:#003366;text-align:center}
-    .right-panel{width:50%;background:linear-gradient(135deg,#003366,#cc0000);color:#fff;display:flex;justify-content:center;align-items:center;padding:20px}
-    .login-box{width:80%;max-width:420px;padding:30px;background:#fff;color:#003366;border-radius:8px;box-shadow:0 8px 24px rgba(0,0,0,.12)}
-    .login-box h2{margin-bottom:6px;color:#cc0000}
-    .login-box p{margin-bottom:14px;color:#555}
-    input{width:100%;padding:12px;margin:8px 0;border:1px solid #d0d6dd;border-radius:6px}
-    button{width:100%;padding:12px;background:#cc0000;color:#fff;border:none;border-radius:6px;font-weight:700;cursor:pointer}
-    button:hover{background:#990000}
-    .forgot{display:flex;justify-content:flex-end;margin-top:8px;font-size:14px}
-    .forgot a{color:#003366;text-decoration:none;cursor:pointer}
+    .left-panel{
+      width:50%;
+      background:#ffffff;
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      align-items:center;
+      padding:40px;
+    }
+    .left-panel img{
+      width:120px;
+      height:auto;
+      margin-bottom:20px;
+    }
+    .left-panel h1{
+      font-size:30px;
+      color:#006600;
+      text-align:center;
+    }
+    .right-panel{
+      width:50%;
+      background:linear-gradient(135deg,#006600,#008000);
+      color:#fff;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      padding:20px;
+    }
+    .login-box{
+      width:80%;
+      max-width:420px;
+      padding:30px;
+      background:#fff;
+      color:#006600;
+      border-radius:10px;
+      box-shadow:0 8px 24px rgba(0,0,0,.12);
+    }
+    .login-box h2{
+      margin-bottom:8px;
+      color:#006600;
+      text-align:center;
+    }
+    .login-box p{
+      margin-bottom:14px;
+      color:#444;
+      text-align:center;
+    }
+    input{
+      width:100%;
+      padding:12px;
+      margin:8px 0;
+      border:1px solid #d0d6dd;
+      border-radius:6px;
+    }
+    button{
+      width:100%;
+      padding:12px;
+      background:#006600;
+      color:#fff;
+      border:none;
+      border-radius:6px;
+      font-weight:700;
+      cursor:pointer;
+      transition:0.3s;
+    }
+    button:hover{background:#009900}
+    .forgot{
+      display:flex;
+      justify-content:flex-end;
+      margin-top:8px;
+      font-size:14px;
+    }
+    .forgot a{
+      color:#006600;
+      text-decoration:none;
+      cursor:pointer;
+    }
     .forgot a:hover{text-decoration:underline}
-    .error{color:#b91c1c;font-size:14px;margin-top:10px;text-align:center}
+    .error{
+      color:#b91c1c;
+      font-size:14px;
+      margin-top:10px;
+      text-align:center;
+    }
     .recovery-box{display:none;margin-top:16px}
     .recovery-box input{margin-bottom:10px}
-    .recovery-box button{background:#003366}
-    .small{font-size:13px;color:#6b7280;margin-top:8px;text-align:center}
+    .recovery-box button{background:#006600}
+    .small{
+      font-size:13px;
+      color:#6b7280;
+      margin-top:8px;
+      text-align:center;
+    }
     @media(max-width:900px){
       body{flex-direction:column}
       .left-panel,.right-panel{width:100%;padding:28px}
@@ -36,9 +111,9 @@
 <body>
 
   <div class="left-panel">
-    <img src="https://static.vecteezy.com/system/resources/thumbnails/006/470/455/small_2x/university-education-logo-design-template-vector.jpg" alt="University Logo" />
-    <h1>University Staff Rating Portal</h1>
-    <div class="small">Secure Appraisal and Staff Rating System</div>
+    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS70hZaIeG0mE5pfH5QyByD_7fxbz7CvOwLQg&s" alt="NOUN Logo" />
+    <h1>National Open University of Nigeria<br>Benin City Study Centre</h1>
+    <div class="small">Secure Appraisal and Staff Rating Portal</div>
   </div>
 
   <div class="right-panel">
@@ -74,8 +149,6 @@
   </div>
 
   <script>
-    // ====== DEMO-ONLY VERSION (No backend needed) ======
-
     const loginBtn = document.getElementById('loginBtn');
     const showRecoveryBtn = document.getElementById('showRecoveryBtn');
     const recoverBtn = document.getElementById('recoverBtn');
@@ -92,7 +165,7 @@
       box.style.display = box.style.display === 'block' ? 'none' : 'block';
     });
 
-    // --- DEMO LOGIN (Static) ---
+    // Demo login (offline-friendly)
     loginBtn.addEventListener('click', () => {
       clearError();
       const username = document.getElementById('username').value.trim();
@@ -114,7 +187,6 @@
       }
     });
 
-    // --- Password Recovery (demo only) ---
     recoverBtn.addEventListener('click', () => {
       const email = document.getElementById('recoveryEmail').value.trim();
       const recoveryMsg = document.getElementById('recoveryMsg');
