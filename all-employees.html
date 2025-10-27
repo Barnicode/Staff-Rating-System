@@ -2,19 +2,19 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <title>All Employees — University Staff Rating Portal</title>
+  <title>All Employees — NOUN Benin Study Centre Staff Rating Portal</title>
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <style>
     body {
       margin: 0;
       font-family: 'Segoe UI', sans-serif;
-      background: #f4f4f4;
+      background: #f9f9f9;
     }
 
     /* --- SIDEBAR --- */
     .sidebar {
       width: 220px;
-      background: #003366;
+      background: #008000;
       color: #fff;
       height: 100vh;
       position: fixed;
@@ -26,7 +26,7 @@
     }
     .sidebar h2 {
       text-align: center;
-      color: #ff4d4d;
+      color: #ffffff;
       margin-bottom: 20px;
       font-size: 18px;
     }
@@ -38,7 +38,7 @@
       font-weight: 600;
     }
     .sidebar a:hover {
-      background: #0055aa;
+      background: #00a000;
     }
 
     /* --- CONTAINER --- */
@@ -57,7 +57,7 @@
       flex-wrap: wrap;
     }
     .topbar h1 {
-      color: #003366;
+      color: #008000;
       margin: 0;
       font-size: 22px;
       font-weight: 800;
@@ -65,7 +65,7 @@
     .menu-toggle {
       display: none;
       font-size: 22px;
-      color: #003366;
+      color: #008000;
       cursor: pointer;
       background: none;
       border: 0;
@@ -114,7 +114,7 @@
     }
     .selected-profile .info h2 {
       margin: 0 0 6px;
-      color: #003366;
+      color: #008000;
       font-size: 18px;
     }
     .selected-profile .info p {
@@ -135,7 +135,7 @@
     }
     .employee-card h3 {
       margin: 0 0 8px;
-      color: #003366;
+      color: #008000;
       font-size: 16px;
     }
     .employee-card p {
@@ -145,7 +145,7 @@
     }
     .employee-card .meta {
       font-weight: 700;
-      color: #cc0000;
+      color: #00a000;
     }
     .employee-card .actions {
       display: flex;
@@ -155,7 +155,7 @@
     }
     .btn {
       padding: 8px 12px;
-      background: #003366;
+      background: #008000;
       color: #fff;
       border: 0;
       border-radius: 6px;
@@ -163,17 +163,14 @@
       font-size: 14px;
     }
     .btn.alt {
-      background: #cc0000;
+      background: #00a000;
     }
 
-    /* --- RESPONSIVE STYLES --- */
+    /* --- RESPONSIVE --- */
     @media(max-width: 920px) {
       .sidebar {
         width: 200px;
         left: -200px;
-        position: fixed;
-        top: 0;
-        height: 100vh;
       }
       .sidebar.active {
         left: 0;
@@ -198,7 +195,7 @@
 </head>
 <body>
   <nav class="sidebar" id="sidebar">
-    <h2>Admin Panel</h2>
+    <h2>NOUN Admin</h2>
     <a href="control-center.html">Dashboard</a>
     <a href="all-employees.html" aria-current="page">All Employees</a>
     <a href="rate-staff.html">Rate Staff</a>
@@ -210,7 +207,7 @@
     <div class="topbar">
       <button class="menu-toggle" id="menuToggle">☰</button>
       <h1>All Employees</h1>
-      <div><a href="index.html" style="color:#003366;font-weight:700;text-decoration:none">Log Out</a></div>
+      <div><a href="index.html" style="color:#008000;font-weight:700;text-decoration:none">Log Out</a></div>
     </div>
 
     <div class="search-row">
@@ -222,7 +219,7 @@
       <img id="selPhoto" src="" alt="Selected staff photo" />
       <div class="info">
         <h2 id="selName"></h2>
-        <p><strong>University:</strong> <span id="selUni"></span></p>
+        <p><strong>Institution:</strong> <span id="selUni"></span></p>
         <p><strong>Department:</strong> <span id="selDept"></span></p>
         <p><strong>Email:</strong> <span id="selEmail"></span></p>
         <p><strong>Phone:</strong> <span id="selPhone"></span></p>
@@ -238,66 +235,51 @@
   </div>
 
 <script>
-  // sidebar toggle for mobile
+  // Sidebar toggle for mobile
   document.getElementById('menuToggle').addEventListener('click', () => {
     document.getElementById('sidebar').classList.toggle('active');
   });
 
-  /* --- Base Professor Data (used to seed 92 employees) --- */
-  const PROFESSORS = [
-    { name: "Prof. Adeola Ogunleye", dept: "Computer Science", title: "Professor" },
-    { name: "Prof. Chukwuemeka Eze", dept: "Mechanical Engineering", title: "Professor" },
-    { name: "Dr. Maryam Danjuma", dept: "Education", title: "Senior Lecturer" },
-    { name: "Prof. Olufunke Adebayo", dept: "Economics", title: "Professor" },
-    { name: "Dr. Ibrahim Musa", dept: "Computer Science", title: "Senior Lecturer" },
-    { name: "Prof. Kemi Bakare", dept: "Public Health", title: "Professor" },
-    { name: "Dr. Emeka Nwankwo", dept: "Accounting", title: "Associate Professor" },
-  ];
-
-  // portrait URLs (randomuser.me)
-  const PHOTOS = [
-    'https://randomuser.me/api/portraits/men/53.jpg',
-    'https://randomuser.me/api/portraits/women/55.jpg',
-    'https://randomuser.me/api/portraits/men/56.jpg',
-    'https://randomuser.me/api/portraits/women/57.jpg',
-    'https://randomuser.me/api/portraits/men/58.jpg',
-    'https://randomuser.me/api/portraits/women/59.jpg'
+  /* --- Employee Data (25 total) --- */
+  const BASE_STAFF = [
+    { name: "Dr. Musa Bello", dept: "Computer Science", title: "Lecturer II" },
+    { name: "Dr. Grace Eze", dept: "Educational Technology", title: "Senior Lecturer" },
+    { name: "Dr. Chinyere Okafor", dept: "Public Administration", title: "Lecturer I" },
+    { name: "Mr. Samuel John", dept: "Mass Communication", title: "Assistant Lecturer" },
+    { name: "Dr. Fatima Yusuf", dept: "Business Administration", title: "Senior Lecturer" },
   ];
 
   const DEPARTMENTS = [
-    'Computer Science','Mechanical Engineering','Education','Economics','Public Health','Accounting','Nursing',
-    'Biochemistry','Physics','Chemistry','Mathematics','Architecture','Law','Sociology','Pharmacy',
-    'Business Administration','Environmental Science','Food Science','Geology','Public Administration'
+    "Computer Science","Education","Public Administration","Mass Communication",
+    "Business Administration","Law","Economics","Accounting","Political Science",
+    "Sociology","Nursing","English","Mathematics","Physics","Chemistry"
   ];
 
-  /* --- Build 92 employee profiles --- */
-  const EMPLOYEES = Array.from({ length: 92 }).map((_, idx) => {
-    const base = PROFESSORS[idx % PROFESSORS.length];
+  const PHOTOS = [
+    "https://randomuser.me/api/portraits/men/32.jpg",
+    "https://randomuser.me/api/portraits/women/45.jpg",
+    "https://randomuser.me/api/portraits/men/28.jpg",
+    "https://randomuser.me/api/portraits/women/47.jpg"
+  ];
+
+  const EMPLOYEES = Array.from({ length: 25 }).map((_, idx) => {
+    const base = BASE_STAFF[idx % BASE_STAFF.length];
     const id = idx + 1;
     const dept = DEPARTMENTS[idx % DEPARTMENTS.length];
-    const uni = "University of Edu";
-    const title = base.title || (idx % 5 === 0 ? 'Professor' : 'Senior Lecturer');
-    const name = `${base.name.split(' ')[0]} ${String.fromCharCode(65 + (idx % 26))}${String.fromCharCode(65 + ((idx + 5) % 26))} ${base.name.split(' ')[1] || 'Smith'}`;
-    const photo = PHOTOS[idx % PHOTOS.length] + '?u=' + encodeURIComponent(name);
-    const email = `${name.toLowerCase().replace(/[^a-z]/g, '')}.${id}@university.edu`;
-    const phone = '+234' + (8000000000 + id).toString().slice(-10);
-    const rating = (Math.random() * 1.5 + 3.2).toFixed(1);
+    const uni = "National Open University of Nigeria, Benin Study Centre";
+    const name = base.name.split(" ")[0] + " " + base.name.split(" ")[1] + " " + String.fromCharCode(65 + (idx % 26));
+    const email = `${name.toLowerCase().replace(/[^a-z]/g, '')}@nou.edu.ng`;
+    const phone = "+234807" + (1000000 + id);
+    const rating = (Math.random() * 1.5 + 3.5).toFixed(1);
+    const photo = PHOTOS[idx % PHOTOS.length] + "?u=" + encodeURIComponent(name);
 
     return {
-      id,
-      fullName: name,
-      university: uni,
-      department: dept,
-      position: title,
-      email,
-      phone,
-      rating,
-      photo,
-      bio: `${name} is a ${title} in the ${dept} Department at ${uni}. They contribute significantly to academic research and student development.`
+      id, fullName: name, university: uni, department: dept,
+      position: base.title, email, phone, rating, photo,
+      bio: `${name} is a ${base.title} in the ${dept} Department at ${uni}, contributing to student learning and research excellence.`
     };
   });
 
-  // DOM refs
   const grid = document.getElementById('employeeGrid');
   const countEl = document.getElementById('employeeCount');
   const searchInput = document.getElementById('searchInput');
@@ -306,7 +288,7 @@
     grid.innerHTML = list.map(e => `
       <div class="employee-card" data-id="${e.id}">
         <h3>${e.fullName}</h3>
-        <p><strong>${e.position} — ${e.university}</strong></p>
+        <p><strong>${e.position}</strong> — ${e.university}</p>
         <p><strong>Department:</strong> ${e.department}</p>
         <p><strong>Email:</strong> ${e.email}</p>
         <p><strong>Phone:</strong> ${e.phone}</p>
@@ -336,24 +318,19 @@
 
   searchInput.addEventListener('input', e => {
     const q = e.target.value.toLowerCase().trim();
-    if (!q) return render(EMPLOYEES);
-    const filtered = EMPLOYEES.filter(emp =>
-      emp.fullName.toLowerCase().includes(q) ||
-      emp.university.toLowerCase().includes(q) ||
-      emp.department.toLowerCase().includes(q) ||
-      emp.email.toLowerCase().includes(q) ||
-      emp.phone.toLowerCase().includes(q)
-    );
+    const filtered = q
+      ? EMPLOYEES.filter(emp =>
+          emp.fullName.toLowerCase().includes(q) ||
+          emp.department.toLowerCase().includes(q) ||
+          emp.email.toLowerCase().includes(q) ||
+          emp.phone.toLowerCase().includes(q)
+        )
+      : EMPLOYEES;
     render(filtered);
   });
 
   render(EMPLOYEES);
-  localStorage.setItem("EMPLOYEES_DATA", JSON.stringify(EMPLOYEES));
-  if (EMPLOYEES.length) showProfile(EMPLOYEES[0].id);
-
-  window.EMPLOYEES = EMPLOYEES;
+  countEl.textContent = `${EMPLOYEES.length} employees`;
 </script>
 </body>
 </html>
-
-
