@@ -2,39 +2,166 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <title>Manage Users — Admin</title>
+  <title>Manage Users — NOUN Benin Study Centre</title>
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <style>
-    :root{--nav-width:220px;--brand:#003366;--accent:#cc0000;--muted:#6b7280}
-    *{box-sizing:border-box;margin:0;padding:0;font-family:'Segoe UI',sans-serif}
-    body{background:#f4f4f4;min-height:100vh}
-    .sidebar{width:var(--nav-width);background:var(--brand);color:#fff;height:100vh;position:fixed;top:0;left:0;padding-top:20px}
-    .sidebar h2{text-align:center;color:#ff4d4d;margin-bottom:18px}
-    .sidebar a{display:block;color:#fff;padding:12px 18px;text-decoration:none}
-    .sidebar a:hover{background:rgba(255,255,255,0.1)}
-    .header{margin-left:var(--nav-width);padding:14px 20px;background:#fff;border-bottom:1px solid #e6e9ee;display:flex;align-items:center;justify-content:space-between}
-    .main{margin-left:var(--nav-width);padding:22px}
-    .card{background:#fff;padding:16px;border-radius:8px;box-shadow:0 6px 18px rgba(0,0,0,0.04);margin-bottom:16px}
-    h1{color:var(--accent);margin:0 0 8px}
-    .toolbar{display:flex;gap:12px;align-items:center;margin-bottom:12px;flex-wrap:wrap}
-    .search{flex:1}
-    input[type="text"], select{padding:8px;border:1px solid #e6e9ee;border-radius:6px;width:100%}
-    table{width:100%;border-collapse:collapse;margin-top:8px}
-    th,td{padding:10px;border:1px solid #eef2f6;text-align:left}
-    th{background:var(--brand);color:#fff}
-    .btn{padding:8px 12px;background:var(--brand);color:#fff;border-radius:6px;border:0;cursor:pointer;font-weight:700}
-    .btn.alt{background:#cc0000}
-    .muted{color:var(--muted)}
-    .pager{display:flex;gap:8px;align-items:center}
-    .role-select{padding:6px;border-radius:6px;border:1px solid #e6e9ee}
-    @media(max-width:800px){.toolbar{flex-direction:column;align-items:stretch}}
+    :root {
+      --nav-width: 220px;
+      --brand: #006400; /* Deep Green */
+      --accent: #00923f; /* Nigerian Green */
+      --muted: #6b7280;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    body {
+      background: #f7f9f7;
+      min-height: 100vh;
+    }
+
+    .sidebar {
+      width: var(--nav-width);
+      background: var(--brand);
+      color: #fff;
+      height: 100vh;
+      position: fixed;
+      top: 0;
+      left: 0;
+      padding-top: 20px;
+    }
+
+    .sidebar h2 {
+      text-align: center;
+      color: #ffffff;
+      margin-bottom: 18px;
+      font-size: 18px;
+      letter-spacing: 0.5px;
+    }
+
+    .sidebar a {
+      display: block;
+      color: #fff;
+      padding: 12px 18px;
+      text-decoration: none;
+      font-size: 15px;
+    }
+
+    .sidebar a:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .header {
+      margin-left: var(--nav-width);
+      padding: 14px 20px;
+      background: #fff;
+      border-bottom: 2px solid var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .main {
+      margin-left: var(--nav-width);
+      padding: 22px;
+    }
+
+    .card {
+      background: #fff;
+      padding: 16px;
+      border-radius: 8px;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.04);
+      margin-bottom: 16px;
+    }
+
+    h1 {
+      color: var(--brand);
+      margin: 0 0 8px;
+    }
+
+    .toolbar {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+    }
+
+    .search {
+      flex: 1;
+    }
+
+    input[type="text"], select {
+      padding: 8px;
+      border: 1px solid #e6e9ee;
+      border-radius: 6px;
+      width: 100%;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 8px;
+    }
+
+    th, td {
+      padding: 10px;
+      border: 1px solid #eef2f6;
+      text-align: left;
+    }
+
+    th {
+      background: var(--brand);
+      color: #fff;
+    }
+
+    .btn {
+      padding: 8px 12px;
+      background: var(--brand);
+      color: #fff;
+      border-radius: 6px;
+      border: 0;
+      cursor: pointer;
+      font-weight: 700;
+    }
+
+    .btn.alt {
+      background: #d62828;
+    }
+
+    .muted {
+      color: var(--muted);
+    }
+
+    .pager {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .role-select {
+      padding: 6px;
+      border-radius: 6px;
+      border: 1px solid #e6e9ee;
+    }
+
+    @media(max-width:800px) {
+      .toolbar {
+        flex-direction: column;
+        align-items: stretch;
+      }
+    }
   </style>
 </head>
 <body>
   <nav class="sidebar" aria-label="Sidebar">
-    <h2>Admin Panel</h2>
-    <a href="control-center.html">Dashboard</a>
-    <a href="all-employees.html">All Employees</a>
+    <h2>NOUN Admin Panel</h2>
+    <a href="dashboard.html">Dashboard</a>
+    <a href="all-employees.html">All Staff</a>
     <a href="configure-criteria.html">Configure Criteria</a>
     <a href="manage-users.html" aria-current="page">Manage Users</a>
     <a href="reports.html">Reports</a>
@@ -42,36 +169,53 @@
 
   <header class="header">
     <div style="display:flex;gap:12px;align-items:center">
-      <img src="https://static.vecteezy.com/system/resources/thumbnails/006/470/455/small_2x/university-education-logo-design-template-vector.jpg" alt="" style="width:36px;height:36px;object-fit:contain" />
-      <div style="font-weight:800;color:var(--brand)">University Staff Rating Portal</div>
+      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS70hZaIeG0mE5pfH5QyByD_7fxbz7CvOwLQg&s" 
+           alt="NOUN Logo" 
+           style="width:40px;height:40px;object-fit:contain;border-radius:4px;" />
+      <div style="font-weight:800;color:var(--brand);font-size:17px;">
+        National Open University of Nigeria<br>
+        <span style="font-size:14px;font-weight:600;color:var(--accent);">
+          Benin Study Centre — Staff Rating Portal
+        </span>
+      </div>
     </div>
   </header>
 
   <main class="main" role="main">
     <div class="card">
       <h1>Manage Users</h1>
-      <p class="muted">Add, edit and manage user accounts and roles. Demo data persists in localStorage; connect to API for real sync.</p>
+      <p class="muted">
+        Add, edit, and manage system users (admins, managers, reviewers, and staff).  
+        Data here is stored locally (demo mode).
+      </p>
 
       <div class="toolbar card" style="display:flex;align-items:center">
         <div style="width:320px">
-          <input id="searchInput" class="search" placeholder="Search users by name, email, role or department" />
+          <input id="searchInput" class="search" placeholder="Search users by name, email, role, or department" />
         </div>
 
         <select id="filterRole" class="role-select">
           <option value="">All roles</option>
-          <option>Admin</option><option>Manager</option><option>Reviewer</option><option>User</option>
+          <option>Admin</option><option>Manager</option>
+          <option>Reviewer</option><option>User</option>
         </select>
 
         <div style="margin-left:auto;display:flex;gap:8px">
-          <button id="exportBtn" class="btn ghost" style="background:#fff;border:1px solid #e6e9ee;color:var(--brand)">Export CSV</button>
+          <button id="exportBtn" class="btn" style="background:#fff;border:1px solid var(--brand);color:var(--brand)">Export CSV</button>
           <button id="addUserBtn" class="btn">Add User</button>
         </div>
       </div>
 
       <div class="card" style="padding:12px">
         <table aria-live="polite">
-          <thead><tr><th>Name</th><th>Email</th><th>Role</th><th>Department</th><th>Actions</th></tr></thead>
-          <tbody id="usersBody"><tr><td colspan="5" class="muted" style="text-align:center">No users yet</td></tr></tbody>
+          <thead>
+            <tr>
+              <th>Name</th><th>Email</th><th>Role</th><th>Department</th><th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="usersBody">
+            <tr><td colspan="5" class="muted" style="text-align:center">No users yet</td></tr>
+          </tbody>
         </table>
 
         <div style="margin-top:12px;display:flex;justify-content:space-between;align-items:center">
@@ -82,7 +226,7 @@
     </div>
   </main>
 
-  <!-- modal form -->
+  <!-- modal -->
   <div id="modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.4);align-items:center;justify-content:center;padding:20px">
     <div style="background:#fff;padding:20px;border-radius:8px;max-width:560px;width:100%;box-shadow:0 8px 30px rgba(0,0,0,0.2)">
       <h3 id="modalTitle">Add User</h3>
@@ -92,7 +236,7 @@
         <select id="u_role"><option>Admin</option><option>Manager</option><option>Reviewer</option><option>User</option></select>
         <input id="u_department" placeholder="Department" />
         <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:8px">
-          <button id="cancelBtn" class="btn ghost" style="background:#fff;border:1px solid #e6e9ee;color:var(--brand)">Cancel</button>
+          <button id="cancelBtn" class="btn" style="background:#fff;border:1px solid var(--brand);color:var(--brand)">Cancel</button>
           <button id="saveUserBtn" class="btn">Save</button>
         </div>
       </div>
@@ -100,23 +244,29 @@
   </div>
 
   <script>
-    // ✅ Manage Users demo with localStorage only
-    const USER_KEY = 'users:v1';
+    const USER_KEY = 'noun_users:v1';
     let users = loadUsers();
 
-    function loadUsers(){
-      try { const raw = localStorage.getItem(USER_KEY); if(!raw) return sampleUsers(); return JSON.parse(raw); }
-      catch { return sampleUsers(); }
+    function loadUsers() {
+      try {
+        const raw = localStorage.getItem(USER_KEY);
+        if (!raw) return sampleUsers();
+        return JSON.parse(raw);
+      } catch { return sampleUsers(); }
     }
-    function saveUsers(){ localStorage.setItem(USER_KEY, JSON.stringify(users)); renderUsers(); }
 
-    function sampleUsers(){
+    function saveUsers() {
+      localStorage.setItem(USER_KEY, JSON.stringify(users));
+      renderUsers();
+    }
+
+    function sampleUsers() {
       return [
-        { id:'u1', name:'Admin User', email:'admin@university.edu', role:'Admin', department:'Administration' },
-        { id:'u2', name:'Mariam Abdullahi', email:'mariam@university.edu', role:'Manager', department:'HR' },
-        { id:'u3', name:'Michael Adeniyi', email:'michael@university.edu', role:'Reviewer', department:'Finance' },
-        { id:'u4', name:'Yemi Ogunleye', email:'yemi@university.edu', role:'User', department:'IT' },
-        { id:'u5', name:'Ngozi Eze', email:'ngozi@university.edu', role:'User', department:'Registry' }
+        { id:'u1', name:'Admin User', email:'admin@nounbenin.edu.ng', role:'Admin', department:'Administration' },
+        { id:'u2', name:'Mariam Abdullahi', email:'mariam@nounbenin.edu.ng', role:'Manager', department:'HR' },
+        { id:'u3', name:'Michael Adeniyi', email:'michael@nounbenin.edu.ng', role:'Reviewer', department:'Finance' },
+        { id:'u4', name:'Yemi Ogunleye', email:'yemi@nounbenin.edu.ng', role:'User', department:'IT' },
+        { id:'u5', name:'Ngozi Eze', email:'ngozi@nounbenin.edu.ng', role:'User', department:'Registry' }
       ];
     }
 
@@ -131,8 +281,8 @@
     const uDept = document.getElementById('u_department');
     let editingId = null;
 
-    function renderUsers(page=1, perPage=10){
-      const q = (searchInput.value||'').toLowerCase().trim();
+    function renderUsers(page=1, perPage=10) {
+      const q = (searchInput.value || '').toLowerCase().trim();
       const roleFilter = filterRole.value;
       let filtered = users.filter(u => {
         const hay = (u.name + ' ' + u.email + ' ' + u.role + ' ' + (u.department||'')).toLowerCase();
@@ -140,11 +290,14 @@
         if(roleFilter && u.role !== roleFilter) return false;
         return true;
       });
+
       const total = filtered.length;
       summary.textContent = `${total} users`;
-      const start = (page-1)*perPage;
-      const pageData = filtered.slice(start, start+perPage);
-      if(!pageData.length){
+
+      const start = (page - 1) * perPage;
+      const pageData = filtered.slice(start, start + perPage);
+
+      if (!pageData.length) {
         usersBody.innerHTML = `<tr><td colspan="5" class="muted" style="text-align:center">No users</td></tr>`;
       } else {
         usersBody.innerHTML = pageData.map(u => `
@@ -154,7 +307,7 @@
             <td>${u.role}</td>
             <td>${u.department||''}</td>
             <td>
-              <button class="btn ghost" data-action="edit" data-id="${u.id}" style="background:#fff;border:1px solid #e6e9ee;color:var(--brand)">Edit</button>
+              <button class="btn" data-action="edit" data-id="${u.id}" style="background:#fff;border:1px solid var(--brand);color:var(--brand)">Edit</button>
               <button class="btn alt" data-action="delete" data-id="${u.id}">Delete</button>
             </td>
           </tr>
@@ -163,36 +316,39 @@
       attachRowActions();
     }
 
-    function attachRowActions(){
+    function attachRowActions() {
       document.querySelectorAll('[data-action="edit"]').forEach(b => b.onclick = () => openEdit(b.dataset.id));
       document.querySelectorAll('[data-action="delete"]').forEach(b => b.onclick = () => {
-        if(!confirm('Delete user?')) return;
+        if (!confirm('Delete user?')) return;
         users = users.filter(u => u.id !== b.dataset.id);
         saveUsers();
       });
     }
 
     document.getElementById('addUserBtn').addEventListener('click', () => openAdd());
-    function openAdd(){
+    function openAdd() {
       editingId = null;
       document.getElementById('modalTitle').textContent = 'Add User';
       uName.value = ''; uEmail.value = ''; uRole.value = 'User'; uDept.value = '';
       modal.style.display = 'flex';
     }
-    function openEdit(id){
-      const u = users.find(x => x.id === id); if(!u) return;
+
+    function openEdit(id) {
+      const u = users.find(x => x.id === id);
+      if (!u) return;
       editingId = id;
       document.getElementById('modalTitle').textContent = 'Edit User';
       uName.value = u.name; uEmail.value = u.email; uRole.value = u.role; uDept.value = u.department || '';
       modal.style.display = 'flex';
     }
+
     document.getElementById('cancelBtn').addEventListener('click', () => modal.style.display = 'none');
     document.getElementById('saveUserBtn').addEventListener('click', () => {
       const name = uName.value.trim(); const email = uEmail.value.trim(); const role = uRole.value; const dept = uDept.value.trim();
-      if(!name || !email){ alert('Provide name and email'); return; }
-      if(editingId){
+      if (!name || !email) { alert('Provide name and email'); return; }
+      if (editingId) {
         const u = users.find(x => x.id === editingId);
-        if(u){ u.name = name; u.email = email; u.role = role; u.department = dept; }
+        if (u) { u.name = name; u.email = email; u.role = role; u.department = dept; }
       } else {
         const id = 'u' + Date.now().toString(36);
         users.push({ id, name, email, role, department: dept });
@@ -205,10 +361,12 @@
     filterRole.addEventListener('change', () => renderUsers());
 
     document.getElementById('exportBtn').addEventListener('click', () => {
-      const csv = ['Name,Email,Role,Department', ...users.map(u => `"${u.name.replace(/"/g,'""')}","${u.email}","${u.role}","${(u.department||'').replace(/"/g,'""')}"`)].join('\n');
+      const csv = ['Name,Email,Role,Department', ...users.map(u => `"${u.name}","${u.email}","${u.role}","${u.department||''}"`)].join('\n');
       const blob = new Blob([csv], { type: 'text/csv' });
       const url = URL.createObjectURL(blob);
-      const a = document.createElement('a'); a.href = url; a.download = `users_${new Date().toISOString().slice(0,10)}.csv`; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
+      const a = document.createElement('a');
+      a.href = url; a.download = `users_${new Date().toISOString().slice(0,10)}.csv`;
+      document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
     });
 
     renderUsers();
