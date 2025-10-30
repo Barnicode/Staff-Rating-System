@@ -1,199 +1,161 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <title>About — University Staff Rating Portal</title>
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Edit Profile | NOUN Benin Study Centre</title>
+  <link rel="icon" type="image/png"
+        href="https://upload.wikimedia.org/wikipedia/en/9/92/NOUN_Logo.png">
   <style>
-    :root{
-      --nav-width:220px;
-      --brand:#003366;
-      --accent:#cc0000;
-      --muted:#6b7280;
-      --bg:#f4f4f4;
-      --card:#fff;
-      --radius:10px;
-    }
-    *{box-sizing:border-box;margin:0;padding:0;font-family:'Segoe UI',system-ui,Arial,sans-serif}
-    body{background:var(--bg);min-height:100vh;color:#222}
-
-    /* Sidebar */
-    .sidebar{
-      width:var(--nav-width);
-      background:var(--brand);
-      color:#fff;
-      height:100vh;
-      position:fixed;
-      top:0;
-      left:0;
-      padding-top:20px;
-      transition:transform .3s ease;
-    }
-    .sidebar h2{text-align:center;color:#ff4d4d;margin-bottom:18px}
-    .sidebar a{display:block;color:#fff;padding:12px 18px;text-decoration:none}
-    .sidebar a:hover{background:#0055aa}
-
-    /* Toggle button for mobile */
-    .menu-toggle{
-      display:none;
-      position:fixed;
-      top:14px;
-      left:14px;
-      background:var(--brand);
-      color:#fff;
-      border:none;
-      font-size:18px;
-      padding:8px 12px;
-      border-radius:6px;
-      z-index:999;
-      cursor:pointer;
+    body {
+      font-family: "Segoe UI", Arial, sans-serif;
+      background: linear-gradient(to right, #006400, #00923F); /* NOUN green */
+      margin: 0;
+      padding: 0;
+      color: #333;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
     }
 
-    header{
-      margin-left:var(--nav-width);
-      padding:20px 24px;
-      background:var(--card);
-      border-bottom:1px solid #e6e9ee;
-      display:flex;
-      align-items:center;
-      gap:12px;
+    .edit-container {
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+      width: 90%;
+      max-width: 550px;
+      padding: 40px 30px;
+      text-align: center;
     }
-    header img{width:44px;height:44px;object-fit:contain}
-    header h1{font-size:20px;color:var(--brand);font-weight:800}
-    main{margin-left:var(--nav-width);padding:22px}
-    .grid{display:grid;grid-template-columns:1fr 320px;gap:18px;align-items:start}
-    .card{background:var(--card);padding:18px;border-radius:var(--radius);box-shadow:0 8px 24px rgba(0,0,0,0.05)}
-    h2{color:var(--brand);margin-bottom:8px}
-    p{color:#333;line-height:1.45;margin-bottom:12px}
-    .meta{font-size:14px;color:var(--muted)}
-    .team-list{display:flex;flex-direction:column;gap:10px}
-    .team-member{display:flex;gap:10px;align-items:center}
-    .avatar{width:56px;height:56px;border-radius:8px;object-fit:cover;flex:0 0 56px}
-    .member-info{font-size:14px}
-    .member-info strong{display:block;color:var(--brand)}
-    .contact-list{display:flex;flex-direction:column;gap:8px;margin-top:6px}
-    .link{color:var(--brand);text-decoration:none;font-weight:700}
-    footer{margin-left:var(--nav-width);padding:14px 22px;color:var(--muted);font-size:13px;text-align:center}
 
-    /* ---------- Responsive Layout ---------- */
-    @media(max-width:900px){
-      .grid{grid-template-columns:1fr;}
+    .edit-container img {
+      width: 80px;
+      height: 80px;
+      object-fit: contain;
+      margin-bottom: 10px;
     }
-    @media(max-width:768px){
-      .sidebar{
-        transform:translateX(-100%);
-      }
-      .sidebar.open{
-        transform:translateX(0);
-      }
-      .menu-toggle{display:block;}
-      header, main, footer{
-        margin-left:0;
-      }
-      header{
-        justify-content:center;
-        text-align:center;
+
+    .edit-container h2 {
+      color: #006400;
+      margin-bottom: 20px;
+      font-size: 1.8rem;
+    }
+
+    label {
+      display: block;
+      font-weight: 600;
+      margin-top: 12px;
+      text-align: left;
+    }
+
+    input {
+      width: 100%;
+      padding: 10px;
+      margin-top: 6px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 15px;
+    }
+
+    .btn {
+      display: inline-block;
+      border: none;
+      cursor: pointer;
+      padding: 12px 20px;
+      border-radius: 6px;
+      font-size: 15px;
+      font-weight: 600;
+      transition: 0.2s ease-in-out;
+    }
+
+    .btn-save {
+      background-color: #006400;
+      color: white;
+      width: 100%;
+      margin-top: 25px;
+    }
+
+    .btn-save:hover {
+      background-color: #004d00;
+    }
+
+    .btn-back {
+      display: block;
+      text-align: center;
+      margin-top: 18px;
+      text-decoration: none;
+      color: #006400;
+      font-weight: 600;
+    }
+
+    .btn-back:hover {
+      color: #cc0000;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 20px;
+      color: #fff;
+      font-size: 0.9rem;
+      opacity: 0.9;
+    }
+
+    @media (max-width: 600px) {
+      .edit-container {
+        padding: 30px 20px;
       }
     }
   </style>
 </head>
 <body>
-  <button class="menu-toggle" onclick="toggleMenu()">☰</button>
-  <nav class="sidebar" aria-label="Sidebar navigation" id="sidebar">
-    <h2>Admin Panel</h2>
-    <a href="control-center.html">Dashboard</a>
-    <a href="all-employees.html">All Employees</a>
-    <a href="configure-criteria.html">Configure Criteria</a>
-    <a href="manage-users.html">Manage Users</a>
-    <a href="reports.html">Reports</a>
-    <a href="about.html" aria-current="page">About</a>
-  </nav>
 
-  <header role="banner">
-    <img src="https://static.vecteezy.com/system/resources/thumbnails/006/470/455/small_2x/university-education-logo-design-template-vector.jpg" alt="Portal logo" />
-    <h1>University Staff Rating Portal</h1>
-  </header>
+  <div class="edit-container">
+    <img src="https://upload.wikimedia.org/wikipedia/en/9/92/NOUN_Logo.png"
+         alt="NOUN Logo">
+    <h2>Edit Admin Profile</h2>
+    <form id="editForm">
+      <label for="name">Admin Name:</label>
+      <input type="text" id="name" name="name"
+             placeholder="Enter full name" required
+             value="Barnabas Blessing" />
 
-  <main role="main">
-    <div class="grid">
-      <section class="card" aria-labelledby="aboutTitle">
-        <h2 id="aboutTitle">About the Portal</h2>
-        <p>The University Staff Rating Portal is an internal platform designed to gather constructive, anonymous, and authenticated feedback on teaching and professional staff. It aggregates ratings across configurable criteria, produces department and individual reports, and helps leadership identify strengths and areas for improvement.</p>
+      <label for="username">Username:</label>
+      <input type="text" id="username" name="username"
+             placeholder="Enter username" required
+             value="adminNOUN" />
 
-        <h2>Mission</h2>
-        <p>To provide a transparent, fair, and actionable feedback system that supports professional development, teaching quality, and operational excellence.</p>
+      <label for="email">Email:</label>
+      <input type="email" id="email" name="email"
+             placeholder="Enter email address" required
+             value="support@noun.edu.ng" />
 
-        <h2>Vision</h2>
-        <p>To embed continuous improvement into academic culture through timely insights and trusted reporting that promote growth and informed decision-making.</p>
+      <label for="phone">Phone Number:</label>
+      <input type="tel" id="phone" name="phone"
+             placeholder="Enter phone number" required
+             value="0807 241 7770" />
 
-        <h2>How it Works</h2>
-        <p>Students and staff submit ratings based on defined criteria. Administrators configure the criteria and manage users. Reports summarize scores by department or individual for analysis.</p>
+      <label for="position">Position:</label>
+      <input type="text" id="position" name="position"
+             placeholder="Enter position" required
+             value="Administrator" />
 
-        <h2>Design Principles</h2>
-        <ul style="margin:8px 0 12px 18px;color:#333">
-          <li>Respectful feedback and evidence-based ratings</li>
-          <li>Privacy protection and consent-driven participation</li>
-          <li>Actionable reporting with clear insights</li>
-          <li>Accessibility and mobile responsiveness</li>
-        </ul>
-
-        <h2>Version</h2>
-        <p class="meta">Portal version: <strong>1.0.0</strong></p>
-      </section>
-
-      <aside class="card" aria-labelledby="teamTitle">
-        <h2 id="teamTitle">Team & Contact</h2>
-
-        <div class="team-list" role="list">
-          <div class="team-member" role="listitem">
-            <img class="avatar" src="https://randomuser.me/api/portraits/men/32.jpg" alt="Team member photo" />
-            <div class="member-info">
-              <strong>Barnabas Blessing</strong>
-              <span class="meta">Product Owner</span>
-              <a class="link" href="mailto:barnabas@university.edu">barnabas@university.edu</a>
-            </div>
-          </div>
-
-          <div class="team-member" role="listitem">
-            <img class="avatar" src="https://randomuser.me/api/portraits/women/44.jpg" alt="Team member photo" />
-            <div class="member-info">
-              <strong>Lucky Eze</strong>
-              <span class="meta">Platform Admin</span>
-              <a class="link" href="mailto:lucky.eze@university.edu">lucky.eze@university.edu</a>
-            </div>
-          </div>
-
-          <div class="team-member" role="listitem">
-            <img class="avatar" src="https://randomuser.me/api/portraits/men/65.jpg" alt="Team member photo" />
-            <div class="member-info">
-              <strong>IT Support</strong>
-              <span class="meta">Technical Lead</span>
-              <a class="link" href="mailto:itsupport@university.edu">itsupport@university.edu</a>
-            </div>
-          </div>
-        </div>
-
-        <h2 style="margin-top:14px">Contact</h2>
-        <div class="contact-list">
-          <div class="meta">For admin help: <a class="link" href="mailto:support@university.edu">support@university.edu</a></div>
-          <div class="meta">Report an issue: <a class="link" href="mailto:bugs@university.edu">bugs@university.edu</a></div>
-          <div class="meta">Privacy statement: <a class="link" href="https://privacy.microsoft.com/en-us/privacystatement" target="_blank" rel="noopener">View</a></div>
-        </div>
-
-        <h2 style="margin-top:14px">Open Source & Contributions</h2>
-        <p class="meta">This portal is for institutional use. Developers maintaining a fork should include release notes and upgrade instructions.</p>
-      </aside>
-    </div>
-  </main>
+      <button type="submit" class="btn btn-save">Save Changes</button>
+    </form>
+    <a href="dashboard.html" class="btn-back">← Back to Dashboard</a>
+  </div>
 
   <footer>
-    Copyright © University Staff Rating Portal. Built for institutional feedback and improvement.
+    © 2025 National Open University of Nigeria, Benin Study Centre<br>
+    Ogogugbo, Benin City — Support: support@noun.edu.ng | 0807 241 7770
   </footer>
 
   <script>
-    function toggleMenu(){
-      document.getElementById('sidebar').classList.toggle('open');
-    }
+    document.getElementById('editForm').addEventListener('submit', e => {
+      e.preventDefault();
+      alert('Profile updated successfully for NOUN Admin!');
+    });
   </script>
 </body>
 </html>
