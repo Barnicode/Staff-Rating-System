@@ -3,34 +3,42 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Edit Profile | University Staff Rating Portal</title>
-  <link rel="icon" type="image/png" href="logo.png">
+  <title>Edit Profile | NOUN Benin Study Centre</title>
+  <link rel="icon" type="image/png" href="https://upload.wikimedia.org/wikipedia/en/9/92/NOUN_Logo.png">
   <style>
     body {
       font-family: "Segoe UI", Arial, sans-serif;
-      background: linear-gradient(to right, #002b7f, #8b0000);
+      background: linear-gradient(to right, #006400, #00923F); /* NOUN green tones */
       margin: 0;
       padding: 0;
       color: #333;
       min-height: 100vh;
       display: flex;
+      flex-direction: column;
       justify-content: center;
       align-items: center;
     }
 
     .edit-container {
-      background: #fff;
+      background: #ffffff;
       border-radius: 12px;
       box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
       width: 90%;
       max-width: 550px;
       padding: 40px 30px;
+      text-align: center;
+    }
+
+    .edit-container img {
+      width: 80px;
+      height: 80px;
+      object-fit: contain;
+      margin-bottom: 10px;
     }
 
     .edit-container h2 {
-      text-align: center;
-      color: #b30000;
-      margin-bottom: 25px;
+      color: #006400;
+      margin-bottom: 20px;
       font-size: 1.8rem;
     }
 
@@ -38,6 +46,7 @@
       display: block;
       font-weight: 600;
       margin-top: 12px;
+      text-align: left;
     }
 
     input {
@@ -61,14 +70,14 @@
     }
 
     .btn-save {
-      background-color: #002b7f;
+      background-color: #006400;
       color: white;
       width: 100%;
       margin-top: 25px;
     }
 
     .btn-save:hover {
-      background-color: #001f5a;
+      background-color: #004d00;
     }
 
     .btn-back {
@@ -76,20 +85,20 @@
       text-align: center;
       margin-top: 18px;
       text-decoration: none;
-      color: #002b7f;
+      color: #006400;
       font-weight: 600;
     }
 
     .btn-back:hover {
-      color: #b30000;
+      color: #cc0000;
     }
 
     footer {
       text-align: center;
-      margin-top: 30px;
+      margin-top: 20px;
       color: #fff;
       font-size: 0.9rem;
-      opacity: 0.8;
+      opacity: 0.9;
     }
 
     @media (max-width: 600px) {
@@ -102,22 +111,23 @@
 <body>
 
   <div class="edit-container">
+    <img src="https://upload.wikimedia.org/wikipedia/en/9/92/NOUN_Logo.png" alt="NOUN Logo">
     <h2>Edit Admin Profile</h2>
     <form id="editForm">
       <label for="name">Admin Name:</label>
-      <input type="text" id="name" name="name" placeholder="Enter full name" required />
+      <input type="text" id="name" name="name" placeholder="Enter full name" required value="Barnabas Blessing"/>
 
       <label for="username">Username:</label>
-      <input type="text" id="username" name="username" placeholder="Enter username" required />
+      <input type="text" id="username" name="username" placeholder="Enter username" required value="adminNOUN"/>
 
       <label for="email">Email:</label>
-      <input type="email" id="email" name="email" placeholder="Enter email address" required />
+      <input type="email" id="email" name="email" placeholder="Enter email address" required value="support@noun.edu.ng"/>
 
       <label for="phone">Phone Number:</label>
-      <input type="tel" id="phone" name="phone" placeholder="Enter phone number" required />
+      <input type="tel" id="phone" name="phone" placeholder="Enter phone number" required value="0807 241 7770"/>
 
       <label for="position">Position:</label>
-      <input type="text" id="position" name="position" placeholder="Enter position" required />
+      <input type="text" id="position" name="position" placeholder="Enter position" required value="Administrator"/>
 
       <button type="submit" class="btn btn-save">Save Changes</button>
     </form>
@@ -125,14 +135,14 @@
   </div>
 
   <footer>
-    Copyright © NOUN Design by Barnabas Blessing
+    © 2025 National Open University of Nigeria, Benin Study Centre<br>
+    Ogogugbo, Benin City — Support: support@noun.edu.ng | 0807 241 7770
   </footer>
 
   <script>
-    // Demo save handler
     document.getElementById('editForm').addEventListener('submit', function(e) {
       e.preventDefault();
-      alert('✅ Profile updated successfully!');
+      alert(' Profile updated successfully for NOUN Admin!');
     });
   </script>
 
