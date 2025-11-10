@@ -3,159 +3,229 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Edit Profile | NOUN Benin Study Centre</title>
-  <link rel="icon" type="image/png"
-        href="https://upload.wikimedia.org/wikipedia/en/9/92/NOUN_Logo.png">
+  <title>About | NOUN Staff Rating Portal - Benin Study Centre</title>
+  <link rel="icon" type="image/png" href="noun_logo.png">
   <style>
     body {
-      font-family: "Segoe UI", Arial, sans-serif;
-      background: linear-gradient(to right, #006400, #00923F); /* NOUN green */
       margin: 0;
-      padding: 0;
+      font-family: "Segoe UI", Arial, sans-serif;
+      background-color: #f5f5f5;
       color: #333;
-      min-height: 100vh;
       display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
     }
 
-    .edit-container {
-      background: #fff;
-      border-radius: 12px;
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
-      width: 90%;
-      max-width: 550px;
-      padding: 40px 30px;
-      text-align: center;
-    }
-
-    .edit-container img {
-      width: 80px;
-      height: 80px;
-      object-fit: contain;
-      margin-bottom: 10px;
-    }
-
-    .edit-container h2 {
-      color: #006400;
-      margin-bottom: 20px;
-      font-size: 1.8rem;
-    }
-
-    label {
-      display: block;
-      font-weight: 600;
-      margin-top: 12px;
-      text-align: left;
-    }
-
-    input {
-      width: 100%;
-      padding: 10px;
-      margin-top: 6px;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      font-size: 15px;
-    }
-
-    .btn {
-      display: inline-block;
-      border: none;
-      cursor: pointer;
-      padding: 12px 20px;
-      border-radius: 6px;
-      font-size: 15px;
-      font-weight: 600;
-      transition: 0.2s ease-in-out;
-    }
-
-    .btn-save {
-      background-color: #006400;
+    /* Sidebar */
+    .sidebar {
+      width: 230px;
+      background-color: #006600;
       color: white;
-      width: 100%;
-      margin-top: 25px;
+      padding-top: 20px;
+      position: fixed;
+      height: 100vh;
     }
 
-    .btn-save:hover {
+    .sidebar h2 {
+      text-align: center;
+      font-size: 1.1rem;
+      margin-bottom: 25px;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .sidebar ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .sidebar ul li {
+      padding: 12px 20px;
+    }
+
+    .sidebar ul li a {
+      text-decoration: none;
+      color: white;
+      font-weight: 500;
+      display: block;
+    }
+
+    .sidebar ul li:hover {
       background-color: #004d00;
     }
 
-    .btn-back {
-      display: block;
-      text-align: center;
-      margin-top: 18px;
-      text-decoration: none;
-      color: #006400;
-      font-weight: 600;
+    /* Main Content */
+    .main-content {
+      margin-left: 230px;
+      padding: 20px 40px;
+      flex: 1;
     }
 
-    .btn-back:hover {
-      color: #cc0000;
+    .topbar {
+      display: flex;
+      align-items: center;
+      background-color: white;
+      padding: 10px 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      margin-bottom: 20px;
     }
 
-    footer {
-      text-align: center;
+    .topbar img {
+      height: 40px;
+      margin-right: 10px;
+    }
+
+    .topbar h1 {
+      font-size: 1.2rem;
+      color: #006600;
+      margin: 0;
+      font-weight: 700;
+    }
+
+    .content-card {
+      background: white;
+      border-radius: 10px;
+      padding: 25px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+    }
+
+    h2 {
+      color: #004d00;
+      border-bottom: 2px solid #006600;
+      padding-bottom: 4px;
+    }
+
+    h3 {
+      color: #006600;
       margin-top: 20px;
-      color: #fff;
-      font-size: 0.9rem;
-      opacity: 0.9;
     }
 
-    @media (max-width: 600px) {
-      .edit-container {
-        padding: 30px 20px;
+    p, li {
+      line-height: 1.6;
+      font-size: 0.95rem;
+    }
+
+    /* Right Info Box */
+    .right-box {
+      position: fixed;
+      right: 20px;
+      top: 90px;
+      width: 250px;
+      background: white;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+    }
+
+    .right-box h3 {
+      color: #004d00;
+      margin-bottom: 10px;
+    }
+
+    .contact-info p {
+      margin: 6px 0;
+      font-size: 0.9rem;
+    }
+
+    .footer {
+      text-align: center;
+      margin-top: 30px;
+      font-size: 0.85rem;
+      color: #666;
+    }
+
+    @media (max-width: 900px) {
+      .sidebar {
+        display: none;
+      }
+      .main-content {
+        margin-left: 0;
+        padding: 20px;
+      }
+      .right-box {
+        position: static;
+        margin-top: 20px;
+        width: 100%;
       }
     }
   </style>
 </head>
+
 <body>
 
-  <div class="edit-container">
-    <img src="https://upload.wikimedia.org/wikipedia/en/9/92/NOUN_Logo.png"
-         alt="NOUN Logo">
-    <h2>Edit Admin Profile</h2>
-    <form id="editForm">
-      <label for="name">Admin Name:</label>
-      <input type="text" id="name" name="name"
-             placeholder="Enter full name" required
-             value="Barnabas Blessing" />
-
-      <label for="username">Username:</label>
-      <input type="text" id="username" name="username"
-             placeholder="Enter username" required
-             value="adminNOUN" />
-
-      <label for="email">Email:</label>
-      <input type="email" id="email" name="email"
-             placeholder="Enter email address" required
-             value="support@noun.edu.ng" />
-
-      <label for="phone">Phone Number:</label>
-      <input type="tel" id="phone" name="phone"
-             placeholder="Enter phone number" required
-             value="0807 241 7770" />
-
-      <label for="position">Position:</label>
-      <input type="text" id="position" name="position"
-             placeholder="Enter position" required
-             value="Administrator" />
-
-      <button type="submit" class="btn btn-save">Save Changes</button>
-    </form>
-    <a href="dashboard.html" class="btn-back">← Back to Dashboard</a>
+  <div class="sidebar">
+    <h2>Admin Panel</h2>
+    <ul>
+      <li><a href="dashboard.html">Dashboard</a></li>
+      <li><a href="employees.html">All Employees</a></li>
+      <li><a href="criteria.html">Configure Criteria</a></li>
+      <li><a href="manage.html">Manage Users</a></li>
+      <li><a href="reports.html">Reports</a></li>
+      <li><a href="about.html" style="background:#004d00;">About</a></li>
+    </ul>
   </div>
 
-  <footer>
-    © 2025 National Open University of Nigeria, Benin Study Centre<br>
-    Ogogugbo, Benin City — Support: support@noun.edu.ng | 0807 241 7770
-  </footer>
+  <div class="main-content">
+    <div class="topbar">
+      <img src="noun_logo.png" alt="NOUN Logo">
+      <h1>NOUN Staff Rating Portal - Benin Study Centre</h1>
+    </div>
 
-  <script>
-    document.getElementById('editForm').addEventListener('submit', e => {
-      e.preventDefault();
-      alert('Profile updated successfully for NOUN Admin!');
-    });
-  </script>
+    <div class="content-card">
+      <h2>About the Portal</h2>
+      <p>
+        The NOUN Staff Rating Portal is an internal platform designed to gather constructive, anonymous, and authenticated feedback
+        on teaching and professional staff. It aggregates ratings across configurable criteria, produces department and
+        individual reports, and helps leadership identify strengths and areas for improvement.
+      </p>
+
+      <h3>Mission</h3>
+      <p>
+        To provide a transparent, fair, and actionable feedback system that supports professional development, teaching quality,
+        and operational excellence at the National Open University of Nigeria, Benin Study Centre.
+      </p>
+
+      <h3>Vision</h3>
+      <p>
+        To embed continuous improvement into academic culture through timely insights and trusted reporting that promote
+        growth and informed decision-making.
+      </p>
+
+      <h3>How it Works</h3>
+      <p>
+        Staff and administrators submit ratings based on defined criteria. Administrators configure the criteria and manage
+        users. Reports summarize scores by department or individual for analysis.
+      </p>
+
+      <h3>Design Principles</h3>
+      <ul>
+        <li>Respectful feedback and evidence-based ratings</li>
+        <li>Privacy protection and consent-driven participation</li>
+        <li>Actionable reporting with clear insights</li>
+        <li>Accessibility and mobile responsiveness</li>
+      </ul>
+
+      <h3>Version</h3>
+      <p>Portal version: 1.0.0</p>
+    </div>
+
+    <div class="footer">
+      © 2025 National Open University of Nigeria, Benin Study Centre. Designed by Barnabas Blessing.
+    </div>
+  </div>
+
+  <div class="right-box">
+    <h3>Team & Contact</h3>
+    <div class="contact-info">
+      <p><strong>Centre Admin:</strong> Barnabas Blessing<br>Email: support@noun.edu.ng</p>
+      <p><strong>Technical Support:</strong><br>Email: centralinfo@noun.edu.ng<br>Phone: +234 908 290 7092</p>
+      <p><strong>Address:</strong><br>Ogogugbo, Benin City 300102, Edo State<br>Open: 8 am – 4 pm</p>
+    </div>
+
+    <h3>Open Source & Contributions</h3>
+    <p>
+      This portal is for institutional use. Developers maintaining code should include release notes and upgrade instructions.
+    </p>
+  </div>
+
 </body>
 </html>
