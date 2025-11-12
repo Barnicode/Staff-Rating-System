@@ -9,19 +9,20 @@
     body {
       margin: 0;
       font-family: "Segoe UI", Arial, sans-serif;
-      background-color: #f5f5f5;
+      background-color: #f8f8f8;
       color: #333;
       display: flex;
     }
 
     /* Sidebar */
     .sidebar {
-      width: 230px;
+      width: 220px;
       background-color: #006600;
       color: white;
       padding-top: 20px;
       position: fixed;
       height: 100vh;
+      overflow-y: auto;
     }
 
     .sidebar h2 {
@@ -48,15 +49,17 @@
       display: block;
     }
 
-    .sidebar ul li:hover {
+    .sidebar ul li:hover, 
+    .sidebar ul li a.active {
       background-color: #004d00;
     }
 
     /* Main Content */
     .main-content {
-      margin-left: 230px;
-      padding: 20px 40px;
+      margin-left: 220px;
+      padding: 20px 320px 40px 40px; /* Add right padding to avoid overlap */
       flex: 1;
+      box-sizing: border-box;
     }
 
     .topbar {
@@ -86,30 +89,31 @@
       border-radius: 10px;
       padding: 25px;
       box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+      line-height: 1.6;
     }
 
     h2 {
       color: #004d00;
       border-bottom: 2px solid #006600;
       padding-bottom: 4px;
+      margin-bottom: 10px;
     }
 
     h3 {
       color: #006600;
-      margin-top: 20px;
+      margin-top: 18px;
     }
 
-    p, li {
-      line-height: 1.6;
-      font-size: 0.95rem;
+    ul {
+      margin-top: 6px;
     }
 
     /* Right Info Box */
     .right-box {
       position: fixed;
       right: 20px;
-      top: 90px;
-      width: 250px;
+      top: 100px;
+      width: 270px;
       background: white;
       border-radius: 10px;
       padding: 20px;
@@ -118,33 +122,41 @@
 
     .right-box h3 {
       color: #004d00;
-      margin-bottom: 10px;
+      margin-bottom: 8px;
     }
 
     .contact-info p {
       margin: 6px 0;
       font-size: 0.9rem;
+      line-height: 1.5;
     }
 
     .footer {
       text-align: center;
       margin-top: 30px;
       font-size: 0.85rem;
-      color: #666;
+      color: #555;
     }
 
-    @media (max-width: 900px) {
+    @media (max-width: 1100px) {
+      .main-content {
+        margin-left: 220px;
+        padding-right: 40px;
+      }
+      .right-box {
+        position: static;
+        margin-top: 20px;
+        width: 100%;
+      }
+    }
+
+    @media (max-width: 768px) {
       .sidebar {
         display: none;
       }
       .main-content {
         margin-left: 0;
         padding: 20px;
-      }
-      .right-box {
-        position: static;
-        margin-top: 20px;
-        width: 100%;
       }
     }
   </style>
@@ -160,7 +172,7 @@
       <li><a href="criteria.html">Configure Criteria</a></li>
       <li><a href="manage.html">Manage Users</a></li>
       <li><a href="reports.html">Reports</a></li>
-      <li><a href="about.html" style="background:#004d00;">About</a></li>
+      <li><a href="about.html" class="active">About</a></li>
     </ul>
   </div>
 
