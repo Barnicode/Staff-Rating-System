@@ -2,180 +2,138 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <title>Events / Activities — University Staff Rating Portal</title>
+  <title>Events / Activities — NOUN Staff Rating Portal</title>
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <style>
     :root{
       --nav-width:220px;
-      --brand:#006b3f; /* NOUN green */
-      --accent:#ffcc00; /* NOUN gold */
+      --brand:#006600; /* NOUN Green */
+      --accent:#ffcc00; /* NOUN Gold */
       --muted:#6b7280;
     }
     *{box-sizing:border-box;margin:0;padding:0;font-family:'Segoe UI',sans-serif}
-    body{background:#f4f4f4;min-height:100vh;color:#222}
+    body{background:#f5f5f5;min-height:100vh;color:#222}
     .sidebar{
-      width:var(--nav-width);
-      background:var(--brand);
-      color:#fff;
-      height:100vh;
-      position:fixed;
-      top:0;
-      left:0;
-      padding-top:20px;
-      transition:transform .3s ease;
+      width:var(--nav-width);background:var(--brand);color:#fff;
+      height:100vh;position:fixed;top:0;left:0;padding-top:20px;
     }
-    .sidebar h2, .sidebar img{
-      display:block;
-      margin:auto;
-      margin-bottom:15px;
-      width:80px;
-      height:auto;
+    .sidebar h2{
+      text-align:center;margin-bottom:18px;
+      display:flex;flex-direction:column;align-items:center;
     }
+    .sidebar h2 img{width:60px;margin-bottom:6px}
     .sidebar a{
-      display:block;
-      color:#fff;
-      padding:12px 18px;
-      text-decoration:none;
-      font-weight:500;
-      transition:background .2s;
+      display:block;color:#fff;padding:12px 18px;text-decoration:none;
     }
-    .sidebar a:hover{
-      background:rgba(255,255,255,0.1);
+    .sidebar a:hover, .sidebar a[aria-current="page"]{
+      background:#004d00;
     }
     header{
-      margin-left:var(--nav-width);
-      padding:14px 20px;
-      background:#fff;
-      border-bottom:1px solid #e6e9ee;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      position:sticky;
-      top:0;
-      z-index:5;
+      margin-left:var(--nav-width);padding:14px 20px;background:#fff;
+      border-bottom:1px solid #e6e9ee;display:flex;align-items:center;justify-content:space-between;
+      flex-wrap:wrap;
     }
-    header .title{
-      font-weight:800;
-      color:var(--brand);
-      font-size:1.3rem;
-    }
-    .container{
-      margin-left:var(--nav-width);
-      padding:18px;
-    }
-    .grid{
-      display:grid;
-      grid-template-columns:360px 1fr;
-      gap:18px;
-    }
+    header .title{font-weight:800;color:var(--brand)}
+    .container{margin-left:var(--nav-width);padding:18px}
+    .grid{display:grid;grid-template-columns:360px 1fr;gap:18px}
     .card{
-      background:#fff;
-      padding:16px;
-      border-radius:10px;
-      box-shadow:0 8px 24px rgba(0,0,0,0.04);
+      background:#fff;padding:16px;border-radius:10px;
+      box-shadow:0 8px 24px rgba(0,0,0,0.04)
     }
     .h{color:var(--brand);margin:0 0 12px;font-size:18px}
     .muted{color:var(--muted);font-size:13px}
-    input[type="text"],input[type="date"],input[type="time"],textarea,select{
-      width:100%;
-      padding:8px;
-      border:1px solid #e6e9ee;
-      border-radius:6px;
+    .small{font-size:13px;color:var(--muted)}
+    .form-row{display:flex;gap:8px;align-items:center;margin-bottom:8px}
+    input[type="text"], input[type="date"], input[type="time"], textarea, select{
+      width:100%;padding:8px;border:1px solid #e6e9ee;border-radius:6px
     }
     textarea{min-height:80px}
     .btn{
-      padding:8px 12px;
-      background:var(--brand);
-      color:#fff;
-      border-radius:6px;
-      border:0;
-      cursor:pointer;
-      font-weight:700;
-      transition:0.2s;
+      padding:8px 12px;background:var(--brand);color:#fff;border-radius:6px;border:0;
+      cursor:pointer;font-weight:700
     }
-    .btn:hover{background:#004e2e}
     .btn.ghost{
-      background:#fff;
-      border:1px solid #e6e9ee;
-      color:var(--brand);
+      background:#fff;border:1px solid #e6e9ee;color:var(--brand)
     }
-    .events-list{display:flex;flex-direction:column;gap:10px;max-height:62vh;overflow:auto;padding-right:6px}
-    .event-item{border-left:4px solid var(--brand);padding:12px;background:#fbfdff;border-radius:6px}
+    .btn.alt{
+      background:#fff;border:1px solid #f5c6c6;color:#b91c1c
+    }
+    .events-list{
+      display:flex;flex-direction:column;gap:10px;
+      max-height:62vh;overflow:auto;padding-right:6px
+    }
+    .event-item{
+      border-left:4px solid var(--brand);padding:12px;
+      background:#fbfdff;border-radius:6px
+    }
     .event-item h4{margin:0 0 6px;color:var(--brand)}
     .event-meta{font-size:13px;color:var(--muted);margin-bottom:6px}
-    .toolbar{display:flex;gap:8px;align-items:center;margin-bottom:12px}
+    .toolbar{display:flex;gap:8px;align-items:center;margin-bottom:12px;flex-wrap:wrap}
     .filters{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
-    .small{font-size:13px;color:var(--muted)}
-    .empty{padding:16px;text-align:center;color:var(--muted);border:1px dashed #e6e9ee;border-radius:6px}
-    footer{
-      margin-left:var(--nav-width);
-      padding:12px 18px;
-      color:var(--muted);
-      text-align:center;
-      background:#fff;
-      font-size:13px;
+    .empty{
+      padding:16px;text-align:center;color:var(--muted);
+      border:1px dashed #e6e9ee;border-radius:6px
     }
-
-    /* Mobile layout */
     @media(max-width:900px){
       .grid{grid-template-columns:1fr}
-      .sidebar{
-        transform:translateX(-100%);
-        position:fixed;
-        z-index:10;
-      }
-      .sidebar.show{transform:translateX(0)}
-      header{margin-left:0}
-      .container{margin-left:0}
-      .menu-btn{
-        background:var(--brand);
-        color:white;
-        border:none;
-        border-radius:5px;
-        padding:6px 10px;
-        font-weight:700;
-      }
+      .sidebar{position:relative;width:100%;height:auto}
+      header,.container,footer{margin-left:0}
     }
   </style>
 </head>
 <body>
-  <nav class="sidebar" id="sidebar" aria-label="Sidebar navigation">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/0/04/National_Open_University_of_Nigeria_Logo.png" alt="NOUN Logo">
+  <nav class="sidebar" aria-label="Sidebar navigation">
+    <h2>
+      <img src="https://upload.wikimedia.org/wikipedia/commons/0/04/National_Open_University_of_Nigeria_Logo.png" alt="NOUN Logo">
+      NOUN Admin
+    </h2>
     <a href="control-center.html">Dashboard</a>
     <a href="all-employees.html">All Employees</a>
     <a href="configure-criteria.html">Configure Criteria</a>
     <a href="manage-users.html">Manage Users</a>
     <a href="reports.html">Reports</a>
-    <a href="events.html" aria-current="page">Events/Activities</a>
+    <a href="events.html" aria-current="page">Events / Activities</a>
     <a href="about.html">About</a>
   </nav>
 
   <header role="banner">
-    <button class="menu-btn" onclick="toggleMenu()">☰</button>
-    <div style="display:flex;align-items:center;gap:12px">
+    <div>
       <div class="title">Events & Activities</div>
-      <div class="muted">Plan, track, and export campus events</div>
+      <div class="muted">Plan, track and export campus events</div>
     </div>
   </header>
 
   <main class="container" role="main">
     <div class="grid">
       <!-- Left: Add / Edit Event -->
-      <section class="card" aria-labelledby="manageTitle">
-        <h3 id="manageTitle" class="h">Create / Edit Event</h3>
-        <label class="small">Title</label>
-        <input id="evTitle" type="text" placeholder="Event title (e.g., Teaching Workshop)" />
+      <section class="card">
+        <h3 class="h">Create / Edit Event</h3>
+        <div class="small muted">Fill details below then Save to add to the calendar and event list.</div>
+
+        <label class="small" style="margin-top:10px">Title</label>
+        <input id="evTitle" type="text" placeholder="Event title (e.g., Workshop)" />
 
         <label class="small" style="margin-top:8px">Date</label>
         <input id="evDate" type="date" />
 
+        <div class="form-row" style="margin-top:8px">
+          <div style="flex:1">
+            <label class="small">Start time</label>
+            <input id="evStart" type="time" />
+          </div>
+          <div style="width:120px">
+            <label class="small">End time</label>
+            <input id="evEnd" type="time" />
+          </div>
+        </div>
+
         <label class="small" style="margin-top:8px">Location</label>
-        <input id="evLocation" type="text" placeholder="Lecture hall / online link" />
+        <input id="evLocation" type="text" placeholder="Lecture hall / room / online link" />
 
         <label class="small" style="margin-top:8px">Department</label>
         <select id="evDept">
           <option value="">All departments</option>
-          <option>IT</option><option>HR</option><option>Finance</option><option>Admin</option><option>Research</option>
+          <option>ICT</option><option>Admin</option><option>Research</option><option>HR</option><option>Finance</option>
         </select>
 
         <label class="small" style="margin-top:8px">Description</label>
@@ -188,19 +146,22 @@
         </div>
       </section>
 
-      <!-- Right: Event list -->
-      <section class="card" aria-labelledby="listTitle">
-        <div style="display:flex;justify-content:space-between;align-items:center">
-          <h3 id="listTitle" class="h">Upcoming Events</h3>
-          <button id="exportBtn" class="btn ghost">Export CSV</button>
+      <!-- Right: List -->
+      <section class="card">
+        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap">
+          <h3 class="h">Upcoming Events</h3>
+          <div style="display:flex;gap:8px;align-items:center">
+            <button id="exportBtn" class="btn ghost">Export CSV</button>
+            <button id="todayBtn" class="btn">Today</button>
+          </div>
         </div>
 
         <div class="toolbar" style="margin-top:12px">
           <div class="filters">
-            <input id="filterText" type="text" placeholder="Search title, location" />
+            <input id="filterText" type="text" placeholder="Search..." />
             <select id="filterDept">
               <option value="">All depts</option>
-              <option>IT</option><option>HR</option><option>Finance</option><option>Admin</option><option>Research</option>
+              <option>ICT</option><option>Admin</option><option>Research</option><option>HR</option><option>Finance</option>
             </select>
             <input id="filterDate" type="date" />
           </div>
@@ -213,12 +174,132 @@
     </div>
   </main>
 
-  <footer>© National Open University of Nigeria — Staff Rating Portal</footer>
+  <footer style="margin-left:var(--nav-width);padding:12px 18px;color:var(--muted)">
+    © National Open University of Nigeria — Staff Rating Portal
+  </footer>
 
   <script>
-    function toggleMenu(){
-      document.getElementById('sidebar').classList.toggle('show');
+    const STORAGE_KEY = 'noun_events_v1';
+    const sampleEvents = [
+      { id:'e1', title:'Teaching Workshop', date:'2025-10-21', start:'09:00', end:'12:00', location:'Benin Study Centre', dept:'ICT', desc:'Effective teaching techniques.' },
+      { id:'e2', title:'Faculty Meeting', date:'2025-10-23', start:'14:00', end:'15:30', location:'Admin Hall', dept:'Admin', desc:'Monthly staff coordination.' },
+      { id:'e3', title:'Research Colloquium', date:'2025-11-05', start:'10:00', end:'12:00', location:'Main Auditorium', dept:'Research', desc:'Presentation of current projects.' }
+    ];
+
+    function loadEvents(){
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if(!raw) return sampleEvents.slice();
+        return JSON.parse(raw);
+      } catch { return sampleEvents.slice(); }
     }
+    function saveEvents(){ localStorage.setItem(STORAGE_KEY, JSON.stringify(events)); }
+
+    let events = loadEvents();
+
+    const evTitle = document.getElementById('evTitle');
+    const evDate = document.getElementById('evDate');
+    const evStart = document.getElementById('evStart');
+    const evEnd = document.getElementById('evEnd');
+    const evLocation = document.getElementById('evLocation');
+    const evDept = document.getElementById('evDept');
+    const evDesc = document.getElementById('evDesc');
+    const eventMsg = document.getElementById('eventMsg');
+    const eventsList = document.getElementById('eventsList');
+    const eventsCount = document.getElementById('eventsCount');
+    const filterText = document.getElementById('filterText');
+    const filterDept = document.getElementById('filterDept');
+    const filterDate = document.getElementById('filterDate');
+
+    function uid(){ return 'e' + Date.now().toString(36); }
+    function todayIso(){ return new Date().toISOString().slice(0,10); }
+    function escapeHtml(s){ return String(s||'').replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;'); }
+
+    function renderEventItem(ev){
+      return `
+        <div class="event-item" data-id="${ev.id}">
+          <h4>${escapeHtml(ev.title)}</h4>
+          <div class="event-meta">${ev.date} · ${ev.start || ''}${ev.end ? ' — ' + ev.end : ''} · ${escapeHtml(ev.location)} · <strong>${ev.dept || 'All'}</strong></div>
+          <div style="margin-bottom:8px">${escapeHtml(ev.desc || '')}</div>
+          <div style="display:flex;gap:8px">
+            <button class="btn ghost" data-action="edit" data-id="${ev.id}">Edit</button>
+            <button class="btn ghost" data-action="duplicate" data-id="${ev.id}">Duplicate</button>
+            <button class="btn alt" data-action="delete" data-id="${ev.id}">Delete</button>
+          </div>
+        </div>
+      `;
+    }
+
+    function getFiltered(){
+      const q = (filterText.value||'').toLowerCase().trim();
+      const d = (filterDept.value||'').trim();
+      const fd = (filterDate.value||'').trim();
+      return events.slice().filter(ev => {
+        if(d && ev.dept !== d) return false;
+        if(fd && ev.date !== fd) return false;
+        if(q){
+          const hay = (ev.title + ' ' + ev.location + ' ' + ev.desc + ' ' + ev.dept).toLowerCase();
+          if(!hay.includes(q)) return false;
+        }
+        return true;
+      }).sort((a,b)=>a.date.localeCompare(b.date));
+    }
+
+    function renderList(){
+      const list = getFiltered();
+      eventsCount.textContent = `${list.length} events`;
+      if(!list.length){
+        eventsList.innerHTML = '';
+        document.getElementById('noEvents').style.display='block';
+        return;
+      }
+      document.getElementById('noEvents').style.display='none';
+      eventsList.innerHTML = list.map(renderEventItem).join('');
+      attachListActions();
+    }
+
+    function attachListActions(){
+      document.querySelectorAll('[data-action="edit"]').forEach(b=>b.onclick=()=>openForEdit(b.dataset.id));
+      document.querySelectorAll('[data-action="duplicate"]').forEach(b=>b.onclick=()=>duplicateEvent(b.dataset.id));
+      document.querySelectorAll('[data-action="delete"]').forEach(b=>b.onclick=()=>deleteEvent(b.dataset.id));
+    }
+
+    let editingId=null;
+    document.getElementById('saveEventBtn').onclick=()=>{
+      const title=evTitle.value.trim(); const date=evDate.value;
+      if(!title||!date){ eventMsg.textContent='Provide title and date'; eventMsg.style.color='#b91c1c'; setTimeout(()=>eventMsg.textContent='',2000); return;}
+      const obj={id:editingId||uid(),title,date,start:evStart.value,end:evEnd.value,location:evLocation.value.trim(),dept:evDept.value,desc:evDesc.value.trim()};
+      if(editingId){ events=events.map(e=>e.id===editingId?obj:e); eventMsg.textContent='Updated'; }
+      else { events.push(obj); eventMsg.textContent='Saved'; }
+      saveEvents(); renderList(); setTimeout(()=>eventMsg.textContent='',1200); clearForm();
+    };
+
+    document.getElementById('clearBtn').onclick=clearForm;
+    function clearForm(){ editingId=null; evTitle.value=evDate.value=evStart.value=evEnd.value=evLocation.value=evDesc.value=''; evDept.value=''; eventMsg.textContent=''; }
+
+    function openForEdit(id){ const ev=events.find(x=>x.id===id); if(!ev)return;
+      editingId=id; evTitle.value=ev.title; evDate.value=ev.date; evStart.value=ev.start; evEnd.value=ev.end;
+      evLocation.value=ev.location; evDept.value=ev.dept; evDesc.value=ev.desc; window.scrollTo({top:0,behavior:'smooth'}); }
+
+    function duplicateEvent(id){ const ev=events.find(x=>x.id===id); if(!ev)return;
+      const copy={...ev,id:uid(),title:ev.title+' (copy)'}; events.push(copy); saveEvents(); renderList(); }
+
+    function deleteEvent(id){ if(!confirm('Delete this event?'))return;
+      events=events.filter(e=>e.id!==id); saveEvents(); renderList(); }
+
+    document.getElementById('todayBtn').onclick=()=>{ filterDate.value=todayIso(); renderList(); };
+
+    document.getElementById('exportBtn').onclick=()=>{
+      const list=getFiltered(); if(!list.length){alert('No events to export');return;}
+      const rows=[['Title','Date','Start','End','Location','Department','Description'],...list.map(e=>[e.title,e.date,e.start,e.end,e.location,e.dept,e.desc])];
+      const csv=rows.map(r=>r.map(c=>`"${String(c||'').replace(/"/g,'""')}"`).join(',')).join('\n');
+      const blob=new Blob([csv],{type:'text/csv'});
+      const url=URL.createObjectURL(blob); const a=document.createElement('a'); a.href=url; a.download='events_'+todayIso()+'.csv';
+      document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
+    };
+
+    filterText.oninput=renderList; filterDept.onchange=renderList; filterDate.onchange=renderList;
+    renderList(); window.addEventListener('beforeunload',saveEvents);
   </script>
 </body>
 </html>
