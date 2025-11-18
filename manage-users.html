@@ -3,13 +3,15 @@
 <head>
   <meta charset="utf-8" />
   <title>Manage Users — NOUN Benin Study Centre</title>
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
   <style>
     :root {
-      --nav-width: 220px;
-      --brand: #006400; /* Deep Green */
-      --accent: #00923f; /* Nigerian Green */
+      --nav-width: 230px;
+      --brand: #006400;
+      --accent: #00923f;
       --muted: #6b7280;
+      --bg: #f4f7f4;
     }
 
     * {
@@ -20,98 +22,192 @@
     }
 
     body {
-      background: #f7f9f7;
+      background: var(--bg);
       min-height: 100vh;
+      overflow-x: hidden;
     }
 
+    /* ───────────────────────────────
+       SIDEBAR
+    ─────────────────────────────── */
     .sidebar {
       width: var(--nav-width);
       background: var(--brand);
       color: #fff;
       height: 100vh;
       position: fixed;
-      top: 0;
-      left: 0;
+      top: 0; left: 0;
       padding-top: 20px;
+      transition: transform .3s ease;
+      z-index: 2000;
     }
 
     .sidebar h2 {
       text-align: center;
-      color: #ffffff;
-      margin-bottom: 18px;
+      margin-bottom: 15px;
       font-size: 18px;
-      letter-spacing: 0.5px;
+      color: #fff;
+      padding: 0 10px;
     }
 
     .sidebar a {
       display: block;
       color: #fff;
-      padding: 12px 18px;
+      padding: 12px 20px;
       text-decoration: none;
       font-size: 15px;
     }
 
-    .sidebar a:hover {
-      background: rgba(255, 255, 255, 0.1);
+    .sidebar a:hover,
+    .sidebar a[aria-current="page"] {
+      background: rgba(255,255,255,.15);
     }
 
+    /* MOBILE HIDDEN SIDEBAR */
+    @media(max-width: 850px) {
+      .sidebar {
+        transform: translateX(-100%);
+        position: fixed;
+      }
+      .sidebar.open {
+        transform: translateX(0);
+      }
+    }
+
+    /* ───────────────────────────────
+       HEADER
+    ─────────────────────────────── */
     .header {
       margin-left: var(--nav-width);
       padding: 14px 20px;
       background: #fff;
       border-bottom: 2px solid var(--accent);
       display: flex;
-      align-items: center;
       justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
     }
 
+    @media(max-width: 850px) {
+      .header {
+        margin-left: 0;
+      }
+    }
+
+    /* Hamburger */
+    .menu-btn {
+      display: none;
+      font-size: 26px;
+      cursor: pointer;
+      color: var(--brand);
+      padding: 8px 12px;
+      border-radius: 6px;
+    }
+
+    @media(max-width:850px) {
+      .menu-btn { display: block; }
+    }
+
+    /* ───────────────────────────────
+       MAIN CONTENT
+    ─────────────────────────────── */
     .main {
       margin-left: var(--nav-width);
       padding: 22px;
     }
 
+    @media(max-width:850px) {
+      .main {
+        margin-left: 0;
+      }
+    }
+
     .card {
       background: #fff;
       padding: 16px;
-      border-radius: 8px;
-      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.04);
-      margin-bottom: 16px;
+      border-radius: 10px;
+      box-shadow: 0 3px 12px rgba(0,0,0,.07);
+      margin-bottom: 18px;
     }
 
     h1 {
       color: var(--brand);
-      margin: 0 0 8px;
+      margin-bottom: 4px;
     }
 
+    .muted {
+      color: var(--muted);
+    }
+
+    /* ───────────────────────────────
+       TOOLBAR
+    ─────────────────────────────── */
     .toolbar {
       display: flex;
       gap: 12px;
       align-items: center;
-      margin-bottom: 12px;
       flex-wrap: wrap;
     }
 
-    .search {
-      flex: 1;
-    }
-
     input[type="text"], select {
-      padding: 8px;
-      border: 1px solid #e6e9ee;
+      padding: 9px;
+      border: 1px solid #dfe3e8;
       border-radius: 6px;
       width: 100%;
+      font-size: 14px;
+    }
+
+    .toolbar .search-wrapper {
+      flex: 1;
+      min-width: 230px;
+    }
+
+    .btn {
+      padding: 9px 14px;
+      font-size: 14px;
+      border: none;
+      cursor: pointer;
+      border-radius: 6px;
+      font-weight: 700;
+    }
+
+    .btn-main {
+      background: var(--brand);
+      color: #fff;
+    }
+
+    .btn-alt {
+      background: #fff;
+      border: 1px solid var(--brand);
+      color: var(--brand);
+    }
+
+    .btn-red {
+      background: #d62828;
+      color: #fff;
+    }
+
+    /* ───────────────────────────────
+       TABLE — Responsive
+    ─────────────────────────────── */
+    .table-wrapper {
+      overflow-x: auto;
+      border-radius: 8px;
     }
 
     table {
       width: 100%;
       border-collapse: collapse;
-      margin-top: 8px;
+      min-width: 700px;
     }
 
     th, td {
       padding: 10px;
-      border: 1px solid #eef2f6;
+      border: 1px solid #eee;
       text-align: left;
+      font-size: 14px;
     }
 
     th {
@@ -119,47 +215,43 @@
       color: #fff;
     }
 
-    .btn {
-      padding: 8px 12px;
-      background: var(--brand);
-      color: #fff;
-      border-radius: 6px;
-      border: 0;
-      cursor: pointer;
-      font-weight: 700;
-    }
-
-    .btn.alt {
-      background: #d62828;
-    }
-
-    .muted {
-      color: var(--muted);
-    }
-
-    .pager {
-      display: flex;
-      gap: 8px;
+    /* ───────────────────────────────
+       MODAL
+    ─────────────────────────────── */
+    #modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.45);
+      z-index: 3000;
+      justify-content: center;
       align-items: center;
+      padding: 20px;
     }
 
-    .role-select {
-      padding: 6px;
-      border-radius: 6px;
-      border: 1px solid #e6e9ee;
+    .modal-box {
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      width: 100%;
+      max-width: 500px;
     }
 
-    @media(max-width:800px) {
-      .toolbar {
-        flex-direction: column;
-        align-items: stretch;
+    @media(max-width:500px) {
+      .modal-box {
+        max-width: 90%;
       }
     }
+
   </style>
 </head>
+
 <body>
-  <nav class="sidebar" aria-label="Sidebar">
+
+  <!-- SIDEBAR -->
+  <nav class="sidebar" id="sidebar">
     <h2>NOUN Admin Panel</h2>
+
     <a href="dashboard.html">Dashboard</a>
     <a href="all-employees.html">All Staff</a>
     <a href="configure-criteria.html">Configure Criteria</a>
@@ -167,96 +259,120 @@
     <a href="reports.html">Reports</a>
   </nav>
 
+  <!-- HEADER -->
   <header class="header">
+    <span class="menu-btn" id="menuBtn">☰</span>
+
     <div style="display:flex;gap:12px;align-items:center">
-      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS70hZaIeG0mE5pfH5QyByD_7fxbz7CvOwLQg&s" 
-           alt="NOUN Logo" 
-           style="width:40px;height:40px;object-fit:contain;border-radius:4px;" />
-      <div style="font-weight:800;color:var(--brand);font-size:17px;">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/0/04/National_Open_University_of_Nigeria_Logo.png"
+           style="width:40px;height:40px;object-fit:contain;border-radius:6px" />
+
+      <div style="font-weight:800;color:var(--brand)">
         National Open University of Nigeria<br>
-        <span style="font-size:14px;font-weight:600;color:var(--accent);">
+        <span style="font-size:13px;color:var(--accent)">
           Benin Study Centre — Staff Rating Portal
         </span>
       </div>
     </div>
   </header>
 
-  <main class="main" role="main">
+  <!-- MAIN CONTENT -->
+  <main class="main">
     <div class="card">
       <h1>Manage Users</h1>
-      <p class="muted">
-        Add, edit, and manage system users (admins, managers, reviewers, and staff).  
-        Data here is stored locally (demo mode).
-      </p>
+      <p class="muted">Add, edit, and manage system users.</p>
 
-      <div class="toolbar card" style="display:flex;align-items:center">
-        <div style="width:320px">
-          <input id="searchInput" class="search" placeholder="Search users by name, email, role, or department" />
+      <div class="toolbar card" style="margin-top:15px">
+        <div class="search-wrapper">
+          <input id="searchInput" placeholder="Search users...">
         </div>
 
-        <select id="filterRole" class="role-select">
-          <option value="">All roles</option>
-          <option>Admin</option><option>Manager</option>
-          <option>Reviewer</option><option>User</option>
+        <select id="filterRole">
+          <option value="">All Roles</option>
+          <option>Admin</option>
+          <option>Manager</option>
+          <option>Reviewer</option>
+          <option>User</option>
         </select>
 
-        <div style="margin-left:auto;display:flex;gap:8px">
-          <button id="exportBtn" class="btn" style="background:#fff;border:1px solid var(--brand);color:var(--brand)">Export CSV</button>
-          <button id="addUserBtn" class="btn">Add User</button>
-        </div>
+        <button id="exportBtn" class="btn btn-alt">Export CSV</button>
+        <button id="addUserBtn" class="btn btn-main">Add User</button>
       </div>
 
-      <div class="card" style="padding:12px">
-        <table aria-live="polite">
-          <thead>
-            <tr>
-              <th>Name</th><th>Email</th><th>Role</th><th>Department</th><th>Actions</th>
-            </tr>
-          </thead>
-          <tbody id="usersBody">
-            <tr><td colspan="5" class="muted" style="text-align:center">No users yet</td></tr>
-          </tbody>
-        </table>
+      <div class="card" style="margin-top:18px">
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>Name</th><th>Email</th><th>Role</th><th>Department</th><th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="usersBody">
+              <tr>
+                <td colspan="5" class="muted" style="text-align:center">No users yet</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
 
         <div style="margin-top:12px;display:flex;justify-content:space-between;align-items:center">
-          <div class="muted" id="summary">0 users</div>
-          <div class="pager" id="pager"></div>
+          <div id="summary" class="muted">0 users</div>
+          <div id="pager"></div>
         </div>
       </div>
     </div>
   </main>
 
-  <!-- modal -->
-  <div id="modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.4);align-items:center;justify-content:center;padding:20px">
-    <div style="background:#fff;padding:20px;border-radius:8px;max-width:560px;width:100%;box-shadow:0 8px 30px rgba(0,0,0,0.2)">
+  <!-- MODAL -->
+  <div id="modal">
+    <div class="modal-box">
       <h3 id="modalTitle">Add User</h3>
-      <div style="display:grid;gap:8px;margin-top:8px">
-        <input id="u_name" placeholder="Full name" />
-        <input id="u_email" placeholder="Email" />
-        <select id="u_role"><option>Admin</option><option>Manager</option><option>Reviewer</option><option>User</option></select>
-        <input id="u_department" placeholder="Department" />
-        <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:8px">
-          <button id="cancelBtn" class="btn" style="background:#fff;border:1px solid var(--brand);color:var(--brand)">Cancel</button>
-          <button id="saveUserBtn" class="btn">Save</button>
+
+      <div style="display:grid;gap:8px;margin-top:10px">
+        <input id="u_name" placeholder="Full Name">
+        <input id="u_email" placeholder="Email">
+        <select id="u_role">
+          <option>Admin</option>
+          <option>Manager</option>
+          <option>Reviewer</option>
+          <option>User</option>
+        </select>
+        <input id="u_department" placeholder="Department">
+
+        <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:10px">
+          <button id="cancelBtn" class="btn btn-alt">Cancel</button>
+          <button id="saveUserBtn" class="btn btn-main">Save</button>
         </div>
       </div>
     </div>
   </div>
 
   <script>
-    const USER_KEY = 'noun_users:v1';
+    /* ──────────────────────────────
+       MOBILE SIDEBAR TOGGLE
+    ────────────────────────────── */
+    const sidebar = document.getElementById("sidebar");
+    document.getElementById("menuBtn").onclick = () => {
+      sidebar.classList.toggle("open");
+    };
+
+    /* ──────────────────────────────
+       USER DATA STORAGE
+    ────────────────────────────── */
+    const KEY = "noun_users:v1";
     let users = loadUsers();
 
     function loadUsers() {
       try {
-        const raw = localStorage.getItem(USER_KEY);
-        if (!raw) return sampleUsers();
-        return JSON.parse(raw);
-      } catch { return sampleUsers(); }
+        const raw = localStorage.getItem(KEY);
+        return raw ? JSON.parse(raw) : sampleUsers();
+      } catch {
+        return sampleUsers();
+      }
     }
 
     function saveUsers() {
-      localStorage.setItem(USER_KEY, JSON.stringify(users));
+      localStorage.setItem(KEY, JSON.stringify(users));
       renderUsers();
     }
 
@@ -265,111 +381,141 @@
         { id:'u1', name:'Admin User', email:'admin@nounbenin.edu.ng', role:'Admin', department:'Administration' },
         { id:'u2', name:'Mariam Abdullahi', email:'mariam@nounbenin.edu.ng', role:'Manager', department:'HR' },
         { id:'u3', name:'Michael Adeniyi', email:'michael@nounbenin.edu.ng', role:'Reviewer', department:'Finance' },
-        { id:'u4', name:'Yemi Ogunleye', email:'yemi@nounbenin.edu.ng', role:'User', department:'IT' },
-        { id:'u5', name:'Ngozi Eze', email:'ngozi@nounbenin.edu.ng', role:'User', department:'Registry' }
+        { id:'u4', name:'Yemi Ogunleye', email:'yemi@nounbenin.edu.ng', role:'User', department:'IT' }
       ];
     }
 
-    const usersBody = document.getElementById('usersBody');
-    const summary = document.getElementById('summary');
-    const searchInput = document.getElementById('searchInput');
-    const filterRole = document.getElementById('filterRole');
-    const modal = document.getElementById('modal');
-    const uName = document.getElementById('u_name');
-    const uEmail = document.getElementById('u_email');
-    const uRole = document.getElementById('u_role');
-    const uDept = document.getElementById('u_department');
+    const usersBody   = document.getElementById("usersBody");
+    const searchInput = document.getElementById("searchInput");
+    const filterRole  = document.getElementById("filterRole");
+    const modal       = document.getElementById("modal");
+    const uName = document.getElementById("u_name");
+    const uEmail = document.getElementById("u_email");
+    const uRole = document.getElementById("u_role");
+    const uDept = document.getElementById("u_department");
+    const summary = document.getElementById("summary");
+
     let editingId = null;
 
-    function renderUsers(page=1, perPage=10) {
-      const q = (searchInput.value || '').toLowerCase().trim();
-      const roleFilter = filterRole.value;
+    function renderUsers() {
+      const q = searchInput.value.toLowerCase().trim();
+      const role = filterRole.value;
+
       let filtered = users.filter(u => {
-        const hay = (u.name + ' ' + u.email + ' ' + u.role + ' ' + (u.department||'')).toLowerCase();
-        if(q && !hay.includes(q)) return false;
-        if(roleFilter && u.role !== roleFilter) return false;
+        let hay = (u.name + u.email + u.role + u.department).toLowerCase();
+        if (q && !hay.includes(q)) return false;
+        if (role && u.role !== role) return false;
         return true;
       });
 
-      const total = filtered.length;
-      summary.textContent = `${total} users`;
+      summary.textContent = filtered.length + " users";
 
-      const start = (page - 1) * perPage;
-      const pageData = filtered.slice(start, start + perPage);
-
-      if (!pageData.length) {
-        usersBody.innerHTML = `<tr><td colspan="5" class="muted" style="text-align:center">No users</td></tr>`;
-      } else {
-        usersBody.innerHTML = pageData.map(u => `
-          <tr>
-            <td>${u.name}</td>
-            <td>${u.email}</td>
-            <td>${u.role}</td>
-            <td>${u.department||''}</td>
-            <td>
-              <button class="btn" data-action="edit" data-id="${u.id}" style="background:#fff;border:1px solid var(--brand);color:var(--brand)">Edit</button>
-              <button class="btn alt" data-action="delete" data-id="${u.id}">Delete</button>
-            </td>
-          </tr>
-        `).join('');
+      if (!filtered.length) {
+        usersBody.innerHTML = `<tr><td colspan="5" class="muted" style="text-align:center">No users found</td></tr>`;
+        return;
       }
-      attachRowActions();
+
+      usersBody.innerHTML = filtered.map(u => `
+        <tr>
+          <td>${u.name}</td>
+          <td>${u.email}</td>
+          <td>${u.role}</td>
+          <td>${u.department || ''}</td>
+          <td>
+            <button class="btn btn-alt" data-edit="${u.id}">Edit</button>
+            <button class="btn btn-red" data-del="${u.id}">Delete</button>
+          </td>
+        </tr>
+      `).join("");
+
+      attachActions();
     }
 
-    function attachRowActions() {
-      document.querySelectorAll('[data-action="edit"]').forEach(b => b.onclick = () => openEdit(b.dataset.id));
-      document.querySelectorAll('[data-action="delete"]').forEach(b => b.onclick = () => {
-        if (!confirm('Delete user?')) return;
-        users = users.filter(u => u.id !== b.dataset.id);
-        saveUsers();
+    function attachActions() {
+      document.querySelectorAll("[data-edit]").forEach(btn => {
+        btn.onclick = () => openEdit(btn.dataset.edit);
+      });
+
+      document.querySelectorAll("[data-del]").forEach(btn => {
+        btn.onclick = () => {
+          if (!confirm("Delete user?")) return;
+          users = users.filter(u => u.id !== btn.dataset.del);
+          saveUsers();
+        };
       });
     }
 
-    document.getElementById('addUserBtn').addEventListener('click', () => openAdd());
+    document.getElementById("addUserBtn").onclick = () => openAdd();
+
     function openAdd() {
       editingId = null;
-      document.getElementById('modalTitle').textContent = 'Add User';
-      uName.value = ''; uEmail.value = ''; uRole.value = 'User'; uDept.value = '';
-      modal.style.display = 'flex';
+      document.getElementById("modalTitle").textContent = "Add User";
+      uName.value = ""; uEmail.value = ""; uRole.value = "User"; uDept.value = "";
+      modal.style.display = "flex";
     }
 
     function openEdit(id) {
       const u = users.find(x => x.id === id);
       if (!u) return;
       editingId = id;
-      document.getElementById('modalTitle').textContent = 'Edit User';
-      uName.value = u.name; uEmail.value = u.email; uRole.value = u.role; uDept.value = u.department || '';
-      modal.style.display = 'flex';
+      document.getElementById("modalTitle").textContent = "Edit User";
+      uName.value = u.name;
+      uEmail.value = u.email;
+      uRole.value = u.role;
+      uDept.value = u.department;
+      modal.style.display = "flex";
     }
 
-    document.getElementById('cancelBtn').addEventListener('click', () => modal.style.display = 'none');
-    document.getElementById('saveUserBtn').addEventListener('click', () => {
-      const name = uName.value.trim(); const email = uEmail.value.trim(); const role = uRole.value; const dept = uDept.value.trim();
-      if (!name || !email) { alert('Provide name and email'); return; }
+    document.getElementById("cancelBtn").onclick = () =>
+      modal.style.display = "none";
+
+    document.getElementById("saveUserBtn").onclick = () => {
+      let name = uName.value.trim(),
+          email = uEmail.value.trim(),
+          role = uRole.value,
+          dept = uDept.value.trim();
+
+      if (!name || !email) return alert("Name and email required");
+
       if (editingId) {
-        const u = users.find(x => x.id === editingId);
-        if (u) { u.name = name; u.email = email; u.role = role; u.department = dept; }
+        let u = users.find(x => x.id === editingId);
+        u.name = name;
+        u.email = email;
+        u.role = role;
+        u.department = dept;
       } else {
-        const id = 'u' + Date.now().toString(36);
-        users.push({ id, name, email, role, department: dept });
+        users.push({
+          id: "u" + Date.now(),
+          name, email, role, department: dept
+        });
       }
       saveUsers();
-      modal.style.display = 'none';
-    });
+      modal.style.display = "none";
+    };
 
-    searchInput.addEventListener('input', () => renderUsers());
-    filterRole.addEventListener('change', () => renderUsers());
+    searchInput.oninput = () => renderUsers();
+    filterRole.onchange = () => renderUsers();
 
-    document.getElementById('exportBtn').addEventListener('click', () => {
-      const csv = ['Name,Email,Role,Department', ...users.map(u => `"${u.name}","${u.email}","${u.role}","${u.department||''}"`)].join('\n');
-      const blob = new Blob([csv], { type: 'text/csv' });
+    document.getElementById("exportBtn").onclick = () => {
+      const csv = [
+        "Name,Email,Role,Department",
+        ...users.map(u =>
+          `"${u.name}","${u.email}","${u.role}","${u.department||''}"`
+        )
+      ].join("\n");
+
+      const blob = new Blob([csv], { type: "text/csv" });
       const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url; a.download = `users_${new Date().toISOString().slice(0,10)}.csv`;
-      document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
-    });
+
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "users_export.csv";
+      a.click();
+      URL.revokeObjectURL(url);
+    };
 
     renderUsers();
   </script>
+
 </body>
 </html>
