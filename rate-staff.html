@@ -5,346 +5,370 @@
   <title>NOUN Benin Study Centre — Rate Staff</title>
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <style>
-    :root {
-      --nav-width: 220px;
-      --brand: #008000; /* Green */
-      --accent: #006400; /* Darker green */
-      --muted: #6b7280;
+    :root{
+      --nav-width:220px;
+      --noun-green:#006400;        /* Dark Green */
+      --noun-accent:#00923F;       /* Bright Green */
+      --muted:#6b7280;
+      --card-bg:#fff;
+      --page-bg:#f4f6f4;
+      --soft-border:#e9efe9;
+      --shadow: 0 6px 18px rgba(0,0,0,0.06);
+      --max-content-width:1100px;
     }
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: 'Segoe UI', sans-serif;
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: "Segoe UI", Roboto, system-ui, -apple-system, "Helvetica Neue", Arial;
+      background:var(--page-bg);
+      color:#222;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
     }
-    body {
-      background: #f4f4f4;
-      min-height: 100vh;
+
+    /* Sidebar */
+    .sidebar{
+      width:var(--nav-width);
+      background:var(--noun-green);
+      color:#fff;
+      height:100vh;
+      position:fixed;
+      top:0;
+      left:0;
+      padding-top:18px;
+      transition:transform .25s ease;
+      z-index:1200;
     }
-    .sidebar {
-      width: var(--nav-width);
-      background: var(--brand);
-      color: #fff;
-      height: 100vh;
-      position: fixed;
-      top: 0;
-      left: 0;
-      padding-top: 20px;
+    .sidebar .brand{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      padding:10px 18px;
+      border-bottom:1px solid rgba(255,255,255,0.04);
     }
-    .sidebar h2 {
-      text-align: center;
-      color: #fff;
-      margin-bottom: 18px;
-      font-size: 18px;
+    .sidebar .brand img{width:36px;height:36px;object-fit:contain;border-radius:4px;background:#fff;padding:2px}
+    .sidebar h2{font-size:16px;margin:0;color:#fff}
+    .sidebar nav{margin-top:12px}
+    .sidebar a{
+      display:block;padding:12px 18px;color:#fff;text-decoration:none;font-weight:600;
     }
-    .sidebar a {
-      display: block;
-      color: #fff;
-      padding: 12px 18px;
-      text-decoration: none;
-      font-weight: 600;
+    .sidebar a:hover{background:rgba(255,255,255,0.06)}
+
+    /* Header */
+    .header{
+      margin-left:var(--nav-width);
+      background:#fff;
+      border-bottom:1px solid var(--soft-border);
+      position:sticky;
+      top:0;
+      z-index:1000;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
     }
-    .sidebar a:hover {
-      background: var(--accent);
+    .header-inner{
+      width:100%;
+      max-width:var(--max-content-width);
+      margin:0 auto;
+      display:flex;
+      gap:12px;
+      align-items:center;
+      padding:12px 18px;
     }
-    .header-bar {
-      margin-left: var(--nav-width);
-      background: #fff;
-      padding: 12px 20px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      border-bottom: 1px solid #e6e9ee;
-      position: sticky;
-      top: 0;
-      z-index: 10;
+    .header-left{display:flex;align-items:center;gap:12px}
+    .header-left img{width:36px;height:36px;object-fit:contain}
+    .site-title{font-weight:800;color:var(--noun-green)}
+    .header-right{margin-left:auto;display:flex;align-items:center;gap:12px}
+    .header-menu{display:flex;gap:14px;align-items:center;padding:8px 14px;border-radius:6px;background:var(--noun-green);color:#fff;font-weight:700}
+    .header-menu a{color:#fff;text-decoration:none;font-weight:700}
+
+    /* Banner */
+    .banner{
+      margin-left:var(--nav-width);
+      max-width:var(--max-content-width);
+      margin-top:12px;
+      margin-right:auto;
+      margin-left:var(--nav-width);
+      padding:12px 18px;
     }
-    .header-left {
-      display: flex;
-      align-items: center;
-      gap: 12px;
+    .banner-inner{
+      background:linear-gradient(180deg, rgba(0,0,0,0.15), rgba(0,0,0,0.15)), url('https://img.freepik.com/free-photo/college-students-corridor_23-2147666538.jpg');
+      background-size:cover;background-position:center;
+      height:110px;border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:20px;
+      box-shadow:var(--shadow);
+      border:4px solid rgba(0,0,0,0.05);
     }
-    .header-left img {
-      width: 45px;
-      height: 45px;
-      object-fit: contain;
+
+    /* Main content wrapper */
+    main{
+      margin-left:var(--nav-width);
+      max-width:var(--max-content-width);
+      padding:20px 18px 60px;
+      margin-right:auto;
     }
-    .header-left span {
-      font-size: 20px;
-      font-weight: 800;
-      color: var(--brand);
+
+    .page-card{
+      background:var(--card-bg);
+      padding:16px;
+      border-radius:10px;
+      box-shadow:var(--shadow);
     }
-    .top-menu {
-      margin-left: var(--nav-width);
-      background: var(--brand);
-      padding: 8px 20px;
-      display: flex;
-      gap: 20px;
-      justify-content: center;
-    }
-    .top-menu a {
-      color: #fff;
-      text-decoration: none;
-      font-weight: 600;
-    }
-    .welcome-banner {
-      margin-left: var(--nav-width);
-      margin-top: 10px;
-      height: 96px;
-      background-image: url('https://img.freepik.com/free-photo/college-students-corridor_23-2147666538.jpg');
-      background-size: cover;
-      background-position: center;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 6px;
-      box-shadow: 0 6px 18px rgba(0,0,0,0.06);
-    }
-    .welcome-text {
-      color: #fff;
-      font-size: 26px;
-      font-weight: 900;
-      background: rgba(0, 100, 0, 0.5);
-      padding: 10px 16px;
-      border-radius: 6px;
-    }
-    .main {
-      margin-left: var(--nav-width);
-      padding: 20px;
-    }
-    .card {
-      background: #fff;
-      padding: 16px;
-      border-radius: 10px;
-      box-shadow: 0 6px 18px rgba(0,0,0,0.04);
-      margin-bottom: 16px;
-    }
-    .rate-section {
-      display: grid;
+
+    /* Rate section layout */
+    .rate-grid{
+      display:grid;
       grid-template-columns: 320px 1fr;
-      gap: 18px;
-      margin-top: 12px;
+      gap:18px;
+      align-items:start;
+      margin-top:12px;
     }
-    .profile-box img {
-      width: 100%;
-      height: 220px;
-      object-fit: cover;
-      border-radius: 8px;
+
+    .profile-box{
+      background:var(--card-bg);
+      border-radius:10px;padding:14px;box-shadow:var(--shadow);
+      display:flex;flex-direction:column;gap:12px;
     }
-    .profile-details h2 {
-      color: var(--brand);
-      margin-bottom: 6px;
-      font-size: 20px;
+    .profile-photo{
+      width:100%;height:220px;border-radius:8px;object-fit:cover;background:#eee;display:block;
     }
-    .btn {
-      padding: 10px 14px;
-      background: var(--accent);
-      color: #fff;
-      border-radius: 8px;
-      border: 0;
-      cursor: pointer;
-      font-weight: 700;
+    .profile-name{color:var(--noun-green);font-weight:800;margin:0}
+    .profile-meta{color:#333;font-size:14px;margin:0}
+    .profile-small{color:var(--muted);font-size:13px}
+
+    /* Form area */
+    .form-area{background:var(--card-bg);border-radius:10px;padding:14px;box-shadow:var(--shadow)}
+    .form-area h3{margin:0 0 8px;color:var(--noun-accent)}
+    .criteria-row{display:flex;align-items:center;gap:12px;margin:10px 0;flex-wrap:wrap}
+    .criteria-row label{min-width:200px;font-weight:700;color:#333}
+    .radios label{margin-right:10px;font-weight:600}
+    textarea{width:100%;min-height:100px;padding:10px;border-radius:6px;border:1px solid var(--soft-border);resize:vertical}
+    .form-actions{display:flex;gap:12px;align-items:center;margin-top:12px}
+    .btn{padding:10px 14px;border-radius:8px;border:0;background:var(--noun-accent);color:#fff;cursor:pointer;font-weight:800}
+    .btn.secondary{background:var(--noun-green)}
+    .hint{color:var(--muted);font-size:13px}
+
+    /* History table */
+    .history{margin-top:14px}
+    table.history-table{width:100%;border-collapse:collapse}
+    table.history-table th, table.history-table td{padding:10px;border-bottom:1px solid #eef2f6;text-align:left}
+    table.history-table th{background:#f5fff5;color:var(--noun-green);font-weight:700}
+
+    /* Footer */
+    footer{margin-left:var(--nav-width);padding:18px;text-align:center;color:var(--muted);font-size:13px}
+
+    /* Mobile responsiveness */
+    @media (max-width:900px){
+      .sidebar{transform:translateX(-100%);position:fixed}
+      .sidebar.show{transform:translateX(0)}
+      .header{margin-left:0}
+      .header-inner{padding:10px}
+      .banner{margin-left:0;padding:10px}
+      main{margin-left:0;padding:14px}
+      .rate-grid{grid-template-columns:1fr}
+      .profile-photo{height:160px}
+      .header-menu{flex-wrap:wrap;justify-content:center}
     }
-    .btn.secondary {
-      background: var(--brand);
+
+    /* small devices - ensure header menu wraps into two lines nicely (your B choice) */
+    @media (max-width:520px){
+      .header-menu{font-size:13px;padding:8px 10px;gap:8px}
+      .profile-name{font-size:16px}
     }
-    .compact .row {
-      display: flex;
-      gap: 10px;
-      align-items: center;
-      margin: 8px 0;
-    }
-    .compact label {
-      min-width: 160px;
-      font-weight: 600;
-      color: #333;
-    }
-    textarea {
-      width: 100%;
-      min-height: 120px;
-      padding: 10px;
-      border: 1px solid #e6e9ee;
-      border-radius: 6px;
-    }
-    .history-table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 8px;
-    }
-    .history-table th, .history-table td {
-      padding: 10px;
-      border-bottom: 1px solid #eef2f6;
-      text-align: left;
-      font-size: 14px;
-    }
-    .history-table th {
-      background: #e8f5e9;
-      color: var(--accent);
-      font-weight: 700;
-    }
-    .error {
-      color: #b91c1c;
-      margin-top: 12px;
-      font-weight: 700;
-    }
-    footer {
-      margin-left: var(--nav-width);
-      padding: 12px;
-      text-align: center;
-      color: #666;
-    }
-    @media (max-width: 920px) {
-      .rate-section { grid-template-columns: 1fr; }
-      .profile-box img { height: 160px; }
-    }
+
+    /* minor helpers */
+    .muted{color:var(--muted)}
+    .top-row{display:flex;align-items:center;gap:12px}
+    .hamburger{display:none;background:none;border:0;font-size:20px;color:var(--noun-green);cursor:pointer}
+    @media (max-width:900px){ .hamburger{display:inline-block} .header-left .site-title{display:none} }
   </style>
 </head>
 <body>
-  <nav class="sidebar">
-    <h2>NOUN Admin Panel</h2>
-    <a href="control-center.html">Dashboard</a>
-    <a href="all-employees.html">All Staff</a>
-    <a href="configure-criteria.html">Configure Criteria</a>
-    <a href="manage-users.html">Manage Users</a>
-    <a href="rate-staff.html">Rate Staff</a>
-    <a href="reports.html">Reports</a>
-    <a href="settings.html">Settings</a>
-  </nav>
-
-  <header class="header-bar">
-    <div class="header-left">
-      <img src="https://upload.wikimedia.org/wikipedia/en/1/12/NOUN_logo.png" alt="NOUN Logo">
-      <span>NOUN — Benin Study Centre Staff Rating Portal</span>
+  <!-- Sidebar -->
+  <aside class="sidebar" id="sidebar" aria-label="Main navigation">
+    <div class="brand">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/0/04/National_Open_University_of_Nigeria_Logo.png" alt="NOUN Logo" />
+      <h2>NOUN Admin Panel</h2>
     </div>
-    <div class="header-right">
-      <a href="index.html" id="logoutBtn" style="color:var(--brand);font-weight:700;text-decoration:none">Log Out</a>
+    <nav>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="all-employees.html">All Staff</a>
+      <a href="configure-criteria.html">Configure Criteria</a>
+      <a href="manage-users.html">Manage Users</a>
+      <a href="rate-staff.html" aria-current="page">Rate Staff</a>
+      <a href="reports.html">Reports</a>
+      <a href="settings.html">Settings</a>
+    </nav>
+  </aside>
+
+  <!-- Header -->
+  <header class="header" role="banner">
+    <div class="header-inner">
+      <div class="header-left">
+        <button class="hamburger" id="hamburger" aria-label="Open menu">☰</button>
+        <img src="https://upload.wikimedia.org/wikipedia/commons/0/04/National_Open_University_of_Nigeria_Logo.png" alt="NOUN Logo" />
+        <div class="site-title">NOUN — Benin Study Centre Staff Rating Portal</div>
+      </div>
+
+      <div class="header-right">
+        <div class="header-menu" role="navigation" aria-label="Top menu">
+          <a href="about.html">About</a>
+          <a href="events.html">Events</a>
+          <a href="all-employees.html">View All Staff</a>
+          <a href="reports.html">Reports</a>
+        </div>
+        <div style="margin-left:12px">
+          <a href="index.html" style="color:var(--noun-green);text-decoration:none;font-weight:700">Log Out</a>
+        </div>
+      </div>
     </div>
   </header>
 
-  <div class="top-menu">
-    <a href="about.html">About</a>
-    <a href="events.html">Events</a>
-    <a href="all-employees.html">View All Staff</a>
-    <a href="reports.html">Reports</a>
+  <!-- Banner -->
+  <div class="banner" aria-hidden="true">
+    <div class="banner-inner">Rate Staff</div>
   </div>
 
-  <section class="welcome-banner">
-    <div class="welcome-text">Rate Staff</div>
-  </section>
+  <main role="main">
+    <div class="page-card">
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap">
+        <h2 style="margin:0;color:var(--noun-green)">Submit Rating</h2>
+        <div class="muted">NOUN Benin Study Centre</div>
+      </div>
 
-  <main class="main">
-    <section class="card">
-      <h3 style="margin:0 0 10px;color:var(--accent)">Submit Rating</h3>
-      <div class="rate-section">
-        <div class="profile-box" id="staffProfileBox">
-          <img id="staffPhoto" src="https://i.pravatar.cc/400?img=12" alt="Staff Photo">
-          <div class="profile-details">
-            <h2 id="staffName">Loading...</h2>
-            <div><strong>Department:</strong> <span id="staffDept">—</span></div>
-            <div><strong>Email:</strong> <span id="staffEmail">—</span></div>
-            <div><strong>Phone:</strong> <span id="staffPhone">—</span></div>
-            <div class="bio" id="staffBio">—</div>
-            <div style="margin-top:8px">
-              <button class="btn secondary" id="viewHistoryBtn">View History</button>
-              <button class="btn" id="openReportBtn" style="margin-left:8px">Open Report</button>
+      <div class="rate-grid" aria-live="polite">
+        <!-- Profile box -->
+        <aside class="profile-box" id="profileBox">
+          <img id="staffPhoto" class="profile-photo" src="https://i.pravatar.cc/400?img=12" alt="Staff photo" />
+          <div>
+            <h3 class="profile-name" id="staffName">Loading...</h3>
+            <p class="profile-meta"><strong>Department:</strong> <span id="staffDept">—</span></p>
+            <p class="profile-meta"><strong>Email:</strong> <span id="staffEmail">—</span></p>
+            <p class="profile-meta"><strong>Phone:</strong> <span id="staffPhone">—</span></p>
+            <p class="profile-small" id="staffBio">—</p>
+            <div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap">
+              <button id="viewHistoryBtn" class="btn secondary" aria-controls="historySection" aria-expanded="false">View History</button>
+              <button id="openReportBtn" class="btn">Open Report</button>
             </div>
           </div>
-        </div>
-        <div class="rating-form" id="ratingFormArea">
-          <h4>Submit Rating for <span id="rateForName">—</span></h4>
-          <div class="compact">
-            <div class="row">
-              <label>Clarity of Instruction</label>
-              <div>
-                <label><input type="radio" name="c1" value="1">1</label>
-                <label><input type="radio" name="c1" value="2">2</label>
-                <label><input type="radio" name="c1" value="3">3</label>
-                <label><input type="radio" name="c1" value="4">4</label>
-                <label><input type="radio" name="c1" value="5">5</label>
-              </div>
-            </div>
-            <div class="row">
-              <label>Knowledge of Subject</label>
-              <div>
-                <label><input type="radio" name="c2" value="1">1</label>
-                <label><input type="radio" name="c2" value="2">2</label>
-                <label><input type="radio" name="c2" value="3">3</label>
-                <label><input type="radio" name="c2" value="4">4</label>
-                <label><input type="radio" name="c2" value="5">5</label>
-              </div>
+        </aside>
+
+        <!-- Form area -->
+        <section class="form-area" aria-labelledby="formTitle">
+          <h3 id="formTitle">Submit Rating for <span id="rateForName">—</span></h3>
+
+          <div class="criteria-row">
+            <label>Clarity of Instruction</label>
+            <div class="radios" role="radiogroup" aria-label="Clarity of Instruction">
+              <label><input type="radio" name="c1" value="1"> 1</label>
+              <label><input type="radio" name="c1" value="2"> 2</label>
+              <label><input type="radio" name="c1" value="3"> 3</label>
+              <label><input type="radio" name="c1" value="4"> 4</label>
+              <label><input type="radio" name="c1" value="5"> 5</label>
             </div>
           </div>
-          <textarea id="comment" placeholder="Enter feedback..."></textarea>
-          <div style="margin-top:12px;display:flex;gap:8px;align-items:center">
-            <label><input type="checkbox" id="anon"> Submit anonymously</label>
+
+          <div class="criteria-row">
+            <label>Knowledge of Subject</label>
+            <div class="radios" role="radiogroup" aria-label="Knowledge of Subject">
+              <label><input type="radio" name="c2" value="1"> 1</label>
+              <label><input type="radio" name="c2" value="2"> 2</label>
+              <label><input type="radio" name="c2" value="3"> 3</label>
+              <label><input type="radio" name="c2" value="4"> 4</label>
+              <label><input type="radio" name="c2" value="5"> 5</label>
+            </div>
+          </div>
+
+          <label style="margin-top:8px;font-weight:700">Comments (optional)</label>
+          <textarea id="comment" placeholder="Write constructive feedback..."></textarea>
+
+          <div class="form-actions">
+            <label style="display:flex;align-items:center;gap:8px"><input type="checkbox" id="anon"> Submit anonymously</label>
             <div style="flex:1"></div>
-            <button class="btn" id="submitRatingBtn">Submit</button>
+            <button id="submitRatingBtn" class="btn">Submit Rating</button>
           </div>
-          <div id="errorMsg" class="error" style="display:none">Cannot rate same staff twice in this session.</div>
-          <div id="ratingMsg" style="font-size:13px;color:var(--muted);margin-top:8px"></div>
+
+          <div id="msg" style="margin-top:10px" class="hint"></div>
+        </section>
+      </div>
+
+      <!-- History (hidden initially) -->
+      <div id="historySection" class="history" style="display:none;margin-top:16px">
+        <h4>Rating History — <span id="historyFor">—</span></h4>
+        <div style="overflow:auto">
+          <table class="history-table" aria-live="polite">
+            <thead><tr><th>Date</th><th>Criteria</th><th>Score</th><th>Comments</th></tr></thead>
+            <tbody id="ratingsBody"><tr><td colspan="4" style="text-align:center;color:var(--muted)">No ratings yet</td></tr></tbody>
+          </table>
         </div>
       </div>
-    </section>
-
-    <section class="card" id="historySection" style="display:none">
-      <h3>Rating History — <span id="historyFor">—</span></h3>
-      <table class="history-table">
-        <thead><tr><th>Date</th><th>Criteria</th><th>Score</th><th>Comments</th></tr></thead>
-        <tbody id="ratingsBody">
-          <tr><td colspan="4" style="text-align:center;color:var(--muted)">No ratings yet</td></tr>
-        </tbody>
-      </table>
-    </section>
+    </div>
   </main>
 
-  <footer>
-    © 2025 National Open University of Nigeria (NOUN), Benin Study Centre — Designed by Barnabas Blessing
-  </footer>
+  <footer>© 2025 National Open University of Nigeria (NOUN), Benin Study Centre — Designed by Barnabas Blessing</footer>
 
   <script>
+    // Basic helper
     const $ = id => document.getElementById(id);
 
-    function generateDemoEmployees() {
-      const STAFF = [
-        { name: "Dr. Grace Ogbemudia", dept: "Computer Science", title: "Lecturer" },
-        { name: "Dr. Aisha Lawal", dept: "Education", title: "Lecturer" },
-        { name: "Mr. Tunde Bello", dept: "Admin", title: "Staff" },
-        { name: "Mrs. Ngozi Nwosu", dept: "Accounting", title: "Lecturer" },
-        { name: "Dr. Ibrahim Musa", dept: "Economics", title: "Lecturer" },
+    // Hamburger toggle for mobile
+    const sidebar = document.getElementById('sidebar');
+    const hamburger = document.getElementById('hamburger');
+    hamburger && hamburger.addEventListener('click', () => sidebar.classList.toggle('show'));
+    // close sidebar when clicking outside on mobile
+    document.addEventListener('click', (e) => {
+      if (!sidebar.contains(e.target) && !hamburger.contains(e.target) && window.innerWidth <= 900) {
+        sidebar.classList.remove('show');
+      }
+    });
+
+    // Demo employee seed (25 entries). If localStorage has EMPLOYEES_DATA we use that (so other pages remain in sync)
+    function seedEmployees() {
+      const staffBase = [
+        { name:"Mrs. Ngozi Nwosu", dept:"Education", title:"Lecturer" },
+        { name:"Mr. Tunde Bello", dept:"Admin", title:"Staff" },
+        { name:"Dr. Grace Ogbemudia", dept:"Computer Science", title:"Lecturer" },
+        { name:"Dr. Aisha Lawal", dept:"Education", title:"Lecturer" },
+        { name:"Mr. Samuel John", dept:"Mass Communication", title:"Assistant Lecturer" }
       ];
-      const PHOTOS = [
-        'https://randomuser.me/api/portraits/men/45.jpg',
-        'https://randomuser.me/api/portraits/women/46.jpg',
-        'https://randomuser.me/api/portraits/men/47.jpg',
-        'https://randomuser.me/api/portraits/women/48.jpg'
+      const photos = [
+        'https://randomuser.me/api/portraits/women/65.jpg',
+        'https://randomuser.me/api/portraits/men/66.jpg',
+        'https://randomuser.me/api/portraits/women/67.jpg',
+        'https://randomuser.me/api/portraits/men/68.jpg'
       ];
-      const DEPARTMENTS = ['ICT', 'Admin', 'Finance', 'Education', 'Registry'];
-      return Array.from({ length: 25 }).map((_, idx) => {
-        const base = STAFF[idx % STAFF.length];
-        const id = idx + 1;
+      const list = Array.from({length:25}).map((_,i) => {
+        const base = staffBase[i % staffBase.length];
+        const id = i + 1;
+        const name = base.name;
         return {
           id,
-          fullName: base.name,
-          department: DEPARTMENTS[idx % DEPARTMENTS.length],
-          email: `${base.name.toLowerCase().replace(/[^a-z]/g,'')}.${id}@noun.edu.ng`,
+          fullName: name,
+          department: base.dept,
+          position: base.title,
+          email: `${name.toLowerCase().replace(/[^a-z]/g,'')}.${id}@noun.edu.ng`,
           phone: '+2348072417770',
-          photo: PHOTOS[idx % PHOTOS.length],
-          bio: `${base.name} is a ${base.title} at the National Open University of Nigeria, Benin Study Centre.`,
+          photo: photos[i % photos.length],
+          bio: `${name} is a ${base.title} at the National Open University of Nigeria, Benin Study Centre.`,
           history: []
         };
       });
+      localStorage.setItem('EMPLOYEES_DATA', JSON.stringify(list));
+      return list;
     }
 
-    let EMPLOYEES = JSON.parse(localStorage.getItem('EMPLOYEES_DATA') || '[]');
-    if (!EMPLOYEES.length) {
-      EMPLOYEES = generateDemoEmployees();
-      localStorage.setItem('EMPLOYEES_DATA', JSON.stringify(EMPLOYEES));
+    // load employees from localStorage or seed
+    let EMPLOYEES = JSON.parse(localStorage.getItem('EMPLOYEES_DATA') || 'null');
+    if (!Array.isArray(EMPLOYEES) || !EMPLOYEES.length) {
+      EMPLOYEES = seedEmployees();
     }
 
+    // get staff id from query param ?id=#
     const params = new URLSearchParams(window.location.search);
     const staffId = parseInt(params.get('id') || '1', 10);
-    const staff = EMPLOYEES.find(e => e.id === staffId) || EMPLOYEES[0];
+    const staff = EMPLOYEES.find(s => s.id === staffId) || EMPLOYEES[0];
 
+    // populate UI
     $('staffPhoto').src = staff.photo;
     $('staffName').textContent = staff.fullName;
     $('staffDept').textContent = staff.department;
@@ -352,61 +376,107 @@
     $('staffPhone').textContent = staff.phone;
     $('staffBio').textContent = staff.bio;
     $('rateForName').textContent = staff.fullName;
+    $('historyFor').textContent = staff.fullName;
 
-    const submittedThisSession = new Set();
-    const submitBtn = $('submitRatingBtn');
-    const msgEl = $('ratingMsg');
-    const errorEl = $('errorMsg');
+    // session guard to prevent double rating during current session
+    const sessionSet = new Set();
 
-    function getSelectedRadioValue(name) {
+    function getSelectedRadioValue(name){
       const el = document.querySelector(`input[name="${name}"]:checked`);
       return el ? el.value : null;
     }
 
-    submitBtn.addEventListener('click', () => {
+    function saveEmployeesToStorage(){
+      localStorage.setItem('EMPLOYEES_DATA', JSON.stringify(EMPLOYEES));
+    }
+
+    $('submitRatingBtn').addEventListener('click', () => {
       const c1 = getSelectedRadioValue('c1');
       const c2 = getSelectedRadioValue('c2');
       const comment = $('comment').value.trim();
+      const msgEl = $('msg');
+
       if (!c1 || !c2) {
         msgEl.style.color = '#b91c1c';
         msgEl.textContent = 'Please complete all rating items.';
         return;
       }
-      if (submittedThisSession.has(staff.id)) {
-        errorEl.style.display = 'block';
+
+      if (sessionSet.has(staff.id)) {
+        msgEl.style.color = '#b91c1c';
+        msgEl.textContent = 'You already submitted a rating for this staff in this session.';
         return;
       }
+
       const entry = {
         date: new Date().toISOString().split('T')[0],
         criteria: 'Clarity & Knowledge',
         score: ((Number(c1) + Number(c2)) / 2).toFixed(1),
         comment
       };
+
+      // add to staff history at the front
+      staff.history = staff.history || [];
       staff.history.unshift(entry);
-      localStorage.setItem('EMPLOYEES_DATA', JSON.stringify(EMPLOYEES));
-      submittedThisSession.add(staff.id);
+
+      // persist
+      saveEmployeesToStorage();
+
+      // session set
+      sessionSet.add(staff.id);
+
       msgEl.style.color = 'green';
-      msgEl.textContent = 'Rating submitted successfully!';
-      errorEl.style.display = 'none';
+      msgEl.textContent = 'Rating submitted — thank you!';
+
+      // update history UI if open
+      if ($('historySection').style.display !== 'none') {
+        renderHistory();
+      }
+
+      // clear radios & comment after submit
+      document.querySelectorAll('input[name="c1"], input[name="c2"]').forEach(i => i.checked = false);
+      $('comment').value = '';
     });
 
+    // view history toggle + render
     $('viewHistoryBtn').addEventListener('click', () => {
       const section = $('historySection');
-      section.style.display = section.style.display === 'none' ? 'block' : 'none';
-      const tbody = $('ratingsBody');
-      tbody.innerHTML = staff.history.map(h =>
-        `<tr><td>${h.date}</td><td>${h.criteria}</td><td>${h.score}</td><td>${h.comment || ''}</td></tr>`
-      ).join('') || `<tr><td colspan="4" style="text-align:center;color:var(--muted)">No ratings yet</td></tr>`;
+      const expanded = section.style.display !== 'none';
+      section.style.display = expanded ? 'none' : 'block';
+      $('viewHistoryBtn').setAttribute('aria-expanded', String(!expanded));
+      if (!expanded) renderHistory();
     });
 
+    function renderHistory(){
+      const tbody = $('ratingsBody');
+      const history = (staff.history || []);
+      if (!history.length) {
+        tbody.innerHTML = `<tr><td colspan="4" style="text-align:center;color:var(--muted)">No ratings yet</td></tr>`;
+        return;
+      }
+      tbody.innerHTML = history.map(h => `
+        <tr>
+          <td>${escapeHtml(h.date)}</td>
+          <td>${escapeHtml(h.criteria)}</td>
+          <td>${escapeHtml(h.score)}</td>
+          <td>${escapeHtml(h.comment || '')}</td>
+        </tr>
+      `).join('');
+    }
+
+    // open report - navigates to reports.html?id=<staff.id>
     $('openReportBtn').addEventListener('click', () => {
       window.location.href = `reports.html?id=${staff.id}`;
     });
 
-    $('logoutBtn').addEventListener('click', (e) => {
-      e.preventDefault();
-      window.location.href = 'index.html';
-    });
+    // small utility: escape
+    function escapeHtml(s){
+      return String(s||'').replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;');
+    }
+
+    // ensure EMPLOYEES_DATA stays in sync for other pages (save on unload)
+    window.addEventListener('beforeunload', saveEmployeesToStorage);
+
   </script>
 </body>
 </html>
