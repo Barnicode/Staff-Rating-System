@@ -223,23 +223,124 @@
 </footer>
 
 <script>
-  /* ---------------- MOBILE SIDEBAR ---------------- */
-  const sidebar = document.getElementById("sidebar");
-  const overlay = document.getElementById("overlay");
-  const menuBtn = document.getElementById("menuBtn");
+const EMPLOYEES = [
+  { id: 'emp-001', fullName: 'Adetola Adebayo', department: 'IT', rating: 4.8, comments: 'Excellent' },
+  { id: 'emp-002', fullName: 'Amaka Obi', department: 'HR', rating: 4.4, comments: 'Very good' },
+  { id: 'emp-003', fullName: 'Ibrahim Musa', department: 'Finance', rating: 3.9, comments: 'Good' },
+  { id: 'emp-004', fullName: 'Grace Adebayo', department: 'Admin', rating: 4.2, comments: 'Very good' },
+  { id: 'emp-005', fullName: 'Samuel Eze', department: 'Research', rating: 4.7, comments: 'Excellent' }
+];
 
-  menuBtn.onclick = () => {
-    sidebar.classList.add("active");
-    overlay.classList.add("show");
-  };
+function populateDepartments() {
+  const set = new Set(EMPLOYEES.map(e => e.department));
+  const sel = document.getElementById('deptSelect');
+  sel.innerHTML = 
+    '<option value="">All departments</option>' + 
+    Array.from(set).map(d => `<option value="${d}">${d}</option>`).join('');
+}
 
-  overlay.onclick = () => {
-    sidebar.classList.remove("active");
-    overlay.classList.remove("show");
-  };
+function computeReport({ dept = null }) {
+  let pool = EMPLOYEES.slice();
+  if (dept) pool = pool.filter(e => e.department === dept);
 
-  /* Your original JavaScript remains untouched */
+  const rows = pool.map(e => ({
+    name: e.fullName,
+    department: e.department,
+    rating: e.rating,
+    comments: e.comments
+  }));
+
+  const avgRating = rows.length ? rows.reduce((s, r) => s + r.rating, 0) / rows.length : 0;
+  const topPerformer = rows.sort((a, b) => b.rating - a.rating)[0]?.name || '—';
+
+  const deptCounts = {};
+  EMPLOYEES.forEach(e => {
+    deptCounts[e.department] = (deptCounts[e.department] || 0) + 1;
+  });
+  const mostRatedDept = Object.entries(deptCounts).sort((a,b) => b[1] - a[1])[0][0];
+
+  const distCounts = { '5': 0, '4': 0, '3': 0, '2': 0, '1': 0 };
+  rows.forEach(r => distCounts[Math.round(r.rating)]++);
+
+  const total = rows.length || 1;
+  const dist = Object.fromEntries(
+    Object.entries(distCounts).map(([k, v]) => [k, v / total])
+  );
+
+  return { summary: { avgRating, topPerformer, mostRatedDept }, rows, distribution: dist };
+}
+
+function renderTable(rows) {
+  const body = document.getElementById('ratingsBody');
+  body.innerHTML = rows.length
+    ? rows.map(r => `
+        <tr>
+          <td>${r.name}</td>
+          <td>${r.department}</td>
+          <td>${r.rating.toFixed(1)}</td>
+          <td>${r.comments}</td>
+        </tr>
+      `).join('')
+    : '<tr><td colspan="4" class="muted" style="text-align:center">No records</td></tr>';
+}
+
+function renderDistribution(dist) {
+  const chart = document.getElementById('barChart');
+  const pct = k => Math.round((dist[k] || 0) * 100);
+
+  chart.innerHTML = `
+    <div class="bar" style="width:${pct('5')}%">5 - Excellent</div>
+    <div class="bar" style="width:${pct('4')}%">4 - Very Good</div>
+    <div class="bar" style="width:${pct('3')}%">3 - Good</div>
+    <div class="bar" style="width:${pct('2')}%">2 - Fair</div>
+    <div class="bar" style="width:${pct('1')}%">1 - Poor</div>
+  `;
+}
+
+function setSummary(avg, top, dept) {
+  document.getElementById('avgRating').textContent = avg ? avg.toFixed(2) : '—';
+  document.getElementById('topPerformer').textContent = top || '—';
+  document.getElementById('mostRatedDept').textContent = dept || '—';
+}
+
+function generateReport() {
+  const dept = document.getElementById('deptSelect').value;
+  const rpt = computeReport({ dept });
+
+  setSummary(rpt.summary.avgRating, rpt.summary.topPerformer, rpt.summary.mostRatedDept);
+  renderTable(rpt.rows);
+  renderDistribution(rpt.distribution);
+
+  document.getElementById('jsonPreview').textContent = JSON.stringify(rpt, null, 2);
+  document.getElementById('reportStatus').textContent = 'Report generated';
+}
+
+function exportCsv() {
+  const rows = Array.from(document.querySelectorAll('#ratingsBody tr'))
+    .map(tr => Array.from(tr.children).map(td => td.textContent.trim()));
+
+  if (!rows.length) return alert('No data to export');
+
+  const headers = ['Name', 'Department', 'Rating', 'Comments'];
+  const csv = [headers.join(','), ...rows.map(r => r.join(','))].join('\n');
+
+  const blob = new Blob([csv], { type: 'text/csv' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'report.csv';
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+document.getElementById('generateBtn').addEventListener('click', generateReport);
+document.getElementById('exportCsvBtn').addEventListener('click', exportCsv);
+
+populateDepartments();
+generateReport();
 </script>
+
 
 </body>
 </html>
+
